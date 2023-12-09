@@ -19,4 +19,9 @@ class ProductController extends Controller
     {
         return ProductResource::collection($this->repository->getAllProducts());
     }
+
+    public function show($slug)
+    {
+        return new ProductResource($this->repository->getProductDetailsBySlug($slug));
+    }
 }

@@ -19,7 +19,16 @@ class ProductRepository
     public function getAllProducts()
     {
         return Cache::remember('getAllProducts', $this->time, function () {
-            return $this->entity->with('images', 'colors', 'categories', 'sizes', 'stock', 'reviews.user', 'brand')->paginate(9);
+            return $this->entity->with('images', 'colors', 'categories', 'sizes', 'stock', 'reviews.user', 'brand')
+                ->paginate(9);
+        });
+    }
+
+    public function getProductDetailsBySlug(string $slug)
+    {
+        return Cache::remember('getProductDetails', $this->time, function () use($slug){
+            return $this->entity->with('images', 'colors', 'categories', 'sizes', 'stock', 'reviews.user', 'brand')
+                ->where('slug', $slug)->first();
         });
     }
 }
