@@ -14,6 +14,8 @@ class Color extends Model
 
     protected $keyType = 'uuid';
 
+    protected $fillable=['name','hex_format'];
+
     /**
      * The products that belong to the Size
      *

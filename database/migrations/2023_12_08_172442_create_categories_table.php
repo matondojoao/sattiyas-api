@@ -17,16 +17,12 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('slug');
+            $table->uuid('parent_id')->nullable();
             $table->timestamps();
         });
 
-        Schema::create('subcategories', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name');
-            $table->string('slug');
-            $table->uuid('category_id');
-            $table->timestamps();
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 
@@ -37,7 +33,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subcategories');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropForeign(['parent_id']);
+        });
+
         Schema::dropIfExists('categories');
     }
 };

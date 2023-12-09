@@ -12,6 +12,7 @@ class Stock extends Model
 
     public $incrementing = false;
     protected $keyType = 'uuid';
+    protected $fillable=['quantity','alert_threshold'];
 
     /**
      * Get all of the products for the Stock

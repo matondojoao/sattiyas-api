@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('product_id');
             $table->unsignedInteger('quantity');
             $table->unsignedInteger('alert_threshold')->nullable();
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
         });
     }
