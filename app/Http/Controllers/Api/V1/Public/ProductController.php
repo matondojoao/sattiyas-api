@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Public;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Repositories\Public\ProductRepository;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -15,9 +16,9 @@ class ProductController extends Controller
         $this->repository = $ProductRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return ProductResource::collection($this->repository->getAllProducts());
+        return ProductResource::collection($this->repository->getAllProducts($request->all()));
     }
 
     public function show($slug)
