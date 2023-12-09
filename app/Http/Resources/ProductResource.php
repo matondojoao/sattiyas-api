@@ -38,6 +38,7 @@ class ProductResource extends JsonResource
             'colors' => ColorResource::collection($this->whenLoaded('colors')),
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
             'sizes' => SizeResource::collection($this->whenLoaded('sizes')),
+            'brand' => new BrandResource($this->whenLoaded('brand')),
             'stock' => new StockResource($this->whenLoaded('stock')),
             'reviews' => ReviewResource::collection($this->whenLoaded('reviews')),
         ];
