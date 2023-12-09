@@ -27,7 +27,6 @@ return new class extends Migration
             $table->string('product_id')->nullable();
             $table->date('expiry_date_of_product')->nullable();
             $table->string('sku');
-            $table->unsignedInteger('quantity')->default(0);
             $table->boolean('is_featured')->default(false);
             $table->string('manufacturer')->nullable();
             $table->integer('weight')->nullable();

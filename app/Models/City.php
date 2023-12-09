@@ -8,32 +8,34 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-class Category extends Model
+class City extends Model
 {
-    use HasFactory, UuidTrait, HasSlug;
+    use HasFactory, HasSlug, UuidTrait;
+
+    protected $table='cities';
 
     public $incrementing = false;
 
     protected $keyType = 'uuid';
 
-    /**
-     * The products that belong to the Size
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function products()
-    {
-        return $this->belongsToMany(Product::class, 'product_category');
-    }
 
     /**
-     * Get all of the subCategories for the Category
+     * Get the state that owns the City
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+    /**
+     * Get all of the addresses for the City
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function subCategories()
+    public function addresses()
     {
-        return $this->hasMany(SubCategory::class);
+        return $this->hasMany(Address::class);
     }
 
     public function getSlugOptions(): SlugOptions
@@ -42,5 +44,4 @@ class Category extends Model
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
-
 }

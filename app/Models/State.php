@@ -8,39 +8,39 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-class Category extends Model
+class State extends Model
 {
-    use HasFactory, UuidTrait, HasSlug;
+    use HasFactory, HasSlug, UuidTrait;
+
+    protected $table='states';
 
     public $incrementing = false;
 
     protected $keyType = 'uuid';
 
     /**
-     * The products that belong to the Size
+     * Get the country that owns the State
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function products()
+    public function country()
     {
-        return $this->belongsToMany(Product::class, 'product_category');
+        return $this->belongsTo(Country::class);
     }
 
     /**
-     * Get all of the subCategories for the Category
+     * Get all of the cities for the State
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function subCategories()
+    public function cities()
     {
-        return $this->hasMany(SubCategory::class);
+        return $this->hasMany(City::class);
     }
-
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
-
 }
