@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     {
 
         \App\Models\Category::factory()->count(10)->create();
+        \App\Models\Brand::factory()->count(10)->create();
 
         $this->call([
             SizeSeeder::class,
