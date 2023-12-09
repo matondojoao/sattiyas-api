@@ -13,4 +13,16 @@ class SubCategory extends Model
     public $incrementing = false;
     protected $keyType = 'uuid';
 
+    protected $table="subcategories";
+
+    /**
+     * Get the category that owns the SubCategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
 }

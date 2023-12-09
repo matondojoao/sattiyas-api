@@ -6,31 +6,30 @@ use App\Models\Traits\UuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class OrderItem extends Model
 {
     use HasFactory, UuidTrait;
+
+    protected $table="order_items";
 
     public $incrementing = false;
 
     protected $keyType = 'uuid';
 
+
     protected $fillable = [
-        'payment_status',
-        'fulfillment_status',
+        'product_id',
+        'quantity',
+        'price',
     ];
 
-    public function orderItems()
-    {
-        return $this->hasMany(OrderItem::class);
-    }
-
     /**
-     * Get the user that owns the Order
+     * Get the order that owns the OrderItem
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function order()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Order::class);
     }
 }

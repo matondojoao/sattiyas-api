@@ -11,5 +11,16 @@ class Size extends Model
     use HasFactory, UuidTrait;
 
     public $incrementing = false;
+
     protected $keyType = 'uuid';
+
+    /**
+     * The products that belong to the Size
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_size');
+    }
 }

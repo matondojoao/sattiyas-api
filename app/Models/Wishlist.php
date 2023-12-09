@@ -6,26 +6,28 @@ use App\Models\Traits\UuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class Wishlist extends Model
 {
     use HasFactory, UuidTrait;
+
+    protected $table="wishlists";
 
     public $incrementing = false;
 
     protected $keyType = 'uuid';
 
-    protected $fillable = [
-        'payment_status',
-        'fulfillment_status',
-    ];
-
-    public function orderItems()
+    /**
+     * Get all of the products for the Wishlist
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function products()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(Product::class);
     }
 
     /**
-     * Get the user that owns the Order
+     * Get the user that owns the Wishlist
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

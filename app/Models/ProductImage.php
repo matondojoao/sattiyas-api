@@ -6,20 +6,15 @@ use App\Models\Traits\UuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Stock extends Model
+class ProductImage extends Model
 {
     use HasFactory, UuidTrait;
 
     public $incrementing = false;
+
     protected $keyType = 'uuid';
 
-    /**
-     * Get all of the products for the Stock
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function products()
-    {
-        return $this->hasMany(Product::class);
-    }
+    protected $table = "product_image";
+
+    protected $fillable = ['image_path', 'is_primary'];
 }

@@ -45,4 +45,50 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get all of the orders for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    /**
+     * Get the billingAddress associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function billingAddress()
+    {
+        return $this->hasOne(BillingAddress::class);
+    }
+
+    /**
+     * Get the shippingAddress associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function shippingAddress()
+    {
+        return $this->hasOne(ShippingAddress::class);
+    }
+
+    public function promotions()
+    {
+        return $this->belongsToMany(Promotion::class, 'coupon_user', 'user_id', 'promotion_id')
+            ->withTimestamps();
+    }
+
+    /**
+     * Get the wishlists associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function wishlists()
+    {
+        return $this->hasOne(Wishlist::class);
+    }
 }

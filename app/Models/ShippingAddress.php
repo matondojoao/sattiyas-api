@@ -6,26 +6,28 @@ use App\Models\Traits\UuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class ShippingAddress extends Model
 {
     use HasFactory, UuidTrait;
+
+    protected $table="shipping_address";
 
     public $incrementing = false;
 
     protected $keyType = 'uuid';
 
     protected $fillable = [
-        'payment_status',
-        'fulfillment_status',
+        'street',
+        'number',
+        'neighborhood',
+        'complement',
+        'city',
+        'state',
+        'postal_code',
     ];
 
-    public function orderItems()
-    {
-        return $this->hasMany(OrderItem::class);
-    }
-
     /**
-     * Get the user that owns the Order
+     * Get the user that owns the Wishlist
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
