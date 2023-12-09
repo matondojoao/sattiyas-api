@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Brand;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -30,6 +31,7 @@ class ProductFactory extends Factory
             'sku' => $this->faker->word,
             'is_featured' => $this->faker->boolean,
             'manufacturer' => $this->faker->word,
+            'brand_id' => Brand::inRandomOrder()->first()->id,
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'updated_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];

@@ -83,6 +83,16 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
+    /**
+     * Get all of the brand for the Product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function brand()
+    {
+        return $this->hasOne(Brand::class);
+    }
+
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
