@@ -32,8 +32,6 @@ class ProductResource extends JsonResource
             'manufacturer' => $this->manufacturer,
             'weight' => $this->weight,
             'attributes' => $this->attributes,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'images' => ProductImageResource::collection($this->whenLoaded('images')),
             'colors' => ColorResource::collection($this->whenLoaded('colors')),
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
