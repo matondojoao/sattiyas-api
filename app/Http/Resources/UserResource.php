@@ -23,7 +23,6 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
             'alternative_phone' => $this->alternative_phone,
             'gender' => $this->gender,
-            'role' => $this->role,
             'shipping_address'=>new ShippingAddressResource($this->whenLoaded('shippingAddress')),
             'billing_address'=>new ShippingAddressResource($this->whenLoaded('billingAddress'))
         ];

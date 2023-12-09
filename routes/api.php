@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Public\ProductController as PublicProductController;
+use App\Http\Controllers\Api\V1\Public\ProductController as PublicProductController;
 use App\Http\Controllers\Public\ReviewController as PublicReviewController;
 use App\Http\Controllers\Public\WishlistController as PublicWishlistController;
 use App\Http\Controllers\Admin\ProductAdminController;
@@ -115,24 +115,24 @@ Route::get('product/{slug}', [PublicProductController::class, 'show']);
 // // Route::get('stocks', [StockController::class, 'index']);
 
 
-// Rotas para usuários autenticados
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('user/profile', [UserController::class, 'profile']);
-    // Adicione aqui outras rotas para usuários autenticados, se necessário
-});
+// // Rotas para usuários autenticados
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::get('user/profile', [UserController::class, 'profile']);
+//     // Adicione aqui outras rotas para usuários autenticados, se necessário
+// });
 
-// Rotas para administração (requer autenticação e papel de admin)
-Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-    Route::post('admin/products', [ProductAdminController::class, 'store']);
-    Route::put('admin/products/{id}', [ProductAdminController::class, 'update']);
-    Route::delete('admin/products/{id}', [ProductAdminController::class, 'destroy']);
+// // Rotas para administração (requer autenticação e papel de admin)
+// Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+//     Route::post('admin/products', [ProductAdminController::class, 'store']);
+//     Route::put('admin/products/{id}', [ProductAdminController::class, 'update']);
+//     Route::delete('admin/products/{id}', [ProductAdminController::class, 'destroy']);
 
-    Route::post('admin/orders', [OrderAdminController::class, 'store']);
-    // Adicione aqui outras rotas administrativas, se necessário
-});
+//     Route::post('admin/orders', [OrderAdminController::class, 'store']);
+//     // Adicione aqui outras rotas administrativas, se necessário
+// });
 
-// Rotas de autenticação
-Route::post('login', [AuthController::class, 'login']);
-Route::post('register', [AuthController::class, 'register']);
-Route::post('logout', [AuthController::class, 'logout']);
-// Adicione aqui outras rotas de autenticação, se necessário
+// // Rotas de autenticação
+// Route::post('login', [AuthController::class, 'login']);
+// Route::post('register', [AuthController::class, 'register']);
+// Route::post('logout', [AuthController::class, 'logout']);
+// // Adicione aqui outras rotas de autenticação, se necessário

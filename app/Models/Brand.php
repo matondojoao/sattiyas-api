@@ -16,7 +16,7 @@ class Brand extends Model
 
     protected $keyType = 'uuid';
 
-    protected $fillable=['name'];
+    protected $fillable = ['name'];
 
     /**
      * The products that belong to the Size
@@ -25,6 +25,6 @@ class Brand extends Model
      */
     public function products()
     {
-        return $this->belongsTo(Product::class);
+        return $this->hasMany(Product::class, 'brand_id', 'id');
     }
 }

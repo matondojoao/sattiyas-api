@@ -60,7 +60,7 @@ class Product extends Model
      */
     public function sizes()
     {
-        return $this->belongsToMany(Role::class, 'product_size');
+        return $this->belongsToMany(Size::class, 'product_size');
     }
 
     /**
@@ -90,7 +90,7 @@ class Product extends Model
      */
     public function brand()
     {
-        return $this->hasOne(Brand::class);
+        return $this->belongsTo(Brand::class, 'brand_id', 'id');
     }
 
     public function getSlugOptions(): SlugOptions
