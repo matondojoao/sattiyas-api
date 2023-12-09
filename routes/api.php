@@ -3,12 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\Public\ProductController as PublicProductController;
-use App\Http\Controllers\Public\ReviewController as PublicReviewController;
-use App\Http\Controllers\Public\WishlistController as PublicWishlistController;
-use App\Http\Controllers\Admin\ProductAdminController;
-use App\Http\Controllers\Admin\OrderAdminController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\V1\Public\CategoryController as PublicCategoryController;
+use App\Http\Controllers\Api\V1\Public\ColorController as PublicColorController;
+use App\Http\Controllers\Api\V1\Public\BrandController as PublicBrandController;
+use App\Http\Controllers\Api\V1\Public\SizeController as PublicSizeController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -103,16 +101,10 @@ use App\Http\Controllers\AuthController;
 // Rotas públicas
 Route::get('products', [PublicProductController::class, 'index']);
 Route::get('product/{slug}', [PublicProductController::class, 'show']);
-
-// Route::get('colors', [ColorController::class, 'index']);
-
-// Route::get('categories', [CategoryController::class, 'index']);
-// Route::get('categories/{id}/products', [CategoryController::class, 'show']);
-
-// Route::get('sizes', [SizeController::class, 'index']);
-
-// Route::get('stocks/{id}', [StockController::class, 'show']);
-// // Route::get('stocks', [StockController::class, 'index']);
+Route::get('colors', [PublicColorController::class, 'index']);
+Route::get('categories', [PublicCategoryController::class, 'index']);
+Route::get('sizes', [PublicSizeController::class, 'index']);
+Route::get('brands', [PublicBrandController::class, 'index']);
 
 
 // // Rotas para usuários autenticados
