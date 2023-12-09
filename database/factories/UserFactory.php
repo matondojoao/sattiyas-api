@@ -31,8 +31,8 @@ class UserFactory extends Factory
             'gender' => $this->faker->randomElement(['male', 'female']),
             'role' => $this->faker->randomElement(['admin', 'customer']),
             'remember_token' => Str::random(10),
-            'shipping_address_id'=>ShippingAddress::factory(),
-            'billing_address_id'=>BillingAddress::factory(),
+            'shipping_address_id'=>ShippingAddress::inRandomOrder()->first()->id,
+            'billing_address_id'=>BillingAddress::inRandomOrder()->first()->id,
         ];
     }
 

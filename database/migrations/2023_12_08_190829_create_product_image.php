@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('product_image', function (Blueprint $table) {
-            $table->uuid('uuid')->primary();
+            $table->uuid('id')->primary();
             $table->uuid('product_id');
             $table->string('image_path');
             $table->boolean('is_primary')->default(false);

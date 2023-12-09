@@ -17,10 +17,8 @@ class StockFactory extends Factory
      */
     public function definition()
     {
-        $product = Product::factory()->create();
-
         return [
-            'product_id' => $product->id,
+            'product_id' => Product::inRandomOrder()->first()->id,
             'quantity' => $this->faker->numberBetween(0, 100),
             'alert_threshold' => $this->faker->optional(0.5, null)->numberBetween(1, 20),
         ];

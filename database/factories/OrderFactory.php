@@ -19,8 +19,8 @@ class OrderFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(),
-            'payment_method_id' => PaymentMethod::factory(),
+            'user_id' => User::inRandomOrder()->first()->id,
+            'payment_method_id' => PaymentMethod::inRandomOrder()->first()->id,
             'payment_status' => $this->faker->randomElement(['pending', 'completed', 'failed']),
             'fulfillment_status' => $this->faker->randomElement(['pending', 'processing', 'completed', 'canceled']),
         ];

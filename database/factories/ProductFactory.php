@@ -30,7 +30,6 @@ class ProductFactory extends Factory
             'sku' => $this->faker->word,
             'is_featured' => $this->faker->boolean,
             'manufacturer' => $this->faker->word,
-            'attributes' => json_encode(['color' => 'red', 'size' => 'medium']),
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'updated_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];

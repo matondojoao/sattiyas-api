@@ -19,8 +19,8 @@ class ProductColorFactory extends Factory
     public function definition()
     {
         return [
-            'product_id' => Product::factory(),
-            'color_id' => Color::factory(),
+            'product_id' => Product::inRandomOrder()->first()->id,
+            'color_id' => Color::inRandomOrder()->first()->id,
         ];
     }
 }

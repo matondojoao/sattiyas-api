@@ -20,7 +20,7 @@ class SubcategoryFactory extends Factory
         return [
             'name' => $this->faker->word,
             'slug' => $this->faker->slug,
-            'parent_id' => Category::factory(),
+            'parent_id' => Category::inRandomOrder()->first()->id,
         ];
     }
 }

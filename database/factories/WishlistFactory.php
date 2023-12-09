@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Promotion;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Wishlist>
  */
-class CouponUserFactory extends Factory
+class WishlistFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,7 +20,7 @@ class CouponUserFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()->id,
-            'promotion_id' => Promotion::inRandomOrder()->first()->id,
+            'product_id' => Product::inRandomOrder()->first()->id,
         ];
     }
 }

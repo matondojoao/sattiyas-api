@@ -23,7 +23,7 @@ class BillingAddressFactory extends Factory
             'neighborhood'=>$this->faker->citySuffix(),
             'complement'=>$this->faker->secondaryAddress(),
             'zip_code'=>$this->faker->postcode(),
-            'city_id' => City::factory(),
+            'city_id' => City::inRandomOrder()->first()->id,
         ];
     }
 }

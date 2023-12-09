@@ -18,8 +18,8 @@ class ProductCategoryFactory extends Factory
     public function definition()
     {
         return [
-            'product_id' => Product::factory(),
-            'category_id' => Category::factory(),
+            'product_id' => Product::inRandomOrder()->first()->id,
+            'category_id' => Category::inRandomOrder()->first()->id,
         ];
     }
 }

@@ -19,8 +19,8 @@ class ProductSizeFactory extends Factory
     public function definition()
     {
         return [
-            'product_id' => Product::factory(),
-            'size_id' => Size::factory(),
+            'product_id' => Product::inRandomOrder()->first()->id,
+            'size_id' => Size::inRandomOrder()->first()->id,
         ];
     }
 }
