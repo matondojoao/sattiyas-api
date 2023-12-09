@@ -32,4 +32,13 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Order::class);
     }
+    /**
+     * Get the product associated with the OrderItem
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function product()
+    {
+        return $this->hasOne(Product::class);
+    }
 }

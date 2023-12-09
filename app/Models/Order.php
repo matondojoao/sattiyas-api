@@ -33,4 +33,14 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Get the paymentMethod that owns the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function paymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
 }
