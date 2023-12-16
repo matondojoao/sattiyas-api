@@ -26,7 +26,7 @@ class BillingAddress extends Model
         'postal_code',
     ];
 
-    /**
+    /**«
      * Get the user that owns the Wishlist
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

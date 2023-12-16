@@ -35,10 +35,10 @@ class DatabaseSeeder extends Seeder
             $state->cities()->saveMany(\App\Models\City::factory()->count(5)->make());
         }
 
+        \App\Models\User::factory(10)->create();
+
         \App\Models\BillingAddress::factory()->count(5)->create();
         \App\Models\ShippingAddress::factory()->count(5)->create();
-
-        \App\Models\User::factory(10)->create();
 
         \App\Models\Product::factory()->count(40)->create();
 
@@ -56,9 +56,9 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\PaymentMethod::factory()->count(3)->create();
 
-        \App\Models\Order::factory()->count(5)->create();
+        // \App\Models\Order::factory()->count(5)->create();
 
-        \App\Models\OrderItem::factory()->count(15)->create();
+        // \App\Models\OrderItem::factory()->count(15)->create();
 
         \App\Models\Stock::factory()->count(15)->create();
 

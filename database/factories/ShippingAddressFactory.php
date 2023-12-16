@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\City;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,6 +25,7 @@ class ShippingAddressFactory extends Factory
             'complement'=>$this->faker->secondaryAddress(),
             'zip_code'=>$this->faker->postcode(),
             'city_id' => City::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }
