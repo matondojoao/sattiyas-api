@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\Public\CategoryController as PublicCategoryContr
 use App\Http\Controllers\Api\V1\Public\ColorController as PublicColorController;
 use App\Http\Controllers\Api\V1\Public\BrandController as PublicBrandController;
 use App\Http\Controllers\Api\V1\Public\SizeController as PublicSizeController;
+use App\Http\Controllers\Api\V1\Public\CartController as PublicCartController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -105,6 +106,9 @@ Route::get('colors', [PublicColorController::class, 'index']);
 Route::get('categories', [PublicCategoryController::class, 'index']);
 Route::get('sizes', [PublicSizeController::class, 'index']);
 Route::get('brands', [PublicBrandController::class, 'index']);
+Route::get('/cart', [PublicCartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add', [PublicCartController::class, 'add'])->name('cart.add');
+Route::delete('/cart/remove/{productId}', [PublicCartController::class, 'remove'])->name('cart.remove');
 
 
 // // Rotas para usuários autenticados
