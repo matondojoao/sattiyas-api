@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
+use App\Http\Controllers\Api\V1\Customer\CustomerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\Public\ProductController as PublicProductController;
@@ -121,11 +122,9 @@ Route::group(['prefix' => 'auth'], function () {
 Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLink'])->middleware('guest');
 Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->middleware('guest');
 
-// // Rotas para usuários autenticados
-// Route::middleware('auth:sanctum')->group(function () {
-//     Route::get('user/profile', [UserController::class, 'profile']);
-//     // Adicione aqui outras rotas para usuários autenticados, se necessário
-// });
+Route::middleware('auth:sanctum')->group(function () {
+   Route::get('customer/profile', [CustomerController::class, 'profile']);
+});
 
 // // Rotas para administração (requer autenticação e papel de admin)
 // Route::middleware(['auth:sanctum', 'admin'])->group(function () {

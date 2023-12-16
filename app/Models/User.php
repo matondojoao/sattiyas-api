@@ -64,7 +64,7 @@ class User extends Authenticatable
      */
     public function billingAddress()
     {
-        return $this->hasOne(BillingAddress::class);
+        return $this->belongsTo(BillingAddress::class,'id', 'user_id');
     }
 
     /**
@@ -74,7 +74,7 @@ class User extends Authenticatable
      */
     public function shippingAddress()
     {
-        return $this->hasOne(ShippingAddress::class);
+        return $this->belongsTo(ShippingAddress::class,'id', 'user_id');
     }
 
     public function promotions()
