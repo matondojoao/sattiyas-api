@@ -23,9 +23,9 @@ class Wishlist extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function products()
+    public function product()
     {
-        return $this->hasMany(Product::class ,'id');
+        return $this->hasOne(Product::class,'id','product_id');
     }
 
     /**

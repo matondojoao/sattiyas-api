@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\WishlistRequest;
 use App\Http\Resources\WishlistResource;
 use App\Repositories\Customer\WishlistRepository;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class WishlistController extends Controller
         $this->wishlistRepository = $wishlistRepository;
     }
 
-    public function addToWishlist(Request $request)
+    public function addToWishlist(WishlistRequest $request)
     {
         $user = $request->user();
         $this->wishlistRepository->addToWishlist($request->all());

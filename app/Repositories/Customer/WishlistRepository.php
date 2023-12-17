@@ -26,7 +26,7 @@ class WishlistRepository
             $wishlists = $user->wishlists;
 
             if ($wishlists->isNotEmpty()) {
-                $wishlists->load('products');
+                $wishlists->load('product');
             }
         }
 
