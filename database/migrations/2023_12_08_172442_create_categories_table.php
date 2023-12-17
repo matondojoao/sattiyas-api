@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->uuid('parent_id')->nullable();
+            $table->string('image_url')->nullable();
             $table->timestamps();
         });
 

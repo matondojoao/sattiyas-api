@@ -30,7 +30,6 @@ return new class extends Migration
             $table->boolean('is_featured')->default(false);
             $table->string('manufacturer')->nullable();
             $table->integer('weight')->nullable();
-            $table->json('attributes')->nullable();
             $table->timestamps();
         });
     }
