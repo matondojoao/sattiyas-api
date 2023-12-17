@@ -97,4 +97,14 @@ class User extends Authenticatable
     {
         $this->notify(new ResetPasswordNotification($token));
     }
+
+    /**
+     * Get the review that owns the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function review()
+    {
+        return $this->belongsTo(Review::class);
+    }
 }
