@@ -4,13 +4,14 @@ namespace App\Models;
 
 use App\Models\Traits\UuidTrait;
 use App\Notifications\ResetPasswordNotification;
+use App\Notifications\sendEmailVerificationNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, UuidTrait;
 
@@ -107,4 +108,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Review::class);
     }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new sendEmailVerificationNotification());
+    }
+
 }
