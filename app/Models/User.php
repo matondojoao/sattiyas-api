@@ -65,7 +65,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function billingAddress()
     {
-        return $this->belongsTo(BillingAddress::class,'id', 'user_id');
+        return $this->belongsTo(BillingAddress::class, 'id', 'user_id');
     }
 
     /**
@@ -75,7 +75,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function shippingAddress()
     {
-        return $this->belongsTo(ShippingAddress::class,'id', 'user_id');
+        return $this->belongsTo(ShippingAddress::class, 'id', 'user_id');
     }
 
     public function promotions()
@@ -109,9 +109,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Review::class);
     }
 
-    public function sendEmailVerificationNotification()
+    public function sendEmailVerification($user)
     {
-        $this->notify(new sendEmailVerificationNotification());
+        $this->notify(new sendEmailVerificationNotification($user));
     }
-
 }

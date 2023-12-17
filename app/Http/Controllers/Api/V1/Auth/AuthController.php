@@ -45,11 +45,12 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+
         // $token = $user->createToken($request->device_name)->plainTextToken;
 
         // return response()->json(['token' => $token]);
 
-        $user->sendEmailVerificationNotification(); // Envia o e-mail de verificação
+        $user->sendEmailVerification($user); // Envia o e-mail de verificação
 
         return response()->json(['message' => 'User registered successfully. Please check your email for verification.']);
     }

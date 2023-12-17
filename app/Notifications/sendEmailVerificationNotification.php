@@ -6,19 +6,21 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Auth\Notifications\VerifyEmail;
 
-class sendEmailVerificationNotification extends Notification
+class sendEmailVerificationNotification extends VerifyEmail
 {
     use Queueable;
 
+    private $user;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -40,9 +42,15 @@ class sendEmailVerificationNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $verificationUrl = $this->verificationUrl($notifiable);
+
+        $customParam = "user={$this->user->id}";
+
         return (new MailMessage)
+            ->line("Olá, {$this->user->name}")
             ->subject('Verifique seu endereço de e-mail')
-            ->line('Clique no botão abaixo para verificar seu endereço de e-mail.')
+            ->line('Clique no botão abaixo para verificar seu endereço de e-mail:')
+            ->action('Verificar E-mail', $verificationUrl.'&'.$customParam)
             ->line('Obrigado por usar nosso aplicativo!');
     }
 

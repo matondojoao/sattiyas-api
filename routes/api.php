@@ -129,6 +129,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('/products/reviews', [ReviewController::class, 'review'])->middleware(['auth:sanctum']);
 
+
+Route::get('email/verify/{id}', 'VerificationController@verify')->name('verification.verify'); // Make sure to keep this as your route name
+
+Route::get('email/resend', 'VerificationController@resend')->name('verification.resend');
+
 // // Rotas para administração (requer autenticação e papel de admin)
 // Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 //     Route::post('admin/products', [ProductAdminController::class, 'store']);
