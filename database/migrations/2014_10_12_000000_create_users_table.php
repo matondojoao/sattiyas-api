@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('alternative_phone')->nullable();
             $table->enum('role',['admin','customer']);
-            $table->enum('gender', ['men', 'women'])->default('women');
+            $table->string('gender')->default('women');
             $table->rememberToken();
             $table->timestamps();
         });
