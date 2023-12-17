@@ -64,7 +64,7 @@ class ProductRepository
                             $sizeQuery->whereIn('id', $sizeIds);
                         });
                     }
-                })
+                })->orderBy('created_at', 'desc')
                 ->paginate(9);
         });
     }
