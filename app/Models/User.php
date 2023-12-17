@@ -91,7 +91,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function wishlists()
     {
-        return $this->hasOne(Wishlist::class);
+        return $this->hasMany(Wishlist::class);
     }
 
     public function sendPasswordResetNotification($token)

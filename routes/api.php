@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\V1\Customer\CustomerController;
 use App\Http\Controllers\Api\V1\Customer\ReviewController;
+use App\Http\Controllers\Api\V1\Customer\WishlistController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\Public\ProductController as PublicProductController;
@@ -133,6 +134,13 @@ Route::post('/products/reviews', [ReviewController::class, 'review'])->middlewar
 Route::get('email/verify/{id}', 'VerificationController@verify')->name('verification.verify'); // Make sure to keep this as your route name
 
 Route::get('email/resend', 'VerificationController@resend')->name('verification.resend');
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/wishlist/add', [WishlistController::class, 'addToWishlist']);
+    Route::delete('/wishlist/remove', [WishlistController::class, 'removeFromWishlist']);
+    Route::get('/wishlist', [WishlistController::class, 'getWishlist']);
+});
 
 // // Rotas para administração (requer autenticação e papel de admin)
 // Route::middleware(['auth:sanctum', 'admin'])->group(function () {
