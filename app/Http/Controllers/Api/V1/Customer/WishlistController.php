@@ -27,9 +27,7 @@ class WishlistController extends Controller
 
     public function removeFromWishlist($productId)
     {
-        $this->wishlistRepository->removeFromWishlist($productId);
-
-        return response()->json(['message' => 'Product removed from wishlist successfully']);
+        return $this->wishlistRepository->removeFromWishlist($productId);
     }
 
     public function getWishlist()

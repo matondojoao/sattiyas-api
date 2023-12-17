@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Customer;
 
+use App\Models\Wishlist;
 use App\Repositories\Traits\TraitRepository;
 
 class WishlistRepository
@@ -15,7 +16,18 @@ class WishlistRepository
 
     public function removeFromWishlist($productId)
     {
-        // ... código existente ...
+        $user = $this->getAuthUser();
+
+        $wishlistItem = Wishlist::where('user_id', $user->id)
+            ->where('product_id', $productId)
+            ->first();
+
+        if ($wishlistItem) {
+            $wishlistItem->delete();
+            return response()->json(['message' => 'Item removed from the wishlist successfully.']);
+        } else {
+            return response()->json(['message' => 'Item not found in the wishlist.'], 404);
+        }
     }
 
     public function getWishlist()

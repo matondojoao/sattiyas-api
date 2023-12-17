@@ -138,7 +138,7 @@ Route::get('email/resend', 'VerificationController@resend')->name('verification.
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/wishlist/add', [WishlistController::class, 'addToWishlist']);
-    Route::delete('/wishlist/remove', [WishlistController::class, 'removeFromWishlist']);
+    Route::delete('/wishlist/remove/{product}', [WishlistController::class, 'removeFromWishlist']);
     Route::get('/wishlist', [WishlistController::class, 'getWishlist']);
 });
 
