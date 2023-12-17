@@ -56,6 +56,8 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\PaymentMethod::factory()->count(3)->create();
 
+        \App\Models\DeliveryOption::factory()->count(3)->create();
+
         // \App\Models\Order::factory()->count(5)->create();
 
         // \App\Models\OrderItem::factory()->count(15)->create();
