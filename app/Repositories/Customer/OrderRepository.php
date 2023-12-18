@@ -46,6 +46,8 @@ class OrderRepository
         $pdf->save($pdfPath);
 
         $order->user->notify(new OrderPlacedNotification($pdfPath, $order));
+
+        session()->forget('cart',[]);
     }
 
     public function getUserOrders()
