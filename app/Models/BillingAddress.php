@@ -17,13 +17,14 @@ class BillingAddress extends Model
     protected $keyType = 'uuid';
 
     protected $fillable = [
-        'street',
+        'address',
         'number',
         'neighborhood',
         'complement',
         'city',
         'state',
-        'postal_code',
+        'zip_code',
+        'city_id'
     ];
 
     /**«
