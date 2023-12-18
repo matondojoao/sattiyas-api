@@ -19,10 +19,17 @@ class OrderController extends Controller
 
     public function placeOrder(OrderRequest $request)
     {
-        $this->OrderRepository->placeOrder($request->validated());
+        $cartItems = session()->get('cart', []);
 
-        return response()->json(['message' => 'Order created successfully'], 200);
+        if (count($cartItems) > 0) {
+            $this->OrderRepository->placeOrder($request->validated());
+
+            return response()->json(['message' => 'Order created successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Cart is empty. Order not created.'], 400);
+        }
     }
+
 
     public function getUserOrders()
     {
