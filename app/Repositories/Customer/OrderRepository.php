@@ -50,6 +50,6 @@ class OrderRepository
 
     public function getUserOrders()
     {
-        return $this->getAuthUser()->orders()->with('orderItems.product.images')->orderBy('created_at', 'desc')->paginate(10);
+        return $this->getAuthUser()->orders()->with('orderItems.product.images','paymentMethod','deliveryOption')->orderBy('created_at', 'desc')->paginate(10);
     }
 }

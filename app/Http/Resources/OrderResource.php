@@ -19,11 +19,11 @@ class OrderResource extends JsonResource
             'payment_status' => $this->payment_status,
             'fulfillment_status' => $this->fulfillment_status,
             'user' => new UserResource($this->whenLoaded('user')),
-            'payment_method' => new UserResource($this->whenLoaded('user')),
-            'delivery_option' => new UserResource($this->whenLoaded('deliveryOption')),
+            'payment_method' => new PaymentMethodResource($this->whenLoaded('paymentMethod')),
+            'delivery_option' => new DeliveryOptionResource($this->whenLoaded('deliveryOption')),
             'discount' => $this->discount,
             'subtotal' => $this->calculateSubTotal(),
-            //'total' => $this->calculateTotal() - $this->discount,
+            'total' => $this->calculateTotal(),
             'items' => OrderItemResource::collection($this->whenLoaded('orderItems')),
         ];
     }
@@ -47,11 +47,11 @@ class OrderResource extends JsonResource
             $total += $item->price * $item->quantity;
         }
 
-        foreach ($this->deliveryOption as $Option) {
-            $total += $Option?->price;
+        if ($this->deliveryOption) {
+            $total += $this->deliveryOption->price;
         }
 
-
-        return $total;
+        return $total - $this->discount;
     }
+
 }
