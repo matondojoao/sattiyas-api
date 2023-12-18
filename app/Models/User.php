@@ -75,7 +75,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function shippingAddress()
     {
-        return $this->hasOne(ShippingAddress::class, 'id', 'user_id');
+        return $this->hasOne(ShippingAddress::class);
     }
 
     public function promotions()

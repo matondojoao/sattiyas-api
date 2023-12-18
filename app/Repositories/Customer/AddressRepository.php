@@ -14,4 +14,11 @@ class AddressRepository
 
         return $this->getAuthUser()->billingAddress()->updateOrCreate(['id' => $id], $data);
     }
+
+    public function createOrUpdateShippingAddress(array $data)
+    {
+        $id = $data['id'] ?? null;
+
+        return $this->getAuthUser()->shippingAddress()->updateOrCreate(['id' => $id], $data);
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Customer;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddressRequest;
 use App\Http\Resources\BillingAddressResource;
+use App\Http\Resources\ShippingAddressResource;
 use App\Repositories\Customer\AddressRepository;
 use Illuminate\Http\Request;
 
@@ -23,5 +24,13 @@ class AddressController extends Controller
         $data = $request->all();
         $address = $this->addressRepository->createOrUpdatebillingAddress($data);
         return new BillingAddressResource($address);
+    }
+
+    public function createOrUpdateShippingAddress(AddressRequest $request)
+    {
+
+        $data = $request->all();
+        $address = $this->addressRepository->createOrUpdateShippingAddress($data);
+        return new ShippingAddressResource($address);
     }
 }

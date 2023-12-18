@@ -143,7 +143,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/wishlist', [WishlistController::class, 'getWishlist']);
 });
 
+
 Route::middleware(['auth:sanctum'])->post('billing/addresses', [AddressController::class, 'createOrUpdatebillingAddress']);
+Route::middleware(['auth:sanctum'])->post('billing/shipping', [AddressController::class, 'createOrUpdateShippingAddress']);
 
 
 // // Rotas para administração (requer autenticação e papel de admin)
