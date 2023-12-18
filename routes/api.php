@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\V1\Customer\AddressController;
 use App\Http\Controllers\Api\V1\Customer\CustomerController;
+use App\Http\Controllers\Api\V1\Customer\OrderController;
 use App\Http\Controllers\Api\V1\Customer\ReviewController;
 use App\Http\Controllers\Api\V1\Customer\WishlistController;
 use Illuminate\Http\Request;
@@ -147,7 +148,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::middleware(['auth:sanctum'])->post('billing/addresses', [AddressController::class, 'createOrUpdatebillingAddress']);
 Route::middleware(['auth:sanctum'])->post('billing/shipping', [AddressController::class, 'createOrUpdateShippingAddress']);
 
+Route::middleware(['auth:sanctum'])->post('/orders/place', [OrderController::class, 'placeOrder']);
+Route::middleware(['auth:sanctum'])->get('/orders/my', [OrderController::class, 'getUserOrders']);
 
+Route::get('/', function(){
+    $order=\App\Models\Order::where('id','aad90a35-0584-4433-94de-41a2d9940cc6')->first();
+
+    return view('order.invoice', compact('order'));
+});
 // // Rotas para administração (requer autenticação e papel de admin)
 // Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 //     Route::post('admin/products', [ProductAdminController::class, 'store']);

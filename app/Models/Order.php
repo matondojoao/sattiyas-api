@@ -17,6 +17,8 @@ class Order extends Model
     protected $fillable = [
         'payment_status',
         'fulfillment_status',
+        'delivery_option_id',
+        'payment_method_id'
     ];
 
     public function orderItems()
