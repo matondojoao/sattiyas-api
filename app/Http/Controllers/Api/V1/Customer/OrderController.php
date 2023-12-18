@@ -22,9 +22,7 @@ class OrderController extends Controller
         $cartItems = session()->get('cart', []);
 
         if (count($cartItems) > 0) {
-            $this->OrderRepository->placeOrder($request->validated());
-
-            return response()->json(['message' => 'Order created successfully'], 200);
+            return $this->OrderRepository->placeOrder($request->validated());
         } else {
             return response()->json(['message' => 'Cart is empty. Order not created.'], 400);
         }
@@ -36,5 +34,10 @@ class OrderController extends Controller
         $userOrders = $this->OrderRepository->getUserOrders();
 
         return OrderResource::collection($userOrders);
+    }
+
+    public function generateStripeToken()
+    {
+        return $this->OrderRepository->generateStripeToken();
     }
 }

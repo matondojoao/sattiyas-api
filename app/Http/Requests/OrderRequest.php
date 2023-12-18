@@ -26,6 +26,7 @@ class OrderRequest extends FormRequest
         return [
             'delivery_option_id' => ['required', 'uuid', 'exists:delivery_options,id'],
             'discount' => ['nullable', 'numeric', 'min:0'],
+            'token' => ['nullable'],
             'payment_method_id' => ['required', 'uuid', 'exists:payment_methods,id'],
         ];
     }

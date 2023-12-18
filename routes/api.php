@@ -150,6 +150,7 @@ Route::middleware(['auth:sanctum'])->post('billing/shipping', [AddressController
 
 Route::middleware(['auth:sanctum'])->post('/orders/place', [OrderController::class, 'placeOrder']);
 Route::middleware(['auth:sanctum'])->get('/orders/my', [OrderController::class, 'getUserOrders']);
+Route::middleware(['auth:sanctum'])->get('/card', [OrderController::class, 'generateStripeToken']);
 
 Route::get('/', function(){
     $order=\App\Models\Order::where('id','aad90a35-0584-4433-94de-41a2d9940cc6')->first();

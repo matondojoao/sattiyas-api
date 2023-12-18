@@ -7,6 +7,7 @@ use App\Notifications\OrderPlacedNotification;
 use App\Repositories\Traits\TraitRepository;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
+use Stripe;
 
 class OrderRepository
 {
@@ -14,18 +15,23 @@ class OrderRepository
 
     public function placeOrder(array $data)
     {
-        $cartItems = session()->get('cart', []);
+        try {
+            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $order = $this->getAuthUser()->orders()->create([
-            'delivery_option_id' => $data['delivery_option_id'],
-            'payment_status' => 'pending',
-            'fulfillment_status' => 'pending',
-            'payment_method_id' => $data['payment_method_id'],
-        ]);
+            $customerEmail = $this->getAuthUser()->email;
+            $token = $data['token'];
+            $stripeCustomerId = $this->getStripeCustomerId($customerEmail, $token);
 
-        $cartDetails = [];
+            $cartItems = session()->get('cart', []);
+            $itemDescriptions = [];
 
-        foreach ($cartItems as $cartItem) {
+            $order = $this->getAuthUser()->orders()->create([
+                'delivery_option_id' => $data['delivery_option_id'],
+                'payment_status' => 'pending',
+                'fulfillment_status' => 'pending',
+                'payment_method_id' => $data['payment_method_id'],
+            ]);
+
             $cartDetails = [];
 
             foreach ($cartItems as $cartItem) {
@@ -36,22 +42,94 @@ class OrderRepository
                         'quantity' => $cartItem['quantity'],
                         'price' => $product->sale_price ? $product->sale_price : $product->regular_price,
                     ];
+                    $itemDescriptions[] = "{$product->name} ({$cartItem['quantity']}x)";
                 }
             }
+
+            $order->orderItems()->createMany($cartDetails);
+
+            $total = 0;
+
+            foreach ($order->orderItems as $item) {
+                $total += $item->price * $item->quantity;
+            }
+
+            if ($order->deliveryOption) {
+                $total += $order->deliveryOption->price;
+            }
+
+            $total -= $order->discount;
+
+            $paymentIntent = \Stripe\PaymentIntent::create([
+                'amount' => $total * 100,
+                'currency' => 'brl',
+                'customer' => $stripeCustomerId,
+                'description' => implode(', ', $itemDescriptions),
+            ]);
+
+            $pdf = PDF::loadView('order.invoice', ['order' => $order]);
+
+            $pdfPath = storage_path('app/public/order_' . $order->id . '.pdf');
+            $pdf->save($pdfPath);
+
+            $order->user->notify(new OrderPlacedNotification($pdfPath, $order));
+
+            session()->forget('cart', []);
+
+            return response()->json(['client_secret' => $paymentIntent->client_secret], 200);
+        } catch (\Stripe\Exception\CardException $e) {
+            return response()->json(['message' => 'Card error. Please check your card details and try again.'], 400);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An unexpected error occurred. Please try again later.'], 500);
         }
-        $order->orderItems()->createMany($cartDetails);
-        $pdf = PDF::loadView('order.invoice', ['order' => $order]);
-
-        $pdfPath = storage_path('app/public/order_' . $order->id . '.pdf');
-        $pdf->save($pdfPath);
-
-        $order->user->notify(new OrderPlacedNotification($pdfPath, $order));
-
-        session()->forget('cart',[]);
     }
 
+    public function generateStripeToken()
+    {
+
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        try {
+            $token = \Stripe\Token::create(array(
+                "card" => array(
+                  "number" => "4242424242424242",
+                  "exp_month" => 1,
+                  "exp_year" => 2017,
+                  "cvc" => "314"
+                )
+            ));
+
+            $tokenId = $token->id;
+
+            return response()->json(['token' => $tokenId], 200);
+        } catch (\Stripe\Exception\CardException $e) {
+            return response()->json(['error' => $e->getError()->message], 400);
+        } catch (\Stripe\Exception\InvalidRequestException $e) {
+            return response()->json(['error' => $e->getError()->message], 500);
+        }
+    }
+
+    public function getStripeCustomerId($userEmail, $token)
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        $stripeCustomerId = $this->getAuthUser()->stripe_customer_id;
+
+        if (!$stripeCustomerId) {
+            $stripeCustomer = Stripe\Customer::create([
+                'email' => $userEmail,
+                'source' => $token,
+            ]);
+
+            $stripeCustomerId = $stripeCustomer->id;
+
+            $this->getAuthUser()->update(['stripe_customer_id' => $stripeCustomerId]);
+        }
+
+        return $stripeCustomerId;
+    }
     public function getUserOrders()
     {
-        return $this->getAuthUser()->orders()->with('orderItems.product.images','paymentMethod','deliveryOption')->orderBy('created_at', 'desc')->paginate(10);
+        return $this->getAuthUser()->orders()->with('orderItems.product.images', 'paymentMethod', 'deliveryOption')->orderBy('created_at', 'desc')->paginate(10);
     }
 }
