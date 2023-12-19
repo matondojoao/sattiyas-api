@@ -19,6 +19,8 @@ use App\Http\Controllers\Api\V1\Public\CouponController;
 use App\Http\Controllers\Api\V1\Public\DeliveryOptionController;
 use App\Http\Controllers\Api\V1\Public\PaymentMethodController;
 
+use App\Http\Controllers\Api\V1\Admin\CategoryController as AdminCategoryController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -161,6 +163,13 @@ Route::get('/delivery-options', [DeliveryOptionController::class, 'index']);
 Route::get('/payment-methods', [PaymentMethodController::class, 'index']);
 
 Route::post('/apply-coupon', [CouponController::class, 'applyCoupon']);
+
+
+Route::group(['middleware' => ['auth:sanctum','admin']], function () {
+    Route::post('categories', [AdminCategoryController::class, 'store']);
+    Route::put('categories/{id}', [AdminCategoryController::class, 'update']);
+    Route::delete('categories/{id}', [AdminCategoryController::class, 'destroy']);
+});
 
 Route::get('/', function(){
     return view('testecheckout');

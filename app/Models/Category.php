@@ -16,7 +16,7 @@ class Category extends Model
 
     protected $keyType = 'uuid';
 
-    protected $fillable=['name'];
+    protected $fillable=['name','parent_id','image_url'];
 
     /**
      * The products that belong to the Size
