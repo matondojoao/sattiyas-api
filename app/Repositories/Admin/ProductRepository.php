@@ -4,6 +4,7 @@ namespace App\Repositories\Admin;
 
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductRepository
 {
@@ -48,7 +49,7 @@ class ProductRepository
                 $product->images()->createMany($imagesUploaded);
             }
 
-            $product->load('categories', 'sizes', 'colors', 'images','stock','brand');
+            $product->load('categories', 'sizes', 'colors', 'images', 'stock', 'brand');
 
             return $product;
         });
@@ -97,8 +98,14 @@ class ProductRepository
     public function delete($id)
     {
         $product = $this->entity->findOrFail($id);
-        $product->delete();
 
-        return response()->json(['message'=>'Product deleted successfully']);
+        if ($product) {
+            $product->images->each(function ($image) {
+                Storage::delete('public/' . $image->image_path);
+                $image->delete();
+            });
+            $product->delete();
+        }
+        return response()->json(['message' => 'Product deleted successfully']);
     }
 }
