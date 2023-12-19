@@ -107,11 +107,6 @@ class OrderRepository
                 }
             }
 
-            if (isset($data['product'])) {
-                // Lógica específica para o filtro por produto
-                // Popule $productResult conforme necessário
-            }
-
             foreach ($order->orderItems as $item) {
                 if (!isset($mostSoldProducts[$item->product->id])) {
                     $mostSoldProducts[$item->product->id] = [
@@ -132,6 +127,14 @@ class OrderRepository
                 $mostProfitableProducts[$item->product->id]['total_profit'] += ($item->price) * $item->quantity;
             }
         }
+
+        usort($mostSoldProducts, function ($a, $b) {
+            return $b['total_quantity'] - $a['total_quantity'];
+        });
+
+        usort($mostProfitableProducts, function ($a, $b) {
+            return $b['total_profit'] - $a['total_profit'];
+        });
 
         foreach ($result as $key => &$data) {
             $data['average_monthly_sales'] = $data['total_gross_sales'] / $totalOrders;
