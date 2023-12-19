@@ -32,6 +32,25 @@ class OrderRepository
                 'payment_method_id' => $data['payment_method_id'],
             ]);
 
+            $totalDiscount = 0;
+
+            if (session()->get('coupon')) {
+                $coupon = session()->get('coupon');
+
+                if ($order->deliveryOption) {
+                    $totalDiscount += $order->deliveryOption->price;
+                }
+
+                if ($coupon['type'] == 'amount') {
+                    $totalDiscount = $coupon['value'];
+                } elseif ($coupon['type'] == 'percentage') {
+                    $totalDiscount -= ($totalDiscount * ($coupon['value'] / 100));
+                }
+
+                $order->discount = $totalDiscount;
+                $order->save();
+            }
+
             $cartDetails = [];
 
             foreach ($cartItems as $cartItem) {
@@ -58,7 +77,15 @@ class OrderRepository
                 $total += $order->deliveryOption->price;
             }
 
-            $total -= $order->discount;
+            if (session()->has('coupon')) {
+                $coupon = session('coupon');
+
+                if ($coupon['type'] == 'amount') {
+                    $total -= $coupon['value'];
+                } elseif ($coupon['type'] == 'percentage') {
+                    $total -= ($total * ($coupon['value'] / 100));
+                }
+            }
 
             $paymentIntent = \Stripe\PaymentIntent::create([
                 'amount' => $total * 100,
@@ -76,12 +103,13 @@ class OrderRepository
 
             session()->forget('cart', []);
 
-            return response()->json(['client_secret' => $paymentIntent->client_secret], 200);
+            session()->forget('coupon');
 
+            return response()->json(['client_secret' => $paymentIntent->client_secret], 200);
         } catch (\Stripe\Exception\CardException $e) {
             return response()->json(['message' => 'Card error. Please check your card details and try again.'], 400);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'An unexpected error occurred. Please try again later.'.$e], 500);
+            return response()->json(['message' => 'An unexpected error occurred. Please try again later.' . $e], 500);
         }
     }
 
