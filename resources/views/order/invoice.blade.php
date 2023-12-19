@@ -100,42 +100,47 @@
         <div class="col-sm-6">
             <h4 class="mb-3">Endereço de Cobrança:</h4>
             <div style="margin-bottom: 1px"><strong>$order->user->name</strong></div>
-            <div>{{ $order->user->billingAddress->address }}</div>
-            <div>{{ $order->user->billingAddress->city->name }},
-                {{ $order->user->billingAddress->city->state->name }}
-                {{ $order->user->billingAddress->zip_code }}</div>
+            @if ($order->user->billingAddress)
+                <div>{{ $order->user->billingAddress->address }}</div>
+                <div>{{ $order->user->billingAddress->city->name }},
+                    {{ $order->user->billingAddress->city->state->name }}
+                    {{ $order->user->billingAddress->zip_code }}</div>
+            @endif
             <div>Email: {{ $order->user->email }}</div>
             <div>Telefone: {{ $order->user->phone }}</div>
         </div>
         <div class="col-sm-6 ">
             <h4 class="mb-3">Endereço de Entrega:</h4>
             <div style="margin-bottom: 1px"><strong>$order->user->name</strong></div>
-            <div>{{ $order->user->shippingAddress->address }}</div>
-            <div>{{ $order->user->shippingAddress->city->name }},
-                {{ $order->user->shippingAddress->city->state->name }}
-                {{ $order->user->shippingAddress->zip_code }}</div>
+            @if ($order->user->shippingAddress)
+                <div>{{ $order->user->shippingAddress->address }}</div>
+                <div>{{ $order->user->shippingAddress->city->name }},
+                    {{ $order->user->shippingAddress->city->state->name }}
+                    {{ $order->user->shippingAddress->zip_code }}</div>
+            @endif
+
             <div>Email: {{ $order->user->email }}</div>
             <div>Telefone: {{ $order->user->phone }}</div>
         </div>
     </div>
 
     @if ($order->payment_status == 'pending')
-    <?php $paymentStatus = 'Pendente'; ?>
-@elseif ($order->payment_status == 'completed')
-    <?php $paymentStatus = 'Completo'; ?>
-@else
-    <?php $paymentStatus = 'Falhou'; ?>
-@endif
+        <?php $paymentStatus = 'Pendente'; ?>
+    @elseif ($order->payment_status == 'completed')
+        <?php $paymentStatus = 'Completo'; ?>
+    @else
+        <?php $paymentStatus = 'Falhou'; ?>
+    @endif
 
-@if ($order->fulfillment_status == 'pending')
-    <?php $fulfillmentStatus = 'Pendente'; ?>
-@elseif ($order->fulfillment_status == 'processing')
-    <?php $fulfillmentStatus = 'Processando'; ?>
-@elseif ($order->fulfillment_status == 'completed')
-    <?php $fulfillmentStatus = 'Completo'; ?>
-@else
-    <?php $fulfillmentStatus = 'Cancelado'; ?>
-@endif
+    @if ($order->fulfillment_status == 'pending')
+        <?php $fulfillmentStatus = 'Pendente'; ?>
+    @elseif ($order->fulfillment_status == 'processing')
+        <?php $fulfillmentStatus = 'Processando'; ?>
+    @elseif ($order->fulfillment_status == 'completed')
+        <?php $fulfillmentStatus = 'Completo'; ?>
+    @else
+        <?php $fulfillmentStatus = 'Cancelado'; ?>
+    @endif
 
     <div class="table-responsive-sm">
         <table class="table">
@@ -205,14 +210,15 @@
                             <td class="left">
                                 <strong class="text-dark">Opção de entrega</strong>
                             </td>
-                            <td class="right">{{ $order->deliveryOption->name }} - {{ \App\Helpers\ptBRHelper::real($order->deliveryOption->price) }}
+                            <td class="right">{{ $order->deliveryOption->name }} -
+                                {{ \App\Helpers\ptBRHelper::real($order->deliveryOption->price) }}
                             </td>
                         </tr>
                         <tr>
                             <td class="left">
                                 <strong class="text-dark">Método de pagamento</strong>
                             </td>
-                            <td class="right">{{ $order->paymentMethod->name}}
+                            <td class="right">{{ $order->paymentMethod->name }}
                             </td>
                         </tr>
                         <tr>
@@ -230,7 +236,8 @@
                                 <strong class="text-dark">Total</strong>
                             </td>
                             <td class="right">
-                                <strong class="text-dark">{{ \App\Helpers\ptBRHelper::real($totalGeral- $order->discount + $order->deliveryOption->price) }}</strong>
+                                <strong
+                                    class="text-dark">{{ \App\Helpers\ptBRHelper::real($totalGeral - $order->discount + $order->deliveryOption->price) }}</strong>
                             </td>
                         </tr>
                     </tbody>
