@@ -46,13 +46,17 @@ class OrderPlacedNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Pedido Realizado')
-            ->line('Obrigado por fazer um pedido!')
-            ->action('Detalhes do Pedido', config('app.url_frontend').('/orders/' . $this->order->id))
+            ->subject('Pedido Realizado - #' . $this->order->id)
+            ->greeting('Olá, ' . $this->order->user->name . '!')
+            ->line('Obrigado por fazer um pedido conosco. Confirmamos o recebimento do seu pedido com os seguintes detalhes:')
+            ->line('Número do Pedido: #' . $this->order->id)
+            ->line('Data do Pedido: ' . \Carbon\Carbon::parse($this->order->created_at)->format('d/m/Y H:i:s'))
+            ->line('Detalhes do Pedido: ' . config('app.url_frontend') . '/orders/' . $this->order->id)
             ->attachData(file_get_contents($this->pdfPath), 'order_' . $this->order->id . '.pdf', [
                 'mime' => 'application/pdf',
             ])
-            ->line('O PDF do seu pedido está anexado a este e-mail.');
+            ->line('Você pode visualizar e fazer o download do PDF do seu pedido, que está anexado a este e-mail.')
+            ->action('Acompanhe seu Pedido', config('app.url_frontend') . '/orders/' . $this->order->id);
     }
 
     /**

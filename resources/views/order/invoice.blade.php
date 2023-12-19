@@ -119,6 +119,24 @@
         </div>
     </div>
 
+    @if ($order->payment_status == 'pending')
+    <?php $paymentStatus = 'Pendente'; ?>
+@elseif ($order->payment_status == 'completed')
+    <?php $paymentStatus = 'Completo'; ?>
+@else
+    <?php $paymentStatus = 'Falhou'; ?>
+@endif
+
+@if ($order->fulfillment_status == 'pending')
+    <?php $fulfillmentStatus = 'Pendente'; ?>
+@elseif ($order->fulfillment_status == 'processing')
+    <?php $fulfillmentStatus = 'Processando'; ?>
+@elseif ($order->fulfillment_status == 'completed')
+    <?php $fulfillmentStatus = 'Completo'; ?>
+@else
+    <?php $fulfillmentStatus = 'Cancelado'; ?>
+@endif
+
     <div class="table-responsive-sm">
         <table class="table">
             <thead>
@@ -161,6 +179,21 @@
             <div class="table-container" style="margin-left: 300px;">
                 <table class="table table-clear" style="width: 400px; text-align: left;">
                     <tbody>
+                        <tr>
+                            <td class="left">
+                                <strong class="text-dark">Status de Pagamento</strong>
+                            </td>
+                            <td class="right">{{ $paymentStatus }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left">
+                                <strong class="text-dark">Status de Cumprimento</strong>
+                            </td>
+                            <td class="right">{{ $fulfillmentStatus }}
+                            </td>
+                        </tr>
+
                         <tr>
                             <td class="left">
                                 <strong class="text-dark">Subtotal</strong>
