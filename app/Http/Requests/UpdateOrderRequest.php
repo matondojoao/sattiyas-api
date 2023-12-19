@@ -24,7 +24,6 @@ class UpdateOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'payment_status' => 'nullable|in:pending,completed,failed',
             'fulfillment_status' => 'nullable|in:pending,processing,completed,canceled',
         ];
     }
