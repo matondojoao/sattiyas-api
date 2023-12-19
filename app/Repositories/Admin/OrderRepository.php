@@ -18,7 +18,7 @@ class OrderRepository
 
     public function getSalesReport($data)
     {
-        $query = $this->entity->with('orderItems')->where(function ($query) use ($data) {
+        $query = $this->entity->with('orderItems.product')->where(function ($query) use ($data) {
             if (isset($data['date']) && $data['date'] == 'year') {
                 $query->orWhereYear('created_at', now()->year);
             }
@@ -51,6 +51,8 @@ class OrderRepository
         $orders = $query->get();
 
         $result = [];
+        $mostSoldProducts = [];
+        $mostProfitableProducts = [];
         $totalOrders = $orders->count();
 
         foreach ($orders as $order) {
@@ -104,6 +106,31 @@ class OrderRepository
                     $startDate->addDay();
                 }
             }
+
+            if (isset($data['product'])) {
+                // Lógica específica para o filtro por produto
+                // Popule $productResult conforme necessário
+            }
+
+            foreach ($order->orderItems as $item) {
+                if (!isset($mostSoldProducts[$item->product->id])) {
+                    $mostSoldProducts[$item->product->id] = [
+                        'product_name' => $item->product->name,
+                        'total_quantity' => 0,
+                    ];
+                }
+                $mostSoldProducts[$item->product->id]['total_quantity'] += $item->quantity;
+            }
+
+            foreach ($order->orderItems as $item) {
+                if (!isset($mostProfitableProducts[$item->product->id])) {
+                    $mostProfitableProducts[$item->product->id] = [
+                        'product_name' => $item->product->name,
+                        'total_profit' => 0,
+                    ];
+                }
+                $mostProfitableProducts[$item->product->id]['total_profit'] += ($item->price) * $item->quantity;
+            }
         }
 
         foreach ($result as $key => &$data) {
@@ -111,7 +138,9 @@ class OrderRepository
         }
 
         return response()->json([
-            'result' => $result,
+            'dateResult' => $result,
+            'mostSoldProducts' => $mostSoldProducts,
+            'mostProfitableProducts' => $mostProfitableProducts,
         ]);
     }
 
