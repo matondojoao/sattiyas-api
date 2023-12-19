@@ -92,7 +92,7 @@
     <div>
         <h2>ESSENCE</h2>
         <div class="float-right">
-            <h3 class="mb-0">Fatura #BBB10234</h3>
+            <h3 class="mb-0">Fatura # {{ $order->id }}</h3>
             {{ \App\Helpers\ptBRHelper::data($order->created_at) }}
         </div>
     </div>
