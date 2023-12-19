@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Repositories\Admin\OrderRepository;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -14,6 +15,12 @@ class OrderController extends Controller
     public function __construct(OrderRepository $orderRepository)
     {
         $this->orderRepository = $orderRepository;
+    }
+
+    public function getSalesReport(Request $request)
+    {
+        $data=$request->only('filter','start_date','end_date');
+        return $this->orderRepository->getSalesReport($data);
     }
 
     public function show($id)

@@ -93,6 +93,7 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function () {
     Route::get('/orders/{id}', [AdminOrderController::class, 'show']);
     Route::put('orders/{id}', [AdminOrderController::class, 'update']);
     Route::delete('orders/{id}', [AdminOrderController::class, 'destroy']);
+    Route::get('/orders-report', [AdminOrderController::class, 'getSalesReport']);
 
     Route::post('delivery-options', [AdminDeliveryOptionController::class, 'store']);
     Route::put('delivery-options/{id}', [AdminDeliveryOptionController::class, 'update']);
