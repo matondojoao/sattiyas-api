@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\V1\Public\ColorController as PublicColorController;
 use App\Http\Controllers\Api\V1\Public\BrandController as PublicBrandController;
 use App\Http\Controllers\Api\V1\Public\SizeController as PublicSizeController;
 use App\Http\Controllers\Api\V1\Public\CartController as PublicCartController;
+use App\Http\Controllers\Api\V1\Public\DeliveryOptionController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -151,6 +153,9 @@ Route::middleware(['auth:sanctum'])->post('billing/shipping', [AddressController
 Route::middleware(['auth:sanctum'])->post('/orders/place', [OrderController::class, 'placeOrder']);
 Route::middleware(['auth:sanctum'])->get('/orders/my', [OrderController::class, 'getUserOrders']);
 Route::middleware(['auth:sanctum'])->get('/card', [OrderController::class, 'generateStripeToken']);
+
+
+Route::get('/delivery-options', [DeliveryOptionController::class, 'index']);
 
 Route::get('/', function(){
     return view('testecheckout');
