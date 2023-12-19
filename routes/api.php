@@ -20,7 +20,7 @@ use App\Http\Controllers\Api\V1\Public\DeliveryOptionController;
 use App\Http\Controllers\Api\V1\Public\PaymentMethodController;
 
 use App\Http\Controllers\Api\V1\Admin\CategoryController as AdminCategoryController;
-
+use \App\Http\Controllers\Api\V1\Admin\OrderController as AdminOrderController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -156,6 +156,7 @@ Route::middleware(['auth:sanctum'])->post('billing/shipping', [AddressController
 
 Route::middleware(['auth:sanctum'])->post('/orders/place', [OrderController::class, 'placeOrder']);
 Route::middleware(['auth:sanctum'])->get('/orders/my', [OrderController::class, 'getUserOrders']);
+Route::middleware(['auth:sanctum'])->get('orders/my/{id}', [OrderController::class, 'show']);
 Route::middleware(['auth:sanctum'])->get('/card', [OrderController::class, 'generateStripeToken']);
 
 
@@ -169,6 +170,9 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function () {
     Route::post('categories', [AdminCategoryController::class, 'store']);
     Route::put('categories/{id}', [AdminCategoryController::class, 'update']);
     Route::delete('categories/{id}', [AdminCategoryController::class, 'destroy']);
+    Route::get('/orders/{id}', [AdminOrderController::class, 'show']);
+    Route::put('orders/{id}', [AdminOrderController::class, 'update']);
+    Route::delete('orders/{id}', [AdminOrderController::class, 'destroy']);
 });
 
 Route::get('/', function(){

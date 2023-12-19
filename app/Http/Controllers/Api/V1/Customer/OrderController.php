@@ -17,6 +17,13 @@ class OrderController extends Controller
         $this->OrderRepository = $OrderRepository;
     }
 
+    public function show($id)
+    {
+        $order = $this->OrderRepository->find($id);
+
+        return new OrderResource($order);
+    }
+
     public function placeOrder(OrderRequest $request)
     {
         $cartItems = session()->get('cart', []);

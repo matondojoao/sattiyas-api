@@ -133,6 +133,11 @@ class OrderRepository
         return $stripeCustomerId;
     }
 
+    public function find(string $id)
+    {
+        return $this->getAuthUser()->orders()->findOrFail($id);
+    }
+
     public function getUserOrders()
     {
         return $this->getAuthUser()->orders()->with('orderItems.product.images', 'paymentMethod', 'deliveryOption')->orderBy('created_at', 'desc')->paginate(10);
