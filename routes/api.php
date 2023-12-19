@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\V1\Public\BrandController as PublicBrandController;
 use App\Http\Controllers\Api\V1\Public\SizeController as PublicSizeController;
 use App\Http\Controllers\Api\V1\Public\CartController as PublicCartController;
 use App\Http\Controllers\Api\V1\Public\DeliveryOptionController;
+use App\Http\Controllers\Api\V1\Public\PaymentMethodController;
 
 /*
 |--------------------------------------------------------------------------
@@ -156,6 +157,7 @@ Route::middleware(['auth:sanctum'])->get('/card', [OrderController::class, 'gene
 
 
 Route::get('/delivery-options', [DeliveryOptionController::class, 'index']);
+Route::get('/payment-methods', [PaymentMethodController::class, 'index']);
 
 Route::get('/', function(){
     return view('testecheckout');
