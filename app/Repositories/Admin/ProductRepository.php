@@ -51,7 +51,6 @@ class ProductRepository
             return $product;
         });
     }
-
     public function updateProduct(array $data, $productId)
     {
         return DB::transaction(function () use ($data, $productId) {
@@ -59,6 +58,7 @@ class ProductRepository
 
             if (isset($data['quantity'])) {
                 $product->stock()->increment('quantity', $data['quantity']);
+                unset($data['quantity']);
             }
 
             $product->update($data);
@@ -76,16 +76,17 @@ class ProductRepository
             }
 
             if (isset($data['images'])) {
-                $imagesUploaded = [];
+                $product->images()->delete();
 
+                $imagesUploaded = [];
                 foreach ($data['images'] as $image) {
                     $path = $image->store('products', 'public');
                     $imagesUploaded[] = ['image_path' => $path, 'is_primary' => false];
                 }
-
                 $product->images()->createMany($imagesUploaded);
             }
 
+            $product->load('categories', 'sizes', 'colors', 'images', 'stock', 'brand');
 
             return $product;
         });

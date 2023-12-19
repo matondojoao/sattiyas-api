@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateOrderRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
 use App\Repositories\Admin\ProductRepository;
@@ -27,10 +29,10 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, $id)
     {
-        $data = $request->all();
-        $product = $this->ProductRepository->updateProduct($id, $data);
+        $data = $request->validated();
+        $product = $this->ProductRepository->updateProduct($data, $id);
 
         return new ProductResource($product);
     }

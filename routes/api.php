@@ -101,6 +101,6 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function () {
     Route::delete('payment-methods/{id}', [AdminPaymentMethodController::class, 'destroy']);
 
     Route::post('products', [AdminProductController::class, 'store']);
-    Route::put('products/{id}', [AdminProductController::class, 'update']);
+    Route::post('products/{id}', [AdminProductController::class, 'update']);
     Route::delete('products/{id}', [AdminProductController::class, 'destroy']);
 });
