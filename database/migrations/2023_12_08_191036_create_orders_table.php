@@ -19,7 +19,7 @@ return new class extends Migration
             $table->uuid('delivery_option_id');
             $table->decimal('discount', 10, 2)->nullable();
             $table->enum('payment_status', ['pending', 'completed', 'failed'])->default('pending');
-            $table->enum('fulfillment_status', ['pending', 'processing', 'completed', 'canceled'])->default('pending');            $table->text('items')->nullable();
+            $table->enum('fulfillment_status', ['pending', 'processing', 'completed', 'canceled'])->default('pending');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('delivery_option_id')->references('id')->on('delivery_options')->onDelete('cascade');
             $table->timestamps();
