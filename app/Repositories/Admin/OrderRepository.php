@@ -19,31 +19,31 @@ class OrderRepository
     public function getSalesReport($data)
     {
         $query = $this->entity->with('orderItems')->where(function ($query) use ($data) {
-            if (isset($data['filter']) && $data['filter'] == 'year') {
+            if (isset($data['date']) && $data['date'] == 'year') {
                 $query->orWhereYear('created_at', now()->year);
             }
 
-            if (isset($data['filter']) && $data['filter'] == 'last_month') {
+            if (isset($data['date']) && $data['date'] == 'last_month') {
                 $query->orWhereMonth('created_at', now()->subMonth()->month);
             }
 
-            if (isset($data['filter']) && $data['filter'] == 'this_month') {
+            if (isset($data['date']) && $data['date'] == 'this_month') {
                 $query->orWhereMonth('created_at', now()->month);
             }
 
-            if (isset($data['filter']) && $data['filter'] == 'last_seven_days') {
+            if (isset($data['date']) && $data['date'] == 'last_seven_days') {
                 $query->orWhere('created_at', '>=', now()->subDays(7));
             }
 
-            if (isset($data['start_date']) && isset($data['end_date']) && (!isset($data['filter']) || $data['filter'] !== 'date_range')) {
+            if (isset($data['start_date']) && isset($data['end_date']) && (!isset($data['date']) || $data['date'] !== 'date_range')) {
                 $query->orWhereBetween('created_at', [$data['start_date'], $data['end_date']]);
             }
 
-            if (isset($data['start_date']) && (!isset($data['filter']) || $data['filter'] !== 'start_date')) {
+            if (isset($data['start_date']) && (!isset($data['date']) || $data['date'] !== 'start_date')) {
                 $query->orWhere('created_at', '>=', $data['start_date']);
             }
 
-            if (isset($data['end_date']) && (!isset($data['filter']) || $data['filter'] !== 'end_date')) {
+            if (isset($data['end_date']) && (!isset($data['date']) || $data['date'] !== 'end_date')) {
                 $query->orWhere('created_at', '<=', $data['end_date']);
             }
         });
@@ -66,7 +66,7 @@ class OrderRepository
             $discount = $order->discount ?? 0;
             $totalNetSales = $totalGrossSales - $discount;
 
-            if (isset($data['filter']) && $data['filter'] == 'year') {
+            if (isset($data['date']) && $data['date'] == 'year') {
                 $yearKey = $order->created_at->format('Y');
                 $result[$yearKey]['total_gross_sales'] = ($result[$yearKey]['total_gross_sales'] ?? 0) + $totalGrossSales;
                 $result[$yearKey]['total_net_sales'] = ($result[$yearKey]['total_net_sales'] ?? 0) + $totalNetSales;
@@ -75,7 +75,7 @@ class OrderRepository
 
             }
 
-            if (isset($data['filter']) && in_array($data['filter'], ['this_month', 'last_month'])) {
+            if (isset($data['date']) && in_array($data['date'], ['this_month', 'last_month'])) {
                 $monthKey = $order->created_at->format('Y-m');
                 $result[$monthKey]['total_gross_sales'] = ($result[$monthKey]['total_gross_sales'] ?? 0) + $totalGrossSales;
                 $result[$monthKey]['total_net_sales'] = ($result[$monthKey]['total_net_sales'] ?? 0) + $totalNetSales;
@@ -83,7 +83,7 @@ class OrderRepository
                 $result[$monthKey]['total_orders']=$totalOrders;
             }
 
-            if (isset($data['filter']) && $data['filter'] == 'last_seven_days') {
+            if (isset($data['date']) && $data['date'] == 'last_seven_days') {
                 $weekKey = $order->created_at->startOfWeek()->format('Y-m-d');
                 $result[$weekKey]['total_gross_sales'] = ($result[$weekKey]['total_gross_sales'] ?? 0) + $totalGrossSales;
                 $result[$weekKey]['total_net_sales'] = ($result[$weekKey]['total_net_sales'] ?? 0) + $totalNetSales;
@@ -91,7 +91,7 @@ class OrderRepository
                 $result[$weekKey]['total_orders']=$totalOrders;
             }
 
-            if (isset($data['filter']) && $data['filter'] == 'date_range') {
+            if (isset($data['date']) && $data['date'] == 'date_range') {
                 $startDate = Carbon::parse($data['start_date']);
                 $endDate = Carbon::parse($data['end_date']);
 

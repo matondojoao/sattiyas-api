@@ -19,7 +19,7 @@ class OrderController extends Controller
 
     public function getSalesReport(Request $request)
     {
-        $data=$request->only('filter','start_date','end_date');
+        $data=$request->only('date','start_date','end_date');
         return $this->orderRepository->getSalesReport($data);
     }
 
