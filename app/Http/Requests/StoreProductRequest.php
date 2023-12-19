@@ -33,6 +33,7 @@ class StoreProductRequest extends FormRequest
             'delivery' => 'nullable|string',
             'product_id_type' => 'nullable|string',
             'product_id' => 'nullable|string',
+            'quantity'=>'nullable|min:1',
             'expiry_date_of_product' => 'nullable|date',
             'sku' => 'required|string|unique:products,sku,',
             'is_featured' => 'boolean',

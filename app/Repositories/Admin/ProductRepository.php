@@ -19,6 +19,8 @@ class ProductRepository
         return DB::transaction(function () use ($data) {
             $quantity = isset($data['quantity']) ? $data['quantity'] : 1;
 
+            unset($data['quantity']);
+
             $product = $this->entity->create($data);
 
             $product->stock()->create(['quantity' => $quantity]);
