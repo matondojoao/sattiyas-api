@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\V1\Public\PaymentMethodController;
 use App\Http\Controllers\Api\V1\Admin\CategoryController as AdminCategoryController;
 use \App\Http\Controllers\Api\V1\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Api\V1\Admin\DeliveryOptionController as AdminDeliveryOptionController;
+use App\Http\Controllers\Api\V1\Admin\PaymentMethodController as AdminPaymentMethodController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -94,4 +95,8 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function () {
     Route::post('delivery-options', [AdminDeliveryOptionController::class, 'store']);
     Route::put('delivery-options/{id}', [AdminDeliveryOptionController::class, 'update']);
     Route::delete('delivery-options/{id}', [AdminDeliveryOptionController::class, 'destroy']);
+
+    Route::post('payment-methods', [AdminPaymentMethodController::class, 'store']);
+    Route::put('payment-methods/{id}', [AdminPaymentMethodController::class, 'update']);
+    Route::delete('payment-methods/{id}', [AdminPaymentMethodController::class, 'destroy']);
 });
