@@ -6,7 +6,6 @@ use App\Models\Product;
 use App\Notifications\OrderPlacedNotification;
 use App\Repositories\Traits\TraitRepository;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\Storage;
 use Stripe;
 
 class OrderRepository
@@ -19,7 +18,8 @@ class OrderRepository
             Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
             $customerEmail = $this->getAuthUser()->email;
-            $token = $data['token'];
+            $token = $data['stripeToken'];
+
             $stripeCustomerId = $this->getStripeCustomerId($customerEmail, $token);
 
             $cartItems = session()->get('cart', []);
@@ -77,35 +77,11 @@ class OrderRepository
             session()->forget('cart', []);
 
             return response()->json(['client_secret' => $paymentIntent->client_secret], 200);
+
         } catch (\Stripe\Exception\CardException $e) {
             return response()->json(['message' => 'Card error. Please check your card details and try again.'], 400);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'An unexpected error occurred. Please try again later.'], 500);
-        }
-    }
-
-    public function generateStripeToken()
-    {
-
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        try {
-            $token = \Stripe\Token::create(array(
-                "card" => array(
-                  "number" => "4242424242424242",
-                  "exp_month" => 1,
-                  "exp_year" => 2017,
-                  "cvc" => "314"
-                )
-            ));
-
-            $tokenId = $token->id;
-
-            return response()->json(['token' => $tokenId], 200);
-        } catch (\Stripe\Exception\CardException $e) {
-            return response()->json(['error' => $e->getError()->message], 400);
-        } catch (\Stripe\Exception\InvalidRequestException $e) {
-            return response()->json(['error' => $e->getError()->message], 500);
+            return response()->json(['message' => 'An unexpected error occurred. Please try again later.'.$e], 500);
         }
     }
 
@@ -128,6 +104,7 @@ class OrderRepository
 
         return $stripeCustomerId;
     }
+
     public function getUserOrders()
     {
         return $this->getAuthUser()->orders()->with('orderItems.product.images', 'paymentMethod', 'deliveryOption')->orderBy('created_at', 'desc')->paginate(10);

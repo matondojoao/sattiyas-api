@@ -153,9 +153,7 @@ Route::middleware(['auth:sanctum'])->get('/orders/my', [OrderController::class, 
 Route::middleware(['auth:sanctum'])->get('/card', [OrderController::class, 'generateStripeToken']);
 
 Route::get('/', function(){
-    $order=\App\Models\Order::where('id','aad90a35-0584-4433-94de-41a2d9940cc6')->first();
-
-    return view('order.invoice', compact('order'));
+    return view('testecheckout');
 });
 // // Rotas para administração (requer autenticação e papel de admin)
 // Route::middleware(['auth:sanctum', 'admin'])->group(function () {

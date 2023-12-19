@@ -28,16 +28,10 @@ class OrderController extends Controller
         }
     }
 
-
     public function getUserOrders()
     {
         $userOrders = $this->OrderRepository->getUserOrders();
 
         return OrderResource::collection($userOrders);
-    }
-
-    public function generateStripeToken()
-    {
-        return $this->OrderRepository->generateStripeToken();
     }
 }
