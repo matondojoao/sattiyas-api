@@ -106,6 +106,6 @@ class ProductRepository
             });
             $product->delete();
         }
-        return response()->json(['message' => 'Product deleted successfully']);
+        return response()->json(['message' => 'Product and associated images deleted successfully']);
     }
 }
