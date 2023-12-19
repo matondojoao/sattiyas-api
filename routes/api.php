@@ -18,11 +18,11 @@ use App\Http\Controllers\Api\V1\Public\CartController as PublicCartController;
 use App\Http\Controllers\Api\V1\Public\CouponController;
 use App\Http\Controllers\Api\V1\Public\DeliveryOptionController;
 use App\Http\Controllers\Api\V1\Public\PaymentMethodController;
-
 use App\Http\Controllers\Api\V1\Admin\CategoryController as AdminCategoryController;
 use \App\Http\Controllers\Api\V1\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Api\V1\Admin\DeliveryOptionController as AdminDeliveryOptionController;
 use App\Http\Controllers\Api\V1\Admin\PaymentMethodController as AdminPaymentMethodController;
+use App\Http\Controllers\Api\V1\Admin\ProductController as AdminProductController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -99,4 +99,8 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function () {
     Route::post('payment-methods', [AdminPaymentMethodController::class, 'store']);
     Route::put('payment-methods/{id}', [AdminPaymentMethodController::class, 'update']);
     Route::delete('payment-methods/{id}', [AdminPaymentMethodController::class, 'destroy']);
+
+    Route::post('products', [AdminProductController::class, 'store']);
+    Route::put('products/{id}', [AdminProductController::class, 'update']);
+    Route::delete('products/{id}', [AdminProductController::class, 'destroy']);
 });
