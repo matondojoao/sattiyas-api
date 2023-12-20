@@ -100,7 +100,7 @@ Construída no Laravel, a Essence Shop API capacita sua plataforma de e-commerce
 4. Execute as migrações: `php artisan migrate`
 5. Inicie o servidor de desenvolvimento: `php artisan serve`
 
-Para documentação detalhada da API, visite <a href="https://documenter.getpostman.com/view/23770036/2s9YeK4AVb" target="_blank">Documentação da API</a>.
+Para documentação detalhada da API, visite <a href="" target="_blank">Documentação da API</a>.
 
 ---
 
