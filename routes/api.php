@@ -7,8 +7,6 @@ use App\Http\Controllers\Api\V1\Customer\CustomerController;
 use App\Http\Controllers\Api\V1\Customer\OrderController;
 use App\Http\Controllers\Api\V1\Customer\ReviewController;
 use App\Http\Controllers\Api\V1\Customer\WishlistController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\Public\ProductController as PublicProductController;
 use App\Http\Controllers\Api\V1\Public\CategoryController as PublicCategoryController;
 use App\Http\Controllers\Api\V1\Public\ColorController as PublicColorController;
@@ -25,6 +23,9 @@ use App\Http\Controllers\Api\V1\Admin\PaymentMethodController as AdminPaymentMet
 use App\Http\Controllers\Api\V1\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Api\V1\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Api\V1\Admin\ProductImageController;
+use App\Http\Controllers\Api\V1\Admin\StockController as AdminStockController;
+
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,4 +116,5 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function () {
     Route::delete('/customers/{id}', [AdminCustomerController::class, 'destroy']);
     Route::get('/customers-report', [AdminCustomerController::class, 'getCustomersReport']);
 
+    Route::get('/stocks', [AdminStockController::class, 'index']);
 });
