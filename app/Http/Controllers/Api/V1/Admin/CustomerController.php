@@ -17,7 +17,7 @@ class CustomerController extends Controller
     {
         $this->orderRepository = $orderRepository;
     }
-    public function index()
+    public function index(Request $request)
     {
         return CustomerResource::collection($this->orderRepository->getAllCustomers());
     }

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Response;
 class CustomerRepository
 {
     private $entity;
-    private $time=5;
+    private $time = 5;
 
     public function __construct(User $model)
     {
@@ -90,8 +90,9 @@ class CustomerRepository
 
     public function getAllCustomers()
     {
-        return Cache::remember('getAllCustomers', $this->time, function(){
-           return $this->entity->paginate();
+        $query = $this->entity->query();
+        return Cache::remember('getAllCustomers', $this->time, function () use ($query) {
+            return $query->paginate();
         });
     }
 
