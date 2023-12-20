@@ -1,64 +1,113 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<h1 align="justify">
+Essence Shop API
+</h1>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<p align="justify">
+Built on Laravel, Essence Shop API empowers your e-commerce platform with essential modules such as Products, Categories, Product Images, and Authentication.
+
+**Authentication:** Essence Shop utilizes Sanctum for secure authentication. For testing in Postman, refer to the [API Documentation](https://laravel.com/docs/9.x/sanctum#main-content) on how to authenticate using Sanctum.
+
+**Payments:** Essence Shop integrates with Stripe for processing payments. Check out the [Stripe PHP GitHub repository](https://github.com/stripe/stripe-php) for more details on payment processing with Stripe.
+
+**Caching:** Essence Shop employs Redis for caching to enhance performance and scalability.
+
+---
+
+### Modules
+
+#### Auth
+- Manages user authentication, including login, registration, and logout.
+
+#### ResetPassword
+- Handles password reset functionality, including sending reset links and resetting passwords.
+
+#### Profile
+- Manages customer profiles.
+
+#### Wishlist
+- Allows users to add and remove items from their wishlist.
+
+#### Order
+- Manages customer orders, including placing orders and retrieving order history.
+
+#### Review
+- Manages product reviews submitted by users.
+
+### Public Access
+
+#### Product
+- Provides public access to product information.
+
+#### Category
+- Offers public access to product categories.
+
+#### Cart
+- Manages the user's shopping cart, including adding and removing items..
+
+#### Coupon
+- Manages the application of coupons by users.
+
+#### Delivery Option
+- Provides information about available delivery options.
+
+#### Payment Method
+- Provides information about available payment methods.
+
+###  Admin Operations
+
+#### Admin Category
+- Admin functionality for creating, updating, and deleting product categories.
+
+#### Admin Order
+- Admin functionality for viewing, updating, and deleting orders.
+- Generates sales reports.
+
+#### Admin Delivery Option
+- Admin functionality for managing delivery options.
+
+#### Admin Payment Method
+- Admin functionality for managing payment methods.
+
+#### Admin Product
+- Admin functionality for managing products, including creation, update, and deletion.
+
+#### Admin Customer
+- Admin functionality for managing customer information.
+- Generates customers reports.
+
+#### Stock
+- Admin functionality for managing product stocks.
+
+#### Admin Coupon
+- Admin functionality for managing coupons.
+
+#### Reports
+- AAccess to various reports, including sales reports and customer reports.
+---
+
+### Technologies Used
+
+- Laravel: A powerful PHP framework for building robust web applications.
+- MySQL: A reliable relational database for data storage.
+- Laravel Sanctum: For API authentication.
+- Redis: In-memory data structure store for caching.
+
+### Getting Started
+
+1. Clone the repository: `git clone https://github.com/yourusername/laraedu-api.git`
+2. Install dependencies: `composer install`
+3. Set up your database and update the `.env` file.
+4. Run migrations: `php artisan migrate`
+5. Start the development server: `php artisan serve`
+
+For detailed API documentation, visit <a href="https://documenter.getpostman.com/view/23770036/2s9YeK4AVb" target="_blank">API Documentation</a>.
+
+
+---
+
+### Contributors
+
+- [Matondo João](https://github.com/matondojoao)
+
+Feel free to contribute and make E-Learning Platform API even better!
 </p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
