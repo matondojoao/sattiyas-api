@@ -39,6 +39,7 @@ use App\Http\Controllers\Api\V1\Admin\ProductImageController;
 
 Route::get('products', [PublicProductController::class, 'index']);
 Route::get('product/{slug}', [PublicProductController::class, 'show']);
+
 Route::get('colors', [PublicColorController::class, 'index']);
 Route::get('categories', [PublicCategoryController::class, 'index']);
 Route::get('sizes', [PublicSizeController::class, 'index']);
