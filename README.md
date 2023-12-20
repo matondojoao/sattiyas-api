@@ -94,7 +94,7 @@ Built on Laravel, Essence Shop API empowers your e-commerce platform with essent
 
 ### Getting Started
 
-1. Clone the repository: `git clone https://github.com/yourusername/laraedu-api.git`
+1. Clone the repository: `https://github.com/matondojoao/essence-shop-api.git`
 2. Install dependencies: `composer install`
 3. Set up your database and update the `.env` file.
 4. Run migrations: `php artisan migrate`
