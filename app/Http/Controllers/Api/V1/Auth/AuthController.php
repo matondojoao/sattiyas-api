@@ -46,12 +46,8 @@ class AuthController extends Controller
         ]);
 
 
-        // $token = $user->createToken($request->device_name)->plainTextToken;
+        $token = $user->createToken($request->device_name)->plainTextToken;
 
-        // return response()->json(['token' => $token]);
-
-        $user->sendEmailVerification($user); // Envia o e-mail de verificação
-
-        return response()->json(['message' => 'User registered successfully. Please check your email for verification.']);
+        return response()->json(['token' => $token]);
     }
 }
