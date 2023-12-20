@@ -10,9 +10,9 @@ class CouponRepository
 
         if ($coupon) {
             if ($coupon->type == "fixed_amount") {
-                session()->put('coupon', ['type' => 'amount', 'value' => $coupon->value]);
+                session()->put('coupon', ['code' => $data['code'],'type' => 'amount', 'value' => $coupon->value]);
             } elseif ($coupon->type == "percentage") {
-                session()->put('coupon', ['type' => 'percentage', 'value' => $coupon->value]);
+                session()->put('coupon', ['code' => $data['code'],'type' => 'percentage', 'value' => $coupon->value]);
             }
 
             return response()->json(['message' => 'Coupon applied successfully']);

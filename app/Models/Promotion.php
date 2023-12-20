@@ -19,6 +19,7 @@ class Promotion extends Model
         'code',
         'type',
         'value',
+        'usage_count'
     ];
 
     /**

@@ -18,7 +18,8 @@ class CouponResource extends JsonResource
             'id' => $this->id,
             'code' => $this->code,
             'type' => $this->type,
-            'value' => $this->value
+            'value' => $this->value,
+            'usage_count' => $this->usage_count
         ];
     }
 }

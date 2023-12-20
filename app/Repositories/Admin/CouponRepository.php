@@ -18,7 +18,7 @@ class CouponRepository
     {
 
         return Cache::remember('getCoupons', 5, function() {
-            return $this->entity->paginate();
+            return $this->entity->orderBy('created_at', 'desc')->paginate();
         });
     }
 

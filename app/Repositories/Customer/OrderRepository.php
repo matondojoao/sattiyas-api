@@ -47,6 +47,12 @@ class OrderRepository
                     $totalDiscount -= ($totalDiscount * ($coupon['value'] / 100));
                 }
 
+                $couponData = \App\Models\Promotion::where('code', $coupon['code'])->first();
+
+                if ($couponData) {
+                    $couponData->increment('usage_count', 1);
+                }
+
                 $order->discount = $totalDiscount;
                 $order->save();
             }
