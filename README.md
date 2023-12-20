@@ -3,9 +3,8 @@ Essence Shop API
 </h1>
 
 <p align="justify">
-Built on Laravel, Essence Shop API empowers your e-commerce platform with essential modules such as Products, Categories, Product Images, and Authentication.
+Built on Laravel, Essence Shop API empowers your e-commerce platform with essential modules such as Products, Orders, Payments, and Authentication.
 
-**Authentication:** Essence Shop utilizes Sanctum for secure authentication. For testing in Postman, refer to the [API Documentation](https://laravel.com/docs/9.x/sanctum#main-content) on how to authenticate using Sanctum.
 
 **Payments:** Essence Shop integrates with Stripe for processing payments. Check out the [Stripe PHP GitHub repository](https://github.com/stripe/stripe-php) for more details on payment processing with Stripe.
 
