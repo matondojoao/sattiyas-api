@@ -19,6 +19,11 @@ class OrderRepository
     public function getSalesReport($data)
     {
         $query = $this->entity->with('orderItems.product')->where(function ($query) use ($data) {
+
+            if (isset($data['date']) && $data['date'] == 'today') {
+                $query->orWhereDate('created_at', now()->toDateString());
+            }
+
             if (isset($data['date']) && $data['date'] == 'year') {
                 $query->orWhereYear('created_at', now()->year);
             }
@@ -92,6 +97,13 @@ class OrderRepository
                 $result[$weekKey]['total_items'] = ($result[$weekKey]['total_items'] ?? 0) + $totalItems;
                 $result[$weekKey]['total_orders']=$totalOrders;
             }
+
+            if (isset($data['date']) && $data['date'] == 'today') {
+                $todayKey = now()->toDateString();
+                $result[$todayKey]['total_gross_sales'] = ($result[$todayKey]['total_gross_sales'] ?? 0) + $totalGrossSales;
+                $result[$todayKey]['total_net_sales'] = ($result[$todayKey]['total_net_sales'] ?? 0) + $totalNetSales;
+                $result[$todayKey]['total_items'] = ($result[$todayKey]['total_items'] ?? 0) + $totalItems;
+                $result[$todayKey]['total_orders']=$totalOrders;            }
 
             if (isset($data['date']) && $data['date'] == 'date_range') {
                 $startDate = Carbon::parse($data['start_date']);
