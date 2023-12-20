@@ -55,6 +55,9 @@ class OrderRepository
 
             foreach ($cartItems as $cartItem) {
                 $product = Product::find($cartItem['product_id']);
+
+                $product->stock()->decrement('quantity', $cartItem['quantity']);
+
                 if ($product) {
                     $cartDetails[] = [
                         'product_id' => $cartItem['product_id'],
