@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\V1\Admin\ProductController as AdminProductControlle
 use App\Http\Controllers\Api\V1\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Api\V1\Admin\ProductImageController;
 use App\Http\Controllers\Api\V1\Admin\StockController as AdminStockController;
+use App\Http\Controllers\Api\V1\Admin\CouponController as AdminCouponController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -109,6 +110,11 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::get('customers', [AdminCustomerController::class, 'index']);
     Route::delete('customers/{id}', [AdminCustomerController::class, 'destroy']);
     Route::get('customers-report', [AdminCustomerController::class, 'getCustomersReport']);
+
+    Route::get('coupons', [AdminCouponController::class, 'index']);
+    Route::post('coupons', [AdminCouponController::class, 'store']);
+    Route::delete('coupons/{id}', [AdminCouponController::class, 'destroy']);
+    Route::put('coupons/{id}', [AdminCouponController::class, 'update']);
 
     Route::get('stocks', [AdminStockController::class, 'index']);
 });
