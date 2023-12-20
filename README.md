@@ -3,110 +3,110 @@ Essence Shop API
 </h1>
 
 <p align="justify">
-Built on Laravel, Essence Shop API empowers your e-commerce platform with essential modules such as Products, Orders, Payments, and Authentication.
+Construída no Laravel, a Essence Shop API capacita sua plataforma de e-commerce com módulos essenciais, como Produtos, Categorias, Imagens de Produtos e Autenticação.
 
+**Autenticação:** A Essence Shop utiliza o Sanctum para autenticação segura. Para testar no Postman, consulte a [Documentação da API](https://laravel.com/docs/9.x/sanctum#main-content) sobre como autenticar usando Sanctum.
 
-**Payments:** Essence Shop integrates with Stripe for processing payments. Check out the [Stripe PHP GitHub repository](https://github.com/stripe/stripe-php) for more details on payment processing with Stripe.
+**Pagamentos:** A Essence Shop integra-se ao Stripe para processar pagamentos. Confira o [repositório GitHub do Stripe PHP](https://github.com/stripe/stripe-php) para mais detalhes sobre o processamento de pagamentos com o Stripe.
 
-**Caching:** Essence Shop employs Redis for caching to enhance performance and scalability.
-
----
-
-### Modules
-
-#### Auth
-- Manages user authentication, including login, registration, and logout.
-
-#### ResetPassword
-- Handles password reset functionality, including sending reset links and resetting passwords.
-
-#### Profile
-- Manages customer profiles.
-
-#### Wishlist
-- Allows users to add and remove items from their wishlist.
-
-#### Order
-- Manages customer orders, including placing orders and retrieving order history.
-
-#### Review
-- Manages product reviews submitted by users.
-
-### Public Access
-
-#### Product
-- Provides public access to product information.
-
-#### Category
-- Offers public access to product categories.
-
-#### Cart
-- Manages the user's shopping cart, including adding and removing items..
-
-#### Coupon
-- Manages the application of coupons by users.
-
-#### Delivery Option
-- Provides information about available delivery options.
-
-#### Payment Method
-- Provides information about available payment methods.
-
-###  Admin Operations
-
-#### Admin Category
-- Admin functionality for creating, updating, and deleting product categories.
-
-#### Admin Order
-- Admin functionality for viewing, updating, and deleting orders.
-- Generates sales reports.
-
-#### Admin Delivery Option
-- Admin functionality for managing delivery options.
-
-#### Admin Payment Method
-- Admin functionality for managing payment methods.
-
-#### Admin Product
-- Admin functionality for managing products, including creation, update, and deletion.
-
-#### Admin Customer
-- Admin functionality for managing customer information.
-- Generates customers reports.
-
-#### Stock
-- Admin functionality for managing product stocks.
-
-#### Admin Coupon
-- Admin functionality for managing coupons.
-
-#### Reports
-- AAccess to various reports, including sales reports and customer reports.
----
-
-### Technologies Used
-
-- Laravel: A powerful PHP framework for building robust web applications.
-- MySQL: A reliable relational database for data storage.
-- Laravel Sanctum: For API authentication.
-- Redis: In-memory data structure store for caching.
-
-### Getting Started
-
-1. Clone the repository: `https://github.com/matondojoao/essence-shop-api.git`
-2. Install dependencies: `composer install`
-3. Set up your database and update the `.env` file.
-4. Run migrations: `php artisan migrate`
-5. Start the development server: `php artisan serve`
-
-For detailed API documentation, visit <a href="https://documenter.getpostman.com/view/23770036/2s9YeK4AVb" target="_blank">API Documentation</a>.
-
+**Caching:** A Essence Shop utiliza o Redis para caching para melhorar o desempenho e a escalabilidade.
 
 ---
 
-### Contributors
+### Módulos
+
+#### Autenticação (Auth)
+- Gerencia a autenticação do usuário, incluindo login, registro e logout.
+
+#### Redefinição de Senha (ResetPassword)
+- Manipula a funcionalidade de redefinição de senha, incluindo o envio de links de redefinição e a redefinição de senhas.
+
+#### Perfil (Profile)
+- Gerencia os perfis dos clientes.
+
+#### Lista de Desejos (Wishlist)
+- Permite que os usuários adicionem e removam itens de sua lista de desejos.
+
+#### Pedido (Order)
+- Gerencia os pedidos dos clientes, incluindo a realização de pedidos e a recuperação do histórico de pedidos.
+
+#### Avaliação (Review)
+- Gerencia as avaliações de produtos enviadas pelos usuários.
+
+### Acesso Público
+
+#### Produto (Product)
+- Fornece acesso público às informações do produto.
+
+#### Categoria (Category)
+- Oferece acesso público às categorias de produtos.
+
+#### Carrinho (Cart)
+- Gerencia o carrinho de compras do usuário, incluindo a adição e remoção de itens.
+
+#### Cupom (Coupon)
+- Gerencia a aplicação de cupons pelos usuários.
+
+#### Opção de Entrega (Delivery Option)
+- Fornece informações sobre opções de entrega disponíveis.
+
+#### Método de Pagamento (Payment Method)
+- Fornece informações sobre métodos de pagamento disponíveis.
+
+### Operações de Administração
+
+#### Categoria de Administração (Admin Category)
+- Funcionalidade de administração para criar, atualizar e excluir categorias de produtos.
+
+#### Pedido de Administração (Admin Order)
+- Funcionalidade de administração para visualizar, atualizar e excluir pedidos.
+- Gera relatórios de vendas.
+
+#### Opção de Entrega de Administração (Admin Delivery Option)
+- Funcionalidade de administração para gerenciar opções de entrega.
+
+#### Método de Pagamento de Administração (Admin Payment Method)
+- Funcionalidade de administração para gerenciar métodos de pagamento.
+
+#### Produto de Administração (Admin Product)
+- Funcionalidade de administração para gerenciar produtos, incluindo criação, atualização e exclusão.
+
+#### Cliente de Administração (Admin Customer)
+- Funcionalidade de administração para gerenciar informações do cliente.
+- Gera relatórios de clientes.
+
+#### Estoque (Stock)
+- Funcionalidade de administração para gerenciar estoques de produtos.
+
+#### Cupom de Administração (Admin Coupon)
+- Funcionalidade de administração para gerenciar cupons.
+
+#### Relatórios (Reports)
+- Acesso a vários relatórios, incluindo relatórios de vendas e relatórios de clientes.
+---
+
+### Tecnologias Utilizadas
+
+- Laravel: Um poderoso framework PHP para construir aplicações web robustas.
+- MySQL: Um banco de dados relacional confiável para armazenamento de dados.
+- Laravel Sanctum: Para autenticação de API.
+- Redis: Armazenamento de estrutura de dados em memória para caching.
+
+### Começando
+
+1. Clone o repositório: `https://github.com/matondojoao/essence-shop-api.git`
+2. Instale as dependências: `composer install`
+3. Configure seu banco de dados e atualize o arquivo `.env`.
+4. Execute as migrações: `php artisan migrate`
+5. Inicie o servidor de desenvolvimento: `php artisan serve`
+
+Para documentação detalhada da API, visite <a href="https://documenter.getpostman.com/view/23770036/2s9YeK4AVb" target="_blank">Documentação da API</a>.
+
+---
+
+### Contribuidores
 
 - [Matondo João](https://github.com/matondojoao)
 
-Feel free to contribute and make E-Learning Platform API even better!
+Sinta-se à vontade para contribuir e tornar a API da Essence Shop ainda melhor!
 </p>
