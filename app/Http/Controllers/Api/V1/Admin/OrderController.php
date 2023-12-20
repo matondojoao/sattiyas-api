@@ -17,6 +17,11 @@ class OrderController extends Controller
         $this->orderRepository = $orderRepository;
     }
 
+    public function index()
+    {
+        return OrderResource::collection($this->orderRepository->all());
+    }
+
     public function getSalesReport(Request $request)
     {
         $data=$request->only('date','start_date','end_date');

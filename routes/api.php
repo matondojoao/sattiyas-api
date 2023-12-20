@@ -88,6 +88,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::put('categories/{id}', [AdminCategoryController::class, 'update']);
     Route::delete('categories/{id}', [AdminCategoryController::class, 'destroy']);
 
+    Route::get('orders', [AdminOrderController::class, 'index']);
     Route::get('orders/{id}', [AdminOrderController::class, 'show']);
     Route::put('orders/{id}', [AdminOrderController::class, 'update']);
     Route::delete('orders/{id}', [AdminOrderController::class, 'destroy']);

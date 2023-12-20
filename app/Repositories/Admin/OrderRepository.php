@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Notifications\OrderStatusChangedNotification;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class OrderRepository
 {
@@ -78,8 +79,7 @@ class OrderRepository
                 $result[$yearKey]['total_gross_sales'] = ($result[$yearKey]['total_gross_sales'] ?? 0) + $totalGrossSales;
                 $result[$yearKey]['total_net_sales'] = ($result[$yearKey]['total_net_sales'] ?? 0) + $totalNetSales;
                 $result[$yearKey]['total_items'] = ($result[$yearKey]['total_items'] ?? 0) + $totalItems;
-                $result[$yearKey]['total_orders']=$totalOrders;
-
+                $result[$yearKey]['total_orders'] = $totalOrders;
             }
 
             if (isset($data['date']) && in_array($data['date'], ['this_month', 'last_month'])) {
@@ -87,7 +87,7 @@ class OrderRepository
                 $result[$monthKey]['total_gross_sales'] = ($result[$monthKey]['total_gross_sales'] ?? 0) + $totalGrossSales;
                 $result[$monthKey]['total_net_sales'] = ($result[$monthKey]['total_net_sales'] ?? 0) + $totalNetSales;
                 $result[$monthKey]['total_items'] = ($result[$monthKey]['total_items'] ?? 0) + $totalItems;
-                $result[$monthKey]['total_orders']=$totalOrders;
+                $result[$monthKey]['total_orders'] = $totalOrders;
             }
 
             if (isset($data['date']) && $data['date'] == 'last_seven_days') {
@@ -95,7 +95,7 @@ class OrderRepository
                 $result[$weekKey]['total_gross_sales'] = ($result[$weekKey]['total_gross_sales'] ?? 0) + $totalGrossSales;
                 $result[$weekKey]['total_net_sales'] = ($result[$weekKey]['total_net_sales'] ?? 0) + $totalNetSales;
                 $result[$weekKey]['total_items'] = ($result[$weekKey]['total_items'] ?? 0) + $totalItems;
-                $result[$weekKey]['total_orders']=$totalOrders;
+                $result[$weekKey]['total_orders'] = $totalOrders;
             }
 
             if (isset($data['date']) && $data['date'] == 'today') {
@@ -103,7 +103,8 @@ class OrderRepository
                 $result[$todayKey]['total_gross_sales'] = ($result[$todayKey]['total_gross_sales'] ?? 0) + $totalGrossSales;
                 $result[$todayKey]['total_net_sales'] = ($result[$todayKey]['total_net_sales'] ?? 0) + $totalNetSales;
                 $result[$todayKey]['total_items'] = ($result[$todayKey]['total_items'] ?? 0) + $totalItems;
-                $result[$todayKey]['total_orders']=$totalOrders;            }
+                $result[$todayKey]['total_orders'] = $totalOrders;
+            }
 
             if (isset($data['date']) && $data['date'] == 'date_range') {
                 $startDate = Carbon::parse($data['start_date']);
@@ -114,7 +115,7 @@ class OrderRepository
                     $result[$dateKey]['total_gross_sales'] = ($result[$dateKey]['total_gross_sales'] ?? 0) + $totalGrossSales;
                     $result[$dateKey]['total_net_sales'] = ($result[$dateKey]['total_net_sales'] ?? 0) + $totalNetSales;
                     $result[$dateKey]['total_items'] = ($result[$dateKey]['total_items'] ?? 0) + $totalItems;
-                    $result[$dateKey]['total_orders']=$totalOrders;
+                    $result[$dateKey]['total_orders'] = $totalOrders;
                     $startDate->addDay();
                 }
             }
@@ -161,7 +162,9 @@ class OrderRepository
 
     public function all()
     {
-        return $this->entity->orderBy()->get();
+        return Cache::remember('getAllOrders', 5, function () {
+            return $this->entity->with('orderItems.product.images', 'paymentMethod', 'deliveryOption')->orderBy('created_at', 'desc')->paginate(10);
+        });
     }
 
     public function find(string $id)
