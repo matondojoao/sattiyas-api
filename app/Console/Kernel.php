@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('queue:work database --timeout=1800 --max-time=600 --max-jobs=5 --queue=high,default,low --stop-when-empty')->everyMinute();
     }
 
     /**
