@@ -23,6 +23,19 @@ class CartRepository
         session()->put('cart', $products);
     }
 
+    public function getQuantityInCart($productId)
+    {
+        $cart = session()->get('cart', []);
+
+        foreach ($cart as $item) {
+            if ($item['product_id'] == $productId) {
+                return $item['quantity'];
+            }
+        }
+
+        return 0;
+    }
+
     public function removeFromCart($productId)
     {
         $products = $this->getCart();

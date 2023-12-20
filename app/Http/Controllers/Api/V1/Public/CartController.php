@@ -51,10 +51,18 @@ class CartController extends Controller
             return response()->json(['error' => 'Product not found or invalid quantity'], 404);
         }
 
+        $productQuantity = $product->stock->quantity;
+        $cartQuantity = $this->cartRepository->getQuantityInCart($request->product);
+
+        if (($request->quantity + $cartQuantity) > $productQuantity) {
+            return response()->json(['error' => 'Requested quantity exceeds available stock'], 400);
+        }
+
         $this->cartRepository->addToCart($product->id, $request->quantity);
 
         return response()->json(['message' => 'Product added to cart successfully']);
     }
+
 
     public function remove($productId)
     {
