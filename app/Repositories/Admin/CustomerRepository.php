@@ -4,11 +4,13 @@ namespace App\Repositories\Admin;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Response;
 
 class CustomerRepository
 {
     private $entity;
+    private $time=5;
 
     public function __construct(User $model)
     {
@@ -84,6 +86,13 @@ class CustomerRepository
         return Response::json([
             'customersResult' => $result,
         ]);
+    }
+
+    public function getAllCustomers()
+    {
+        return Cache::remember('getAllCustomers', $this->time, function(){
+           return $this->entity->paginate();
+        });
     }
 
     public function delete($id)

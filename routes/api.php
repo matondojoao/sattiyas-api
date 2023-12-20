@@ -111,6 +111,7 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function () {
 
     Route::delete('image/{id}', [ProductImageController::class, 'destroy']);
 
+    Route::get('/customers', [AdminCustomerController::class, 'index']);
     Route::get('/customers-report', [AdminCustomerController::class, 'getCustomersReport']);
 
 });
