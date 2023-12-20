@@ -38,6 +38,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::prefix('auth')->group(function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']);
+    Route::middleware('auth:sanctum')->post('logout', [AuthController::class, 'logout']);
+});
+
+Route::post('forgot-password', [ResetPasswordController::class, 'sendResetLink'])->middleware('guest');
+Route::post('reset-password', [ResetPasswordController::class, 'resetPassword'])->middleware('guest');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('customer/profile', [CustomerController::class, 'profile']);
+
+    Route::post('wishlist/add', [WishlistController::class, 'addToWishlist']);
+    Route::delete('wishlist/remove/{product}', [WishlistController::class, 'removeFromWishlist']);
+    Route::get('wishlist', [WishlistController::class, 'getWishlist']);
+
+    Route::post('billing/addresses', [AddressController::class, 'createOrUpdatebillingAddress']);
+    Route::post('billing/shipping', [AddressController::class, 'createOrUpdateShippingAddress']);
+
+    Route::post('orders/place', [OrderController::class, 'placeOrder']);
+    Route::get('orders/my', [OrderController::class, 'getUserOrders']);
+    Route::get('orders/my/{id}', [OrderController::class, 'show']);
+    Route::get('card', [OrderController::class, 'generateStripeToken']);
+
+    Route::get('products/reviews', [ReviewController::class, 'review']);
+});
 
 Route::get('products', [PublicProductController::class, 'index']);
 Route::get('product/{slug}', [PublicProductController::class, 'show']);
@@ -46,57 +72,25 @@ Route::get('colors', [PublicColorController::class, 'index']);
 Route::get('categories', [PublicCategoryController::class, 'index']);
 Route::get('sizes', [PublicSizeController::class, 'index']);
 Route::get('brands', [PublicBrandController::class, 'index']);
-Route::get('/cart', [PublicCartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add', [PublicCartController::class, 'add'])->name('cart.add');
-Route::delete('/cart/remove/{productId}', [PublicCartController::class, 'remove'])->name('cart.remove');
+Route::get('cart', [PublicCartController::class, 'index']);
+Route::post('cart/add', [PublicCartController::class, 'add']);
+Route::delete('cart/remove/{productId}', [PublicCartController::class, 'remove']);
 
-Route::group(['prefix' => 'auth'], function () {
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
-});
+Route::get('delivery-options', [DeliveryOptionController::class, 'index']);
+Route::get('payment-methods', [PaymentMethodController::class, 'index']);
 
-Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLink'])->middleware('guest');
-Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->middleware('guest');
+Route::post('apply-coupon', [CouponController::class, 'applyCoupon']);
 
-Route::middleware('auth:sanctum')->group(function () {
-   Route::get('customer/profile', [CustomerController::class, 'profile']);
-});
-
-Route::post('/products/reviews', [ReviewController::class, 'review'])->middleware(['auth:sanctum']);
-
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/wishlist/add', [WishlistController::class, 'addToWishlist']);
-    Route::delete('/wishlist/remove/{product}', [WishlistController::class, 'removeFromWishlist']);
-    Route::get('/wishlist', [WishlistController::class, 'getWishlist']);
-});
-
-
-Route::middleware(['auth:sanctum'])->post('billing/addresses', [AddressController::class, 'createOrUpdatebillingAddress']);
-Route::middleware(['auth:sanctum'])->post('billing/shipping', [AddressController::class, 'createOrUpdateShippingAddress']);
-
-Route::middleware(['auth:sanctum'])->post('/orders/place', [OrderController::class, 'placeOrder']);
-Route::middleware(['auth:sanctum'])->get('/orders/my', [OrderController::class, 'getUserOrders']);
-Route::middleware(['auth:sanctum'])->get('orders/my/{id}', [OrderController::class, 'show']);
-Route::middleware(['auth:sanctum'])->get('/card', [OrderController::class, 'generateStripeToken']);
-
-
-Route::get('/delivery-options', [DeliveryOptionController::class, 'index']);
-Route::get('/payment-methods', [PaymentMethodController::class, 'index']);
-
-Route::post('/apply-coupon', [CouponController::class, 'applyCoupon']);
-
-
-Route::group(['middleware' => ['auth:sanctum','admin']], function () {
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     Route::post('categories', [AdminCategoryController::class, 'store']);
     Route::put('categories/{id}', [AdminCategoryController::class, 'update']);
     Route::delete('categories/{id}', [AdminCategoryController::class, 'destroy']);
 
-    Route::get('/orders/{id}', [AdminOrderController::class, 'show']);
+    Route::get('orders/{id}', [AdminOrderController::class, 'show']);
     Route::put('orders/{id}', [AdminOrderController::class, 'update']);
     Route::delete('orders/{id}', [AdminOrderController::class, 'destroy']);
-    Route::get('/orders-report', [AdminOrderController::class, 'getSalesReport']);
+    Route::get('orders-report', [AdminOrderController::class, 'getSalesReport']);
 
     Route::post('delivery-options', [AdminDeliveryOptionController::class, 'store']);
     Route::put('delivery-options/{id}', [AdminDeliveryOptionController::class, 'update']);
@@ -112,9 +106,9 @@ Route::group(['middleware' => ['auth:sanctum','admin']], function () {
 
     Route::delete('image/{id}', [ProductImageController::class, 'destroy']);
 
-    Route::get('/customers', [AdminCustomerController::class, 'index']);
-    Route::delete('/customers/{id}', [AdminCustomerController::class, 'destroy']);
-    Route::get('/customers-report', [AdminCustomerController::class, 'getCustomersReport']);
+    Route::get('customers', [AdminCustomerController::class, 'index']);
+    Route::delete('customers/{id}', [AdminCustomerController::class, 'destroy']);
+    Route::get('customers-report', [AdminCustomerController::class, 'getCustomersReport']);
 
-    Route::get('/stocks', [AdminStockController::class, 'index']);
+    Route::get('stocks', [AdminStockController::class, 'index']);
 });
