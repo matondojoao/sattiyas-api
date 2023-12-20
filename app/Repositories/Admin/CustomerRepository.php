@@ -85,4 +85,12 @@ class CustomerRepository
             'customersResult' => $result,
         ]);
     }
+
+    public function delete($id)
+    {
+        $customer = $this->entity->findOrFail($id);
+        $customer->delete();
+
+        return response()->json(['message' => 'Customer deleted successfully']);
+    }
 }
