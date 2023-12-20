@@ -8,7 +8,7 @@ use App\Http\Resources\OrderResource;
 use App\Repositories\Admin\CustomerRepository;
 use Illuminate\Http\Request;
 
-class OrderController extends Controller
+class CustomerController extends Controller
 {
     protected $orderRepository;
 
@@ -17,7 +17,7 @@ class OrderController extends Controller
         $this->orderRepository = $orderRepository;
     }
 
-    public function getSalesReport(Request $request)
+    public function getCustomersReport(Request $request)
     {
         $data=$request->only('date','start_date','end_date');
         return $this->orderRepository->getCustomersReport($data);

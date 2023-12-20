@@ -17,7 +17,7 @@ class CustomerRepository
 
     public function getCustomersReport($data)
     {
-        $query = $this->entity->with('orderItems.product')->where(function ($query) use ($data) {
+        $query = $this->entity->where(function ($query) use ($data) {
             if (isset($data['date']) && $data['date'] == 'year') {
                 $query->orWhereYear('created_at', now()->year);
             }
