@@ -105,7 +105,7 @@ class OrderRepository
 
             $pdf = PDF::loadView('order.invoice', ['order' => $order]);
 
-            $pdfPath = storage_path('app/public/order_' . $order->id . '.pdf');
+            $pdfPath = storage_path('app/public/orders/order_' . $order->id . '.pdf');
             $pdf->save($pdfPath);
 
             $order->user->notify(new OrderPlacedNotification($pdfPath, $order));
