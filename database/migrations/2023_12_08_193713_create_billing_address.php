@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('neighborhood');
             $table->string('complement')->nullable();
             $table->string('zip_code');
-            $table->uuid('city_id');
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
