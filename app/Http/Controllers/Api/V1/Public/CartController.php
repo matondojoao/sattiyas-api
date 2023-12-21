@@ -35,7 +35,7 @@ class CartController extends Controller
                     'quantity' => $cartItem['quantity'],
                     'price' => $product->sale_price ? $product->sale_price : $product->regular_price,
                     'total' => $total,
-                    'first_image' => $firstImage ? $firstImage->image_path : null,
+                    'first_image' => $firstImage ? url('storage/' .$firstImage->image_path) : null,
                 ];
             }
         }
