@@ -23,9 +23,10 @@ class CustomerRepository
     {
         $user = $this->getAuthUser();
 
-        if(isset($data['photo'])){
-           $path = $data['photo']->store('avatar', 'public');
-           $data['photo_path'] = $path;
+        if (isset($data['photo'])) {
+            $image = $data['photo'];
+            $path =  $image->store('avatar', 'public');
+            $data['photo_path'] = $path;
         }
 
         $user->update($data);

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\V1\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateUserProfileRequest;
 use App\Http\Resources\UserResource;
 use App\Repositories\Customer\CustomerRepository;
-use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
@@ -21,8 +21,8 @@ class CustomerController extends Controller
         return new UserResource($this->CustomerRepository->getCustomerInfo());
     }
 
-    public function update(Request $request)
+    public function update(UpdateUserProfileRequest $request)
     {
-        return new UserResource($this->CustomerRepository->update($request->all()));
+        return new UserResource($this->CustomerRepository->update($request->validated()));
     }
 }
