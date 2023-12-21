@@ -29,7 +29,6 @@ class AddressRequest extends FormRequest
             'neighborhood' => 'required|string',
             'complement' => 'nullable|string',
             'zip_code' => 'required|string',
-            'city_id' => 'required|uuid|exists:cities,id',
         ];
     }
 }
