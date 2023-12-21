@@ -9,15 +9,20 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    private $repository;
+    private $CustomerRepository;
 
     public function __construct(CustomerRepository $CustomerRepository)
     {
-        $this->repository = $CustomerRepository;
+        $this->CustomerRepository = $CustomerRepository;
     }
 
     public function profile()
     {
-        return new UserResource($this->repository->getCustomerInfo());
+        return new UserResource($this->CustomerRepository->getCustomerInfo());
+    }
+
+    public function update(Request $request)
+    {
+        return new UserResource($this->CustomerRepository->update($request->all()));
     }
 }

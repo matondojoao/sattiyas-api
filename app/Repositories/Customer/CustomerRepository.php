@@ -18,4 +18,13 @@ class CustomerRepository
 
         return $user;
     }
+
+    public function update(array $data)
+    {
+        $user = $this->getAuthUser();
+
+        $user->update($data);
+
+        return $user;
+    }
 }

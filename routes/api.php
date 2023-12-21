@@ -55,6 +55,7 @@ Route::post('reset-password', [ResetPasswordController::class, 'resetPassword'])
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('customer/profile', [CustomerController::class, 'profile']);
+    Route::get('customer/profile/update', [CustomerController::class, 'update']);
 
     Route::post('wishlist/add', [WishlistController::class, 'addToWishlist']);
     Route::delete('wishlist/remove/{product}', [WishlistController::class, 'removeFromWishlist']);
