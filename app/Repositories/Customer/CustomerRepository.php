@@ -3,6 +3,7 @@
 namespace App\Repositories\Customer;
 
 use App\Repositories\Traits\TraitRepository;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerRepository
 {
@@ -24,6 +25,7 @@ class CustomerRepository
         $user = $this->getAuthUser();
 
         if (isset($data['photo'])) {
+            Storage::disk('public')->delete($user->photo_path);
             $image = $data['photo'];
             $path =  $image->store('avatar', 'public');
             $data['photo_path'] = $path;
