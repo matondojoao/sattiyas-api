@@ -65,10 +65,18 @@ class OrderRepository
                 $product->stock()->decrement('quantity', $cartItem['quantity']);
 
                 if ($product) {
+
+                    $price = 0;
+                    if ($product->sale_price) {
+                        $price = $product->sale_price * $cartItem['quantity'];
+                    } else {
+                        $price = $product->regular_price * $cartItem['quantity'];
+                    }
+
                     $cartDetails[] = [
                         'product_id' => $cartItem['product_id'],
                         'quantity' => $cartItem['quantity'],
-                        'price' => $product->sale_price ? $product->sale_price : $product->regular_price,
+                        'price' => $price,
                     ];
                     $itemDescriptions[] = "{$product->name} ({$cartItem['quantity']}x)";
                 }
