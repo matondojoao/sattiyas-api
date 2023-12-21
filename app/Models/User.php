@@ -27,7 +27,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'stripe_customer_id'
+        'stripe_customer_id',
+        'phone',
+        'alternative_phone',
+        'gender',
+        'photo_path'
     ];
 
     /**
