@@ -23,18 +23,6 @@ class DatabaseSeeder extends Seeder
             ColorSeeder::class
         ]);
 
-        $countries= \App\Models\Country::factory(1)->create();
-
-        foreach($countries as $country){
-            $country->states()->saveMany(\App\Models\State::factory()->count(2)->make());
-        }
-
-        $states = \App\Models\State::all();
-
-        foreach ($states as $state) {
-            $state->cities()->saveMany(\App\Models\City::factory()->count(5)->make());
-        }
-
         \App\Models\User::factory(10)->create();
 
         \App\Models\BillingAddress::factory()->count(5)->create();

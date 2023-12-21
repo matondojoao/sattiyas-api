@@ -24,7 +24,6 @@ class ShippingAddress extends Model
         'city',
         'state',
         'zip_code',
-        'city_id'
     ];
 
     /**
@@ -35,15 +34,5 @@ class ShippingAddress extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Get the city that owns the BillingAddress
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function city()
-    {
-        return $this->belongsTo(City::class);
     }
 }

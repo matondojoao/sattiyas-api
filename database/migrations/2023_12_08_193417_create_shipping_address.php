@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('zip_code');
             $table->uuid('city_id');
             $table->uuid('user_id');
-            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

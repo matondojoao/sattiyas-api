@@ -23,9 +23,8 @@ class BillingAddress extends Model
         'complement',
         'city',
         'state',
-        'zip_code',
-        'city_id'
-    ];
+        'zip_code'
+        ];
 
     /**«
      * Get the user that owns the Wishlist
@@ -35,15 +34,5 @@ class BillingAddress extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Get the city that owns the BillingAddress
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function city()
-    {
-        return $this->belongsTo(City::class);
     }
 }
