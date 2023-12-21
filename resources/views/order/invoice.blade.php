@@ -99,28 +99,39 @@
     <div class="row mb-4">
         <div class="col-sm-6">
             <h4 class="mb-3">Endereço de Cobrança:</h4>
-            <div style="margin-bottom: 1px"><strong>$order->user->name</strong></div>
-            @if ($order->user->billingAddress)
-                <div>{{ $order->user->billingAddress->address }}</div>
-                <div>{{ $order->user->billingAddress->city->name }},
-                    {{ $order->user->billingAddress->city->state->name }}
-                    {{ $order->user->billingAddress->zip_code }}</div>
-            @endif
+            <div style="margin-bottom: 1px"><strong>{{ $order->user->name }}</strong></div>
             <div>Email: {{ $order->user->email }}</div>
             <div>Telefone: {{ $order->user->phone }}</div>
+
+            @if ($order->user->billingAddress)
+                <div>
+                    <strong>Endereço de Envio:</strong><br>
+                    {{ $order->user->billingAddress->address }}, {{ $order->user->billingAddress->number }}<br>
+                    <strong>Bairro:</strong> {{ $order->user->billingAddress->neighborhood }}<br>
+                    @if ($order->user->billingAddress->complement)
+                        <strong>Complemento:</strong> {{ $order->user->billingAddress->complement }}<br>
+                    @endif
+                    <strong>Código Postal:</strong> {{ $order->user->billingAddress->zip_code }}<br>
+                </div>
+            @endif
         </div>
         <div class="col-sm-6 ">
             <h4 class="mb-3">Endereço de Entrega:</h4>
             <div style="margin-bottom: 1px"><strong>$order->user->name</strong></div>
-            @if ($order->user->shippingAddress)
-                <div>{{ $order->user->shippingAddress->address }}</div>
-                <div>{{ $order->user->shippingAddress->city->name }},
-                    {{ $order->user->shippingAddress->city->state->name }}
-                    {{ $order->user->shippingAddress->zip_code }}</div>
-            @endif
-
             <div>Email: {{ $order->user->email }}</div>
             <div>Telefone: {{ $order->user->phone }}</div>
+
+            @if ($order->user->shippingAddress)
+                <div>
+                    <strong>Endereço de Envio:</strong><br>
+                    {{ $order->user->shippingAddress->address }}, {{ $order->user->shippingAddress->number }}<br>
+                    <strong>Bairro:</strong> {{ $order->user->shippingAddress->neighborhood }}<br>
+                    @if ($order->user->shippingAddress->complement)
+                        <strong>Complemento:</strong> {{ $order->user->shippingAddress->complement }}<br>
+                    @endif
+                    <strong>Código Postal:</strong> {{ $order->user->shippingAddress->zip_code }}<br>
+                </div>
+            @endif
         </div>
     </div>
 
