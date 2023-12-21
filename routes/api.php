@@ -44,88 +44,91 @@ Route::get('/', function () {
     return response()->json(['success' => true]);
 });
 
-Route::prefix('auth')->group(function () {
-    Route::post('login', [AuthController::class, 'login']);
-    Route::post('register', [AuthController::class, 'register']);
-    Route::middleware('auth:sanctum')->post('logout', [AuthController::class, 'logout']);
-});
+Route::prefix('v1')->group(function () {
 
-Route::post('forgot-password', [ResetPasswordController::class, 'sendResetLink'])->middleware('guest');
-Route::post('reset-password', [ResetPasswordController::class, 'resetPassword'])->middleware('guest');
+    Route::prefix('auth')->group(function () {
+        Route::post('login', [AuthController::class, 'login']);
+        Route::post('register', [AuthController::class, 'register']);
+        Route::middleware('auth:sanctum')->post('logout', [AuthController::class, 'logout']);
+    });
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('customer/profile', [CustomerController::class, 'profile']);
-    Route::get('customer/profile/update', [CustomerController::class, 'update']);
+    Route::post('forgot-password', [ResetPasswordController::class, 'sendResetLink'])->middleware('guest');
+    Route::post('reset-password', [ResetPasswordController::class, 'resetPassword'])->middleware('guest');
 
-    Route::post('wishlist/add', [WishlistController::class, 'addToWishlist']);
-    Route::delete('wishlist/remove/{product}', [WishlistController::class, 'removeFromWishlist']);
-    Route::get('wishlist', [WishlistController::class, 'getWishlist']);
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('customer/profile', [CustomerController::class, 'profile']);
+        Route::get('customer/profile/update', [CustomerController::class, 'update']);
 
-    Route::post('billing/addresses', [AddressController::class, 'createOrUpdatebillingAddress']);
-    Route::post('billing/shipping', [AddressController::class, 'createOrUpdateShippingAddress']);
+        Route::post('wishlist/add', [WishlistController::class, 'addToWishlist']);
+        Route::delete('wishlist/remove/{product}', [WishlistController::class, 'removeFromWishlist']);
+        Route::get('wishlist', [WishlistController::class, 'getWishlist']);
 
-    Route::post('orders/place', [OrderController::class, 'placeOrder']);
-    Route::get('orders/my', [OrderController::class, 'getUserOrders']);
-    Route::get('orders/my/{id}', [OrderController::class, 'show']);
-    Route::get('card', [OrderController::class, 'generateStripeToken']);
+        Route::post('billing/addresses', [AddressController::class, 'createOrUpdatebillingAddress']);
+        Route::post('billing/shipping', [AddressController::class, 'createOrUpdateShippingAddress']);
 
-    Route::get('products/reviews', [ReviewController::class, 'review']);
-});
+        Route::post('orders/place', [OrderController::class, 'placeOrder']);
+        Route::get('orders/my', [OrderController::class, 'getUserOrders']);
+        Route::get('orders/my/{id}', [OrderController::class, 'show']);
+        Route::get('card', [OrderController::class, 'generateStripeToken']);
 
-Route::get('products', [PublicProductController::class, 'index']);
-Route::get('product/{slug}', [PublicProductController::class, 'show']);
+        Route::get('products/reviews', [ReviewController::class, 'review']);
+    });
 
-Route::get('colors', [PublicColorController::class, 'index']);
-Route::get('categories', [PublicCategoryController::class, 'index']);
-Route::get('sizes', [PublicSizeController::class, 'index']);
-Route::get('brands', [PublicBrandController::class, 'index']);
-Route::get('cart', [PublicCartController::class, 'index']);
-Route::post('cart/add', [PublicCartController::class, 'add']);
-Route::delete('cart/remove/{productId}', [PublicCartController::class, 'remove']);
+    Route::get('products', [PublicProductController::class, 'index']);
+    Route::get('product/{slug}', [PublicProductController::class, 'show']);
 
-Route::get('delivery-options', [DeliveryOptionController::class, 'index']);
-Route::get('payment-methods', [PaymentMethodController::class, 'index']);
+    Route::get('colors', [PublicColorController::class, 'index']);
+    Route::get('categories', [PublicCategoryController::class, 'index']);
+    Route::get('sizes', [PublicSizeController::class, 'index']);
+    Route::get('brands', [PublicBrandController::class, 'index']);
+    Route::get('cart', [PublicCartController::class, 'index']);
+    Route::post('cart/add', [PublicCartController::class, 'add']);
+    Route::delete('cart/remove/{productId}', [PublicCartController::class, 'remove']);
 
-Route::post('apply-coupon', [CouponController::class, 'applyCoupon']);
+    Route::get('delivery-options', [DeliveryOptionController::class, 'index']);
+    Route::get('payment-methods', [PaymentMethodController::class, 'index']);
 
-Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::post('apply-coupon', [CouponController::class, 'applyCoupon']);
 
-    Route::post('categories', [AdminCategoryController::class, 'store']);
-    Route::put('categories/{id}', [AdminCategoryController::class, 'update']);
-    Route::delete('categories/{id}', [AdminCategoryController::class, 'destroy']);
+    Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
-    Route::get('orders', [AdminOrderController::class, 'index']);
-    Route::get('orders/{id}', [AdminOrderController::class, 'show']);
-    Route::put('orders/{id}', [AdminOrderController::class, 'update']);
-    Route::delete('orders/{id}', [AdminOrderController::class, 'destroy']);
-    Route::get('orders-report', [AdminOrderController::class, 'getSalesReport']);
+        Route::post('categories', [AdminCategoryController::class, 'store']);
+        Route::put('categories/{id}', [AdminCategoryController::class, 'update']);
+        Route::delete('categories/{id}', [AdminCategoryController::class, 'destroy']);
 
-    Route::post('delivery-options', [AdminDeliveryOptionController::class, 'store']);
-    Route::put('delivery-options/{id}', [AdminDeliveryOptionController::class, 'update']);
-    Route::delete('delivery-options/{id}', [AdminDeliveryOptionController::class, 'destroy']);
+        Route::get('orders', [AdminOrderController::class, 'index']);
+        Route::get('orders/{id}', [AdminOrderController::class, 'show']);
+        Route::put('orders/{id}', [AdminOrderController::class, 'update']);
+        Route::delete('orders/{id}', [AdminOrderController::class, 'destroy']);
+        Route::get('orders-report', [AdminOrderController::class, 'getSalesReport']);
 
-    Route::post('payment-methods', [AdminPaymentMethodController::class, 'store']);
-    Route::put('payment-methods/{id}', [AdminPaymentMethodController::class, 'update']);
-    Route::delete('payment-methods/{id}', [AdminPaymentMethodController::class, 'destroy']);
+        Route::post('delivery-options', [AdminDeliveryOptionController::class, 'store']);
+        Route::put('delivery-options/{id}', [AdminDeliveryOptionController::class, 'update']);
+        Route::delete('delivery-options/{id}', [AdminDeliveryOptionController::class, 'destroy']);
 
-    Route::post('products', [AdminProductController::class, 'store']);
-    Route::post('products/{id}', [AdminProductController::class, 'update']);
-    Route::delete('products/{id}', [AdminProductController::class, 'destroy']);
+        Route::post('payment-methods', [AdminPaymentMethodController::class, 'store']);
+        Route::put('payment-methods/{id}', [AdminPaymentMethodController::class, 'update']);
+        Route::delete('payment-methods/{id}', [AdminPaymentMethodController::class, 'destroy']);
 
-    Route::delete('image/{id}', [ProductImageController::class, 'destroy']);
+        Route::post('products', [AdminProductController::class, 'store']);
+        Route::post('products/{id}', [AdminProductController::class, 'update']);
+        Route::delete('products/{id}', [AdminProductController::class, 'destroy']);
 
-    Route::get('customers', [AdminCustomerController::class, 'index']);
-    Route::delete('customers/{id}', [AdminCustomerController::class, 'destroy']);
-    Route::get('customers-report', [AdminCustomerController::class, 'getCustomersReport']);
+        Route::delete('image/{id}', [ProductImageController::class, 'destroy']);
 
-    Route::get('coupons', [AdminCouponController::class, 'index']);
-    Route::post('coupons', [AdminCouponController::class, 'store']);
-    Route::delete('coupons/{id}', [AdminCouponController::class, 'destroy']);
-    Route::put('coupons/{id}', [AdminCouponController::class, 'update']);
+        Route::get('customers', [AdminCustomerController::class, 'index']);
+        Route::delete('customers/{id}', [AdminCustomerController::class, 'destroy']);
+        Route::get('customers-report', [AdminCustomerController::class, 'getCustomersReport']);
 
-    Route::post('brands', [AdminBrandController::class, 'store']);
-    Route::delete('brands/{id}', [AdminBrandController::class, 'destroy']);
-    Route::put('brands/{id}', [AdminBrandController::class, 'update']);
+        Route::get('coupons', [AdminCouponController::class, 'index']);
+        Route::post('coupons', [AdminCouponController::class, 'store']);
+        Route::delete('coupons/{id}', [AdminCouponController::class, 'destroy']);
+        Route::put('coupons/{id}', [AdminCouponController::class, 'update']);
 
-    Route::get('stocks', [AdminStockController::class, 'index']);
+        Route::post('brands', [AdminBrandController::class, 'store']);
+        Route::delete('brands/{id}', [AdminBrandController::class, 'destroy']);
+        Route::put('brands/{id}', [AdminBrandController::class, 'update']);
+
+        Route::get('stocks', [AdminStockController::class, 'index']);
+    });
 });
