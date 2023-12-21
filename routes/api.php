@@ -57,7 +57,7 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('customer/profile', [CustomerController::class, 'profile']);
-        Route::get('customer/profile/update', [CustomerController::class, 'update']);
+        Route::post('customer/profile', [CustomerController::class, 'update']);
 
         Route::post('wishlist/add', [WishlistController::class, 'addToWishlist']);
         Route::delete('wishlist/remove/{product}', [WishlistController::class, 'removeFromWishlist']);
