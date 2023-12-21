@@ -71,9 +71,13 @@ class ProductRepository
 
     public function getProductDetailsBySlug(string $slug)
     {
-        return Cache::remember('getProductDetails', $this->time, function () use ($slug) {
-            return $this->entity->with('images', 'colors', 'categories', 'sizes', 'stock', 'reviews.user', 'brand')
-                ->where('slug', $slug)->first();
-        });
+        try {
+            return Cache::remember('getProductDetails', $this->time, function () use ($slug) {
+                return $this->entity->with('images', 'colors', 'categories', 'sizes', 'stock', 'reviews.user', 'brand')
+                    ->where('slug', $slug)->firstOrFail();
+            });
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return null;
+        }
     }
 }

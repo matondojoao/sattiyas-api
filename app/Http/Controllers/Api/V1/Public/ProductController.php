@@ -23,6 +23,12 @@ class ProductController extends Controller
 
     public function show($slug)
     {
-        return new ProductResource($this->repository->getProductDetailsBySlug($slug));
+        $product = $this->repository->getProductDetailsBySlug($slug);
+
+        if (!$product) {
+            return response()->json(['message' => 'Product not found.'], 404);
+        }
+
+        return new ProductResource($product);
     }
 }
