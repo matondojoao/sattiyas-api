@@ -20,8 +20,6 @@ return new class extends Migration
             $table->longText('body')->nullable();
             $table->decimal('regular_price', 10, 2)->default(0);
             $table->decimal('sale_price', 10, 2)->nullable();
-            $table->string('shipping_type')->nullable();
-            $table->string('delivery')->nullable();
             $table->string('slug')->nullable();
             $table->string('product_id_type')->nullable();
             $table->string('product_id')->nullable();
