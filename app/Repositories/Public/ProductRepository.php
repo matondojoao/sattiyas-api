@@ -71,8 +71,11 @@ class ProductRepository
                 return $result->orderBy('regular_price', 'desc');
             } elseif ($orderBy == 'low_to_high') {
                 return $result->orderBy('regular_price', 'asc');
-            } else {
-                return $result->orderBy('created_at', 'desc');
+            }elseif ($orderBy == 'low_to_high') {
+                return $result->orderBy('regular_price', 'asc');
+            } elseif ($orderBy == 'popularity') {
+                return $result->withCount('orderItems')
+                       ->orderByDesc('order_items_count');
             }
         });
     }

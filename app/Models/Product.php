@@ -99,4 +99,16 @@ class Product extends Model
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_items', 'product_id', 'order_id')
+            ->withTimestamps();
+    }
+
+
+    public function getOrderCountAttribute()
+    {
+        return $this->orders()->count();
+    }
 }
