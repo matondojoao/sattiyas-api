@@ -68,15 +68,17 @@ class ProductRepository
             $orderBy = isset($data['order_by']) ? $data['order_by'] : null;
 
             if ($orderBy == 'high_to_low') {
-                return $result->orderBy('regular_price', 'desc');
+                $result->orderBy('regular_price', 'desc');
             } elseif ($orderBy == 'low_to_high') {
-                return $result->orderBy('regular_price', 'asc');
+                $result->orderBy('regular_price', 'asc');
             }elseif ($orderBy == 'low_to_high') {
-                return $result->orderBy('regular_price', 'asc');
+                $result->orderBy('regular_price', 'asc');
             } elseif ($orderBy == 'popularity') {
-                return $result->withCount('orderItems')
+                $result->withCount('orderItems')
                        ->orderByDesc('order_items_count');
             }
+
+            return $result->get();
         });
     }
 
