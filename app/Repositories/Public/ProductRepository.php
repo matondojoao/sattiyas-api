@@ -19,7 +19,7 @@ class ProductRepository
     public function getAllProducts($data)
     {
         return Cache::remember('getAllProducts', $this->time, function () use ($data) {
-            return $this->entity
+            $result = $this->entity
                 ->with('images', 'colors', 'categories', 'sizes', 'stock', 'reviews.user', 'brand')
                 ->where(function ($query) use ($data) {
                     if (isset($data['name'])) {
@@ -64,8 +64,16 @@ class ProductRepository
                             $sizeQuery->whereIn('id', $sizeIds);
                         });
                     }
-                })->orderBy('created_at', 'desc')
-                ->paginate(9);
+                });
+            $orderBy = isset($data['order_by']) ? $data['order_by'] : null;
+
+            if ($orderBy == 'high_to_low') {
+                return $result->orderBy('regular_price', 'desc');
+            } elseif ($orderBy == 'low_to_high') {
+                return $result->orderBy('regular_price', 'asc');
+            } else {
+                return $result->orderBy('created_at', 'desc');
+            }
         });
     }
 
