@@ -71,8 +71,6 @@ class ProductRepository
                 $result->orderBy('regular_price', 'desc');
             } elseif ($orderBy == 'low_to_high') {
                 $result->orderBy('regular_price', 'asc');
-            }elseif ($orderBy == 'low_to_high') {
-                $result->orderBy('regular_price', 'asc');
             } elseif ($orderBy == 'popularity') {
                 $result->withCount('orderItems')
                        ->orderByDesc('order_items_count');
