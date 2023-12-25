@@ -19,7 +19,6 @@ class OrderResource extends JsonResource
             'payment_status' => $this->payment_status,
             'fulfillment_status' => $this->fulfillment_status,
             'user' => new UserResource($this->whenLoaded('user')),
-            'payment_method' => new PaymentMethodResource($this->whenLoaded('paymentMethod')),
             'delivery_option' => new DeliveryOptionResource($this->whenLoaded('deliveryOption')),
             'discount' => $this->discount,
             'subtotal' => $this->calculateSubTotal(),
