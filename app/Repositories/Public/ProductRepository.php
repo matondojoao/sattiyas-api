@@ -74,6 +74,8 @@ class ProductRepository
             } elseif ($orderBy == 'popularity') {
                 $result->withCount('orderItems')
                        ->orderByDesc('order_items_count');
+            }else{
+                $result->orderBy('created_at', 'desc');
             }
 
             return $result->get();
