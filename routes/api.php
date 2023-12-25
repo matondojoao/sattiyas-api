@@ -86,7 +86,6 @@ Route::prefix('v1')->group(function () {
     Route::delete('cart/remove/{productId}', [PublicCartController::class, 'remove']);
 
     Route::get('delivery-options', [DeliveryOptionController::class, 'index']);
-    Route::get('payment-methods', [PaymentMethodController::class, 'index']);
 
     Route::post('apply-coupon', [CouponController::class, 'applyCoupon']);
 
@@ -105,10 +104,6 @@ Route::prefix('v1')->group(function () {
         Route::post('delivery-options', [AdminDeliveryOptionController::class, 'store']);
         Route::put('delivery-options/{id}', [AdminDeliveryOptionController::class, 'update']);
         Route::delete('delivery-options/{id}', [AdminDeliveryOptionController::class, 'destroy']);
-
-        Route::post('payment-methods', [AdminPaymentMethodController::class, 'store']);
-        Route::put('payment-methods/{id}', [AdminPaymentMethodController::class, 'update']);
-        Route::delete('payment-methods/{id}', [AdminPaymentMethodController::class, 'destroy']);
 
         Route::post('products', [AdminProductController::class, 'store']);
         Route::post('products/{id}', [AdminProductController::class, 'update']);
