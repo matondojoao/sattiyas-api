@@ -110,11 +110,6 @@ class ProductRepository
 
             $product->relatedProducts = $relatedProducts;
 
-            $product->images->transform(function ($image) {
-                $image->image_path = url(Storage::url($image->image_path));
-                return $image;
-            });
-
             return $product;
         });
     } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
