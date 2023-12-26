@@ -32,7 +32,11 @@ class ProductController extends Controller
     $relatedProducts = $product->relatedProducts->toArray();
     $relatedProducts = array_values($relatedProducts);
 
-    return response()->json(['relatedProducts' => $relatedProducts]);
-}
+    return response()->json([
+        'data' => [
+             new ProductResource($product),
+            'relatedProducts' => $relatedProducts,
+        ]
+    ]);}
 
 }
