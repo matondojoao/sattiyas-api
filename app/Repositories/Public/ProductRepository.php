@@ -73,8 +73,8 @@ class ProductRepository
                 $result->orderBy('regular_price', 'asc');
             } elseif ($orderBy == 'popularity') {
                 $result->withCount('orderItems')
-                       ->orderByDesc('order_items_count');
-            }else{
+                    ->orderByDesc('order_items_count');
+            } else {
                 $result->orderBy('created_at', 'desc');
             }
 
@@ -83,27 +83,29 @@ class ProductRepository
     }
 
     public function getProductDetailsBySlug(string $slug)
-{
-    try {
-        return Cache::remember('getProductDetails', $this->time, function () use ($slug) {
-            $product = $this->entity->with('images', 'colors', 'categories', 'sizes', 'stock', 'reviews.user', 'brand')
-                ->where('slug', $slug)
-                ->firstOrFail();
+    {
+        try {
+            return Cache::remember('getProductDetails', $this->time, function () use ($slug) {
+                $product = $this->entity->with('images', 'colors', 'categories', 'sizes', 'stock', 'reviews.user', 'brand')
+                    ->where('slug', $slug)
+                    ->firstOrFail();
 
-            $relatedProducts = $product->categories->flatMap(function ($category) {
-                return $category->products;
+                $relatedProducts = $product->categories->flatMap(function ($category) {
+                    return $category->products;
+                });
+
+                $relatedProducts = $relatedProducts->reject(function ($relatedProduct) use ($product) {
+                    return $relatedProduct->id === $product->id;
+                });
+
+                $relatedProducts->load('images');
+
+                $product->relatedProducts = $relatedProducts;
+
+                return $product;
             });
-
-            $relatedProducts = $relatedProducts->reject(function ($relatedProduct) use ($product) {
-                return $relatedProduct->id === $product->id;
-            });
-
-            $product->relatedProducts = $relatedProducts;
-
-            return $product;
-        });
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        return null;
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return null;
+        }
     }
-}
 }
