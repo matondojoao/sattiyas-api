@@ -5,6 +5,7 @@ namespace App\Repositories\Public;
 use App\Models\Module;
 use App\Models\Product;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 class ProductRepository
@@ -102,7 +103,7 @@ class ProductRepository
             $relatedProducts->each(function ($relatedProduct) {
                 $relatedProduct->load('images');
                 $relatedProduct->images->transform(function ($image) {
-                    $image->image_path = URL::to('/') . '/' . $image->image_path;
+                    $image->image_path = url(Storage::url($image->image_path));
                     return $image;
                 });
             });
@@ -110,7 +111,7 @@ class ProductRepository
             $product->relatedProducts = $relatedProducts;
 
             $product->images->transform(function ($image) {
-                $image->image_path = URL::to('/') . '/' . $image->image_path;
+                $image->image_path = url(Storage::url($image->image_path));
                 return $image;
             });
 
