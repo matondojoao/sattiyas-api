@@ -78,7 +78,7 @@ class ProductRepository
                 $result->orderBy('created_at', 'desc');
             }
 
-            return $result->get();
+            return $result->paginate(9);
         });
     }
 
