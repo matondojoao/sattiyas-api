@@ -41,6 +41,7 @@ class NewNewsletterSubscription extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        $url = config('app.url_frontend') .'/shop';
         return (new MailMessage)
             ->subject('Bem-vindo à essence!')
             ->line('Olá!')
@@ -48,7 +49,7 @@ class NewNewsletterSubscription extends Notification implements ShouldQueue
             ->line('Agora você está conectado com as últimas tendências, promoções exclusivas e novidades emocionantes.')
             ->line('Continue explorando as últimas coleções em nosso site.')
             ->action('Explore Agora', url('/shop'))
-            ->line('Email da nova assinatura: ' . $this->email)
+            ->line('Email da nova assinatura: ' . $url)
             ->salutation('Moda é uma expressão de quem você é - seja única, seja você!')
             ->line('Obrigado por escolher a nossa newsletter de moda!');
     }
