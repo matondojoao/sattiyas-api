@@ -89,7 +89,7 @@ Route::prefix('v1')->group(function () {
 
     Route::post('apply-coupon', [CouponController::class, 'applyCoupon']);
 
-    Route::post('/subscribe', [PublicNewsletterController::class, 'subscribe']);
+    Route::post('/newsletter/subscribe', [PublicNewsletterController::class, 'subscribe']);
 
     Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
