@@ -5,6 +5,7 @@ namespace App\Repositories\Public;
 use App\Models\Module;
 use App\Models\Product;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\URL;
 
 class ProductRepository
 {
@@ -83,31 +84,40 @@ class ProductRepository
     }
 
     public function getProductDetailsBySlug(string $slug)
-    {
-        try {
-            return Cache::remember('getProductDetails', $this->time, function () use ($slug) {
-                $product = $this->entity->with('images', 'colors', 'categories', 'sizes', 'stock', 'reviews.user', 'brand')
-                    ->where('slug', $slug)
-                    ->firstOrFail();
+{
+    try {
+        return Cache::remember('getProductDetails', $this->time, function () use ($slug) {
+            $product = $this->entity->with('images', 'colors', 'categories', 'sizes', 'stock', 'reviews.user', 'brand')
+                ->where('slug', $slug)
+                ->firstOrFail();
 
-                $relatedProducts = $product->categories->flatMap(function ($category) {
-                    return $category->products;
-                });
-
-                $relatedProducts = $relatedProducts->reject(function ($relatedProduct) use ($product) {
-                    return $relatedProduct->id === $product->id;
-                });
-
-                $relatedProducts->each(function ($relatedProduct) {
-                    $relatedProduct->load('images');
-                });
-
-                $product->relatedProducts = $relatedProducts;
-
-                return $product;
+            $relatedProducts = $product->categories->flatMap(function ($category) {
+                return $category->products;
             });
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return null;
-        }
+
+            $relatedProducts = $relatedProducts->reject(function ($relatedProduct) use ($product) {
+                return $relatedProduct->id === $product->id;
+            });
+
+            $relatedProducts->each(function ($relatedProduct) {
+                $relatedProduct->load('images');
+                $relatedProduct->images->transform(function ($image) {
+                    $image->image_path = URL::to('/') . '/' . $image->image_path;
+                    return $image;
+                });
+            });
+
+            $product->relatedProducts = $relatedProducts;
+
+            $product->images->transform(function ($image) {
+                $image->image_path = URL::to('/') . '/' . $image->image_path;
+                return $image;
+            });
+
+            return $product;
+        });
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        return null;
     }
+}
 }
