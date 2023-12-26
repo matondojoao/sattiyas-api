@@ -48,8 +48,8 @@ class NewNewsletterSubscription extends Notification implements ShouldQueue
             ->line('Obrigado por subscrever a nossa newsletter.')
             ->line('Agora você está conectado com as últimas tendências, promoções exclusivas e novidades emocionantes.')
             ->line('Continue explorando as últimas coleções em nosso site.')
-            ->action('Explore Agora', url('/shop'))
-            ->line('Email da nova assinatura: ' . $url)
+            ->action('Explore Agora', $url)
+            ->line('Email da nova assinatura: ' . $this->email)
             ->salutation('Moda é uma expressão de quem você é - seja única, seja você!')
             ->line('Obrigado por escolher a nossa newsletter de moda!');
     }
