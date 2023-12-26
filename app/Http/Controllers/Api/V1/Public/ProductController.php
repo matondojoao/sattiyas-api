@@ -34,9 +34,11 @@ class ProductController extends Controller
 
     return response()->json([
         'data' => [
-             new ProductResource($product),
+            'product' => new ProductResource($product),
             'relatedProducts' => $relatedProducts,
         ]
-    ]);}
+    ]);
+}
+
 
 }
