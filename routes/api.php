@@ -26,7 +26,7 @@ use App\Http\Controllers\Api\V1\Admin\ProductImageController;
 use App\Http\Controllers\Api\V1\Admin\StockController as AdminStockController;
 use App\Http\Controllers\Api\V1\Admin\CouponController as AdminCouponController;
 use App\Http\Controllers\Api\V1\Admin\BrandController as AdminBrandController;
-
+use App\Http\Controllers\Api\V1\Public\NewsletterController as PublicNewsletterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -88,6 +88,8 @@ Route::prefix('v1')->group(function () {
     Route::get('delivery-options', [DeliveryOptionController::class, 'index']);
 
     Route::post('apply-coupon', [CouponController::class, 'applyCoupon']);
+
+    Route::post('/subscribe', [PublicNewsletterController::class, 'subscribe']);
 
     Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
