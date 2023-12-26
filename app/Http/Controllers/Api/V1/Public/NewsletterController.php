@@ -17,7 +17,7 @@ class NewsletterController extends Controller
         $this->NewsletterRepository = $NewsletterRepository;
     }
 
-    public function subscribe(NewsletterSubscriptionRequest $request)
+    public function subscribe(Request $request)
     {
         $data = $request->validated();
 
