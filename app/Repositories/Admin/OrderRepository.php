@@ -160,10 +160,18 @@ class OrderRepository
         ]);
     }
 
-    public function all()
+    public function all(array $data)
     {
         return Cache::remember('getAllOrders', 5, function () {
-            return $this->entity->with('orderItems.product.images', 'paymentMethod', 'deliveryOption')->orderBy('created_at', 'desc')->paginate(10);
+            return $this->entity->with('orderItems.product.images', 'paymentMethod', 'deliveryOption')
+            ->where(function($query){
+                if(isset($data['payment_status'])){
+                    $query->where('payment_status',$data['payment_status']);
+                }
+                if(isset($data['fulfillment_status'])){
+                    $query->where('fulfillment_status',$data['fulfillment_status']);
+                }
+            })->orderBy('created_at', 'desc')->paginate(10);
         });
     }
 

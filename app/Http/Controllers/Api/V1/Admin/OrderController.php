@@ -17,9 +17,10 @@ class OrderController extends Controller
         $this->orderRepository = $orderRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return OrderResource::collection($this->orderRepository->all());
+        $data=$request->only('payment_status','fulfillment_status');
+        return OrderResource::collection($this->orderRepository->all($data));
     }
 
     public function getSalesReport(Request $request)
