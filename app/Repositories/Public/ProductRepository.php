@@ -98,7 +98,9 @@ class ProductRepository
                     return $relatedProduct->id === $product->id;
                 });
 
-                $relatedProducts->load('images');
+                $relatedProducts->each(function ($relatedProduct) {
+                    $relatedProduct->load('images');
+                });
 
                 $product->relatedProducts = $relatedProducts;
 
