@@ -19,12 +19,18 @@ class NewsletterController extends Controller
 
     public function subscribe(Request $request)
     {
-        $data = $request->validated();
+        try {
+            $data = $request->validated();
 
-        $newsletter = $this->NewsletterRepository->subscribe($data);
+            $newsletter = $this->NewsletterRepository->subscribe($data);
 
-        $newsletter->notify(new NewNewsletterSubscription($newsletter->email));
+            $newsletter->notify(new NewNewsletterSubscription($newsletter->email));
 
-        return response()->json(['message' => 'Subscription successful!']);
+            return response()->json(['message' => 'Subscription successful!']);
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => 'Internal Server Error : '. $e->getMessage()], 500);
+        }
     }
+
 }
