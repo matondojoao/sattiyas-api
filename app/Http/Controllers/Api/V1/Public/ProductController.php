@@ -29,6 +29,13 @@ class ProductController extends Controller
             return response()->json(['message' => 'Product not found.'], 404);
         }
 
-        return new ProductResource($product);
+        $productArray = $product->toArray();
+
+        unset($productArray['created_at']);
+        unset($productArray['updated_at']);
+
+        $productArray['related_products'] = $product->relatedProducts->toArray();
+
+        return response()->json($productArray);
     }
 }
