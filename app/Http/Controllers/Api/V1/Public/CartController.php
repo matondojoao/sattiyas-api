@@ -50,7 +50,7 @@ class CartController extends Controller
         return response()->json(['cart' => $cartDetails]);
     }
 
-    public function add(CartRequest $request)
+    public function add(Request $request)
     {
         $product = Product::find($request->product);
 
