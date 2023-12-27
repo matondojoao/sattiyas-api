@@ -21,4 +21,11 @@ class CategoryRepository
             return $this->entity->get();
         });
     }
+
+    public function getProductsByCategoryId(string $id)
+    {
+        return Cache::remember('getProductsByCategoryId', $this->time, function () use ($id) {
+            return $this->entity->find($id)->products;
+        });
+    }
 }

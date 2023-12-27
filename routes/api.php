@@ -79,6 +79,8 @@ Route::prefix('v1')->group(function () {
 
     Route::get('colors', [PublicColorController::class, 'index']);
     Route::get('categories', [PublicCategoryController::class, 'index']);
+    Route::get('category/{id}/products', [PublicCategoryController::class, 'getProducts']);
+
     Route::get('sizes', [PublicSizeController::class, 'index']);
     Route::get('brands', [PublicBrandController::class, 'index']);
     Route::get('cart', [PublicCartController::class, 'index']);

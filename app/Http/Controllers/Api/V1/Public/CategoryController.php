@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Public;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\ProductResource;
 use App\Repositories\Public\CategoryRepository;
 use Illuminate\Http\Request;
 
@@ -18,5 +19,10 @@ class CategoryController extends Controller
     public function index()
     {
         return CategoryResource::collection($this->repository->getAllCategories());
+    }
+
+    public function getProducts($id)
+    {
+        return ProductResource::collection($this->repository->getProductsByCategoryId($id));
     }
 }
