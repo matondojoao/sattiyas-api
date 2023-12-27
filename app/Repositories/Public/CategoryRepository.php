@@ -25,7 +25,7 @@ class CategoryRepository
     public function getProductsByCategoryId(string $id)
     {
         return Cache::remember('getProductsByCategoryId', $this->time, function () use ($id) {
-            return $this->entity->find($id)->products;
+            return $this->entity->findOrFail($id)->products;
         });
     }
 }
