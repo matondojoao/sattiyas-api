@@ -33,9 +33,9 @@ class Category extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function subCategories()
+    public function subcategories()
     {
-        return $this->hasMany(SubCategory::class);
+        return $this->hasMany(Category::class, 'parent_id');
     }
 
     public function getSlugOptions(): SlugOptions
