@@ -21,7 +21,6 @@ class CategoryRepository
         return Cache::remember('getAllCategories', $this->time, function () {
             $categories = $this->entity->get();
 
-            // Organize as categorias em um array associativo usando o parent_id como chave
             $organizedCategories = [];
 
             foreach ($categories as $category) {
@@ -42,7 +41,6 @@ class CategoryRepository
                 $organizedCategories[$parent_id][] = $categoryData;
             }
 
-            // Adicione as subcategorias a cada categoria
             foreach ($categories as $category) {
                 $categoryData = [
                     'id' => $category->id,
@@ -55,7 +53,6 @@ class CategoryRepository
                 $organizedCategories[$parent_id][] = $categoryData;
             }
 
-            // Retorne apenas as categorias raiz (sem parent_id)
             return $organizedCategories['root'] ?? [];
         });
     }
