@@ -17,29 +17,38 @@ class CategoryRepository
     }
 
     public function getAllCategories()
-    {
-        return Cache::remember('getAllCategories', $this->time, function () {
-            $categories = $this->entity->get();
+{
+    return Cache::remember('getAllCategories', $this->time, function () {
+        $categories = $this->entity->get();
 
-            $organizedCategories = [];
+        $organizedCategories = [];
 
-            foreach ($categories as $category) {
-                $parent_id = $category->parent_id ?: 'root';
+        foreach ($categories as $category) {
+            $parent_id = $category->parent_id ?: 'root';
 
-                if (!isset($organizedCategories[$parent_id])) {
-                    $organizedCategories[$parent_id] = [];
-                }
-
-                $organizedCategories[$parent_id][] = new CategoryResource($category);
+            if (!isset($organizedCategories[$parent_id])) {
+                $organizedCategories[$parent_id] = [];
             }
 
-            foreach ($categories as $category) {
-                $category->subcategories = $organizedCategories[$category->id] ?? [];
+            $categoryResource = new CategoryResource($category);
+            $categoryResource->subcategories = collect();
+
+            $organizedCategories[$parent_id][] = $categoryResource;
+        }
+
+        foreach ($categories as $category) {
+            $categoryResource = new CategoryResource($category);
+
+            if (isset($organizedCategories[$category->id])) {
+                $categoryResource->subcategories = collect($organizedCategories[$category->id]);
             }
 
-            return $organizedCategories['root'] ?? [];
-        });
-    }
+            $organizedCategories[$parent_id][] = $categoryResource;
+        }
+
+        return collect($organizedCategories['root'] ?? []);
+    });
+}
 
     public function getProductsByCategoryId(string $id)
     {
