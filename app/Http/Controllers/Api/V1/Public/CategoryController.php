@@ -18,7 +18,7 @@ class CategoryController extends Controller
     }
     public function index()
     {
-        return CategoryResource::collection($this->repository->getAllCategories());
+        return $this->repository->getAllCategories();
     }
 
     public function getProducts($id)
