@@ -17,45 +17,49 @@ class CategoryRepository
     }
 
     public function getAllCategories()
-    {
-        return Cache::remember('getAllCategories', $this->time, function () {
-            $categories = $this->entity->get();
+{
+    return Cache::remember('getAllCategories', $this->time, function () {
+        $categories = $this->entity->get();
 
-            $organizedCategories = [];
+        $organizedCategories = [];
 
-            foreach ($categories as $category) {
-                $parent_id = $category->parent_id ?: 'root';
+        foreach ($categories as $category) {
+            $parent_id = $category->parent_id ?: 'root';
 
-                if (!isset($organizedCategories[$parent_id])) {
-                    $organizedCategories[$parent_id] = [];
-                }
-
-                $categoryData = [
-                    'id' => $category->id,
-                    'name' => $category->name,
-                    'slug' => $category->slug,
-                    'parent_id' => $category->parent_id,
-                    'subcategories' => [],
-                ];
-
-                $organizedCategories[$parent_id][] = $categoryData;
+            if (!isset($organizedCategories[$parent_id])) {
+                $organizedCategories[$parent_id] = [];
             }
 
-            foreach ($categories as $category) {
-                $categoryData = [
-                    'id' => $category->id,
-                    'name' => $category->name,
-                    'slug' => $category->slug,
-                    'parent_id' => $category->parent_id,
-                    'subcategories' => $organizedCategories[$category->id] ?? [],
+            $categoryData = [
+                'id' => $category->id,
+                'name' => $category->name,
+                'slug' => $category->slug,
+                'parent_id' => $category->parent_id,
+                'subcategories' => [],
+            ];
+
+            $organizedCategories[$parent_id][] = $categoryData;
+        }
+
+        foreach ($categories as $subcategory) {
+            $parent_id = $subcategory->parent_id ?: 'root';
+
+            if (isset($organizedCategories[$subcategory->parent_id])) {
+                $subcategoryData = [
+                    'id' => $subcategory->id,
+                    'name' => $subcategory->name,
+                    'slug' => $subcategory->slug,
+                    'parent_id' => $subcategory->parent_id,
                 ];
 
-                $organizedCategories[$parent_id][] = $categoryData;
+                $organizedCategories[$subcategory->parent_id][0]['subcategories'][] = $subcategoryData;
             }
+        }
 
-            return $organizedCategories['root'] ?? [];
-        });
-    }
+        return $organizedCategories['root'] ?? [];
+    });
+}
+
 
 
     public function getProductsByCategoryId(string $id)
