@@ -17,38 +17,49 @@ class CategoryRepository
     }
 
     public function getAllCategories()
-{
-    return Cache::remember('getAllCategories', $this->time, function () {
-        $categories = $this->entity->get();
+    {
+        return Cache::remember('getAllCategories', $this->time, function () {
+            $categories = $this->entity->get();
 
-        $organizedCategories = [];
+            // Organize as categorias em um array associativo usando o parent_id como chave
+            $organizedCategories = [];
 
-        foreach ($categories as $category) {
-            $parent_id = $category->parent_id ?: 'root';
+            foreach ($categories as $category) {
+                $parent_id = $category->parent_id ?: 'root';
 
-            if (!isset($organizedCategories[$parent_id])) {
-                $organizedCategories[$parent_id] = [];
+                if (!isset($organizedCategories[$parent_id])) {
+                    $organizedCategories[$parent_id] = [];
+                }
+
+                $categoryData = [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'slug' => $category->slug,
+                    'parent_id' => $category->parent_id,
+                    'subcategories' => [],
+                ];
+
+                $organizedCategories[$parent_id][] = $categoryData;
             }
 
-            $categoryResource = new CategoryResource($category);
-            $categoryResource->subcategories = collect();
+            // Adicione as subcategorias a cada categoria
+            foreach ($categories as $category) {
+                $categoryData = [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'slug' => $category->slug,
+                    'parent_id' => $category->parent_id,
+                    'subcategories' => $organizedCategories[$category->id] ?? [],
+                ];
 
-            $organizedCategories[$parent_id][] = $categoryResource;
-        }
-
-        foreach ($categories as $category) {
-            $categoryResource = new CategoryResource($category);
-
-            if (isset($organizedCategories[$category->id])) {
-                $categoryResource->subcategories = collect($organizedCategories[$category->id]);
+                $organizedCategories[$parent_id][] = $categoryData;
             }
 
-            $organizedCategories[$parent_id][] = $categoryResource;
-        }
+            // Retorne apenas as categorias raiz (sem parent_id)
+            return $organizedCategories['root'] ?? [];
+        });
+    }
 
-        return collect($organizedCategories['root'] ?? []);
-    });
-}
 
     public function getProductsByCategoryId(string $id)
     {
