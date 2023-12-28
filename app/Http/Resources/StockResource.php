@@ -16,7 +16,19 @@ class StockResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'quantity' => $this->quantity,
+            'status' => $this->getStatus(),
+            'stock_units' => $this->quantity,
         ];
+    }
+
+    protected function getStatus()
+    {
+        if ($this->quantity <= 0) {
+            return 'Out of stock';
+        } elseif ($this->quantity > 0 && $this->quantity < 10) {
+            return 'Low stock';
+        } else {
+            return 'In stock';
+        }
     }
 }

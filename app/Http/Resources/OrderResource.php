@@ -23,6 +23,7 @@ class OrderResource extends JsonResource
             'discount' => $this->discount,
             'subtotal' => $this->calculateSubTotal(),
             'total' => $this->calculateTotal(),
+            'created_at'=> $this->created_at->diffForHumans(),
             'items' => OrderItemResource::collection($this->whenLoaded('orderItems')),
         ];
     }
