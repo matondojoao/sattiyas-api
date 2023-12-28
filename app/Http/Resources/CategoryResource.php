@@ -17,8 +17,19 @@ class CategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'product_count' => $this->products()->count(),
+            'product_count' => $this->getTotalProductCount(),
             'subcategories' => CategoryResource::collection($this->whenLoaded('subcategories')),
         ];
+    }
+
+    protected function getTotalProductCount()
+    {
+        $totalCount = $this->products()->count();
+
+        foreach ($this->subcategories as $subcategory) {
+            $totalCount += $subcategory->getTotalProductCount();
+        }
+
+        return $totalCount;
     }
 }
