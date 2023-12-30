@@ -83,9 +83,12 @@ Route::prefix('v1')->group(function () {
 
     Route::get('sizes', [PublicSizeController::class, 'index']);
     Route::get('brands', [PublicBrandController::class, 'index']);
-    Route::get('cart', [PublicCartController::class, 'index']);
-    Route::post('cart/add', [PublicCartController::class, 'add']);
-    Route::delete('cart/remove/{productId}', [PublicCartController::class, 'remove']);
+
+    Route::middleware('web')->group(function () {
+        Route::get('cart', [PublicCartController::class, 'index']);
+        Route::post('cart/add', [PublicCartController::class, 'add']);
+        Route::delete('cart/remove/{productId}', [PublicCartController::class, 'remove']);
+    });
 
     Route::get('delivery-options', [DeliveryOptionController::class, 'index']);
 
