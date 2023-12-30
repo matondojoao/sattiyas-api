@@ -27,22 +27,15 @@ class CartController extends Controller
 
             if ($product) {
                 $firstImage = $product->images()->first();
-                $total = 0;
-
-                if($product->sale_price)
-                {
-                   $total = $product->sale_price * $cartItem['quantity'];
-                }else{
-                   $total=$product->regular_price * $cartItem['quantity'];
-                }
+                $total = $product->getTotalPrice($cartItem['quantity']);
 
                 $cartDetails[] = [
                     'product_id' => $cartItem['product_id'],
                     'product_name' => $product->name,
                     'quantity' => $cartItem['quantity'],
-                    'price' => $product->sale_price ? $product->sale_price : $product->regular_price,
+                    'price' => $product->getPrice(),
                     'total' => $total,
-                    'first_image' => $firstImage ? url('storage/' .$firstImage->image_path) : null,
+                    'first_image' => $firstImage ? url('storage/' . $firstImage->image_path) : null,
                 ];
             }
         }
@@ -69,7 +62,6 @@ class CartController extends Controller
 
         return response()->json(['message' => 'Product added to cart successfully']);
     }
-
 
     public function remove($productId)
     {

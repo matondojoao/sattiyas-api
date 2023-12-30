@@ -2,49 +2,46 @@
 
 namespace App\Repositories\Public;
 
+use Illuminate\Support\Facades\Session;
+
 class CartRepository
 {
     public function getCart()
     {
-        return session()->get('cart', []);
+        return Session::get('cart', []);
     }
 
     public function addToCart($productId, $quantity)
     {
         $products = $this->getCart();
-        $productIds = array_column($products, 'product_id');
 
-        if (in_array($productId, $productIds)) {
-            $products = $this->productIncrement($productId, $quantity, $products);
+        $existingProduct = collect($products)->firstWhere('product_id', $productId);
+
+        if ($existingProduct) {
+            $existingProduct['quantity'] += $quantity;
         } else {
             $products[] = ['product_id' => $productId, 'quantity' => $quantity];
         }
 
-        session()->put('cart', $products);
+        Session::put('cart', $products);
     }
 
     public function getQuantityInCart($productId)
     {
-        $cart = session()->get('cart', []);
+        $cart = $this->getCart();
 
-        foreach ($cart as $item) {
-            if ($item['product_id'] == $productId) {
-                return $item['quantity'];
-            }
-        }
+        $item = collect($cart)->firstWhere('product_id', $productId);
 
-        return 0;
+        return $item ? $item['quantity'] : 0;
     }
 
     public function removeFromCart($productId)
     {
-        $products = $this->getCart();
+        $products = collect($this->getCart())->reject(function ($line) use ($productId) {
+            return $line['product_id'] == $productId;
+        })->values()->all();
 
-        $products = array_filter($products, function ($line) use ($productId) {
-            return $line['product_id'] != $productId;
-        });
-
-        session()->put('cart', $products);
+        Session::put('cart', $products);
     }
 
     private function productIncrement($productId, $quantity, $products)
