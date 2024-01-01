@@ -16,16 +16,10 @@ class ColorSeeder extends Seeder
     public function run()
     {
         $cores = [
-            ['name' => 'Vermelho', 'hex_format' => '#FF0000'],
-            ['name' => 'Verde', 'hex_format' => '#00FF00'],
-            ['name' => 'Azul', 'hex_format' => '#0000FF'],
-            ['name' => 'Amarelo', 'hex_format' => '#FFFF00'],
-            ['name' => 'Laranja', 'hex_format' => '#FFA500'],
-            ['name' => 'Roxo', 'hex_format' => '#800080'],
-            ['name' => 'Rosa', 'hex_format' => '#FFC0CB'],
-            ['name' => 'Marrom', 'hex_format' => '#A52A2A'],
-            ['name' => 'Cinza', 'hex_format' => '#808080'],
-            ['name' => 'Preto', 'hex_format' => '#000000'],
+            ['name' => 'Vermelho', 'class' => 'cs_accent_bg'],
+            ['name' => 'Cinza', 'class' => 'cs_secondary_bg'],
+            ['name' => 'Preto', 'class' => 'cs_primary_bg'],
+            ['name' => 'Branco', 'class' => 'cs_white_bg'],
         ];
 
         foreach ($cores as $cor) {
