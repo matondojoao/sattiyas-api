@@ -72,7 +72,7 @@ Route::prefix('v1')->group(function () {
         Route::get('orders/my/{id}', [OrderController::class, 'show']);
         Route::get('card', [OrderController::class, 'generateStripeToken']);
 
-        Route::get('products/reviews', [ReviewController::class, 'review']);
+        Route::post('product/review', [ReviewController::class, 'review']);
     });
 
     Route::get('products', [PublicProductController::class, 'index']);
