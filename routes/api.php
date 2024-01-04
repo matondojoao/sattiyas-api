@@ -41,8 +41,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // return response()->json(['success' => true]);
-    return response()->json(['csrf_token' => csrf_token()]);
+    return response()->json(['success' => true]);
 });
 
 Route::prefix('v1')->group(function () {
