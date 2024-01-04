@@ -34,9 +34,9 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\ProductCategory::factory()->count(19)->create();
 
-        \App\Models\ProductColor::factory()->count(19)->create();
+        \App\Models\ProductColor::factory()->count(40)->create();
 
-        \App\Models\ProductSize::factory()->count(15)->create();
+        \App\Models\ProductSize::factory()->count(50)->create();
 
         \App\Models\Promotion::factory()->count(5)->create();
 
