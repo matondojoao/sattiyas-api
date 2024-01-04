@@ -85,35 +85,45 @@ class ProductRepository
     }
 
     public function getProductDetailsBySlug(string $slug)
-{
-    try {
-        return Cache::remember('getProductDetails', $this->time, function () use ($slug) {
-            $product = $this->entity->with('images', 'colors', 'categories', 'sizes', 'stock', 'reviews.user', 'brand')
-                ->where('slug', $slug)
-                ->firstOrFail();
+    {
+        try {
+            return Cache::remember('getProductDetails', $this->time, function () use ($slug) {
+                $product = $this->entity->with('images', 'colors', 'categories', 'sizes', 'stock', 'reviews.user', 'brand')
+                    ->where('slug', $slug)
+                    ->firstOrFail();
 
-            $relatedProducts = $product->categories->flatMap(function ($category) {
-                return $category->products;
-            });
-
-            $relatedProducts = $relatedProducts->reject(function ($relatedProduct) use ($product) {
-                return $relatedProduct->id === $product->id;
-            });
-
-            $relatedProducts->each(function ($relatedProduct) {
-                $relatedProduct->load('images');
-                $relatedProduct->images->transform(function ($image) {
-                    $image->image_path = url(Storage::url($image->image_path));
-                    return $image;
+                $relatedProducts = $product->categories->flatMap(function ($category) {
+                    return $category->products;
                 });
+
+                $relatedProducts = $relatedProducts->reject(function ($relatedProduct) use ($product) {
+                    return $relatedProduct->id === $product->id;
+                });
+
+                $relatedProducts->each(function ($relatedProduct) {
+                    $relatedProduct->load('images');
+                    $relatedProduct->images->transform(function ($image) {
+                        $image->image_path = url(Storage::url($image->image_path));
+                        return $image;
+                    });
+                });
+
+                $product->relatedProducts = $relatedProducts;
+
+                return $product;
             });
-
-            $product->relatedProducts = $relatedProducts;
-
-            return $product;
-        });
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        return null;
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return null;
+        }
     }
-}
+    public function getMinMaxPrices()
+    {
+        $minPrice = $this->entity->min('regular_price');
+        $maxPrice = $this->entity->max('regular_price');
+
+        return [
+            'min_price' => $minPrice,
+            'max_price' => $maxPrice,
+        ];
+    }
 }

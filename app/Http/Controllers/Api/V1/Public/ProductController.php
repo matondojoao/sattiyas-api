@@ -22,23 +22,28 @@ class ProductController extends Controller
     }
 
     public function show($slug)
-{
-    $product = $this->repository->getProductDetailsBySlug($slug);
+    {
+        $product = $this->repository->getProductDetailsBySlug($slug);
 
-    if (!$product) {
-        return response()->json(['message' => 'Product not found.'], 404);
+        if (!$product) {
+            return response()->json(['message' => 'Product not found.'], 404);
+        }
+
+        $relatedProducts = $product->relatedProducts->toArray();
+        $relatedProducts = array_values($relatedProducts);
+
+        return response()->json([
+            'data' => [
+                'product' => new ProductResource($product),
+                'relatedProducts' => $relatedProducts,
+            ]
+        ]);
     }
 
-    $relatedProducts = $product->relatedProducts->toArray();
-    $relatedProducts = array_values($relatedProducts);
+    public function getMinMaxPrices()
+    {
+        $prices = $this->repository->getMinMaxPrices();
 
-    return response()->json([
-        'data' => [
-            'product' => new ProductResource($product),
-            'relatedProducts' => $relatedProducts,
-        ]
-    ]);
-}
-
-
+        return response()->json($prices);
+    }
 }

@@ -75,6 +75,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::get('products', [PublicProductController::class, 'index']);
+    Route::get('/products/min-max-prices', [PublicProductController::class, 'getMinMaxPrices']);
     Route::get('product/{slug}', [PublicProductController::class, 'show']);
 
     Route::get('colors', [PublicColorController::class, 'index']);
