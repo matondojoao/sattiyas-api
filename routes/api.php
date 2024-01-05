@@ -50,6 +50,7 @@ Route::prefix('v1')->group(function () {
         Route::post('login', [AuthController::class, 'login']);
         Route::post('register', [AuthController::class, 'register']);
         Route::middleware('auth:sanctum')->post('logout', [AuthController::class, 'logout']);
+        Route::middleware('auth:sanctum')->get('/verify', [AuthController::class, 'verify']);
     });
 
     Route::post('forgot-password', [ResetPasswordController::class, 'sendResetLink'])->middleware('guest');

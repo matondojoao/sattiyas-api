@@ -49,4 +49,8 @@ class AuthController extends Controller
 
         return response()->json(['token' => $token]);
     }
+    public function verify()
+    {
+        return response()->json(['authenticated' => true]);
+    }
 }
