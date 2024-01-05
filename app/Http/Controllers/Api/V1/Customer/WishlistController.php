@@ -19,7 +19,6 @@ class WishlistController extends Controller
 
     public function addToWishlist(WishlistRequest $request)
     {
-        $user = $request->user();
         $this->wishlistRepository->addToWishlist($request->all());
 
         return response()->json(['message' => 'Product added to wishlist successfully']);

@@ -60,7 +60,7 @@ Route::prefix('v1')->group(function () {
         Route::get('customer/profile', [CustomerController::class, 'profile']);
         Route::post('customer/profile', [CustomerController::class, 'update']);
 
-        Route::post('wishlist/add', [WishlistController::class, 'addToWishlist']);
+        Route::post('wishlist/add/product/', [WishlistController::class, 'addToWishlist']);
         Route::delete('wishlist/remove/{product}', [WishlistController::class, 'removeFromWishlist']);
         Route::get('wishlist', [WishlistController::class, 'getWishlist']);
 
