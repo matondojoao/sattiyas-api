@@ -7,6 +7,7 @@ use App\Http\Requests\CartRequest;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Repositories\Public\CartRepository;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -19,39 +20,45 @@ class CartController extends Controller
 
     public function index()
     {
-        $cartItems = $this->cartRepository->getCart();
-        $cartDetails = [];
+        if (Session::has('cart')) {
+            $cartItems = Session::get('cart');
+            $cartDetails = [];
 
-        foreach ($cartItems as $cartItem) {
-            $product = Product::find($cartItem['product_id']);
+            foreach ($cartItems as $cartItem) {
+                if (is_array($cartItem)) {
+                    $product = Product::find($cartItem['product_id']);
 
-            if ($product) {
-                $firstImage = $product->images()->first();
-                $total = 0;
-                $price=0;
+                    if ($product) {
+                        $firstImage = $product->images()->first();
+                        $total = 0;
+                        $price = 0;
 
-                if($product->sale_price)
-                {
-                   $price=$product->sale_price;
-                   $total = $product->sale_price * $cartItem['quantity'];
-                }else{
-                   $price=$product->regular_price;
-                   $total=$product->regular_price * $cartItem['quantity'];
+                        if ($product->sale_price) {
+                            $price = $product->sale_price;
+                            $total = $product->sale_price * $cartItem['quantity'];
+                        } else {
+                            $price = $product->regular_price;
+                            $total = $product->regular_price * $cartItem['quantity'];
+                        }
+
+                        $cartDetails[] = [
+                            'product_id' => $cartItem['product_id'],
+                            'product_name' => $product->name,
+                            'quantity' => $cartItem['quantity'],
+                            'price' => $price,
+                            'total' => $total,
+                            'first_image' => $firstImage ? url('storage/' . $firstImage->image_path) : null,
+                        ];
+                    }
                 }
-
-                $cartDetails[] = [
-                    'product_id' => $cartItem['product_id'],
-                    'product_name' => $product->name,
-                    'quantity' => $cartItem['quantity'],
-                    'price' => $price,
-                    'total' => $total,
-                    'first_image' => $firstImage ? url('storage/' .$firstImage->image_path) : null,
-                ];
             }
-        }
 
-        return response()->json(['cart' => $cartDetails]);
+            return response()->json(['cart' => $cartDetails]);
+        } else {
+            return response()->json(['cart' => []]);
+        }
     }
+
 
     public function add(CartRequest $request)
     {
