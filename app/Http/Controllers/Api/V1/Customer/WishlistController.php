@@ -17,7 +17,7 @@ class WishlistController extends Controller
         $this->wishlistRepository = $wishlistRepository;
     }
 
-    public function addToWishlist(WishlistRequest $request)
+    public function addToWishlist(Request $request)
     {
         $this->wishlistRepository->addToWishlist($request->all());
 
