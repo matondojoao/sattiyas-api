@@ -9,6 +9,7 @@ class CartRepository
     public function getCart()
     {
         return Session::get('cart');
+
     }
 
     public function addToCart($productId, $quantity)
