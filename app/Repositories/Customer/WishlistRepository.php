@@ -33,15 +33,18 @@ class WishlistRepository
     public function getWishlist()
     {
         $user = $this->getAuthUser();
+        $wishlists = collect();
 
         if ($user) {
             $wishlists = $user->wishlists;
 
             if ($wishlists->isNotEmpty()) {
-                $wishlists->load('product.stock',);
+                $wishlists->load('product.stock');
             }
         }
 
-        return $wishlists;
+        $sortedWishlists = $wishlists->sortByDesc('created_at');
+
+        return $sortedWishlists;
     }
 }
