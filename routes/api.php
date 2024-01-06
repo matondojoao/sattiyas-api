@@ -132,5 +132,8 @@ Route::prefix('v1')->group(function () {
         Route::put('brands/{id}', [AdminBrandController::class, 'update']);
 
         Route::get('stocks', [AdminStockController::class, 'index']);
+
+        Route::post('/wishlist', [WishlistController::class, 'addToWishlist']);
+
     });
 });
