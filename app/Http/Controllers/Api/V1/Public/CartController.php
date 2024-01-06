@@ -27,15 +27,25 @@ class CartController extends Controller
 
             if ($product) {
                 $firstImage = $product->images()->first();
-                $total = $product->getTotalPrice($cartItem['quantity']);
+                $total = 0;
+                $price=0;
+
+                if($product->sale_price)
+                {
+                   $price=$product->sale_price;
+                   $total = $product->sale_price * $cartItem['quantity'];
+                }else{
+                   $price=$product->regular_price;
+                   $total=$product->regular_price * $cartItem['quantity'];
+                }
 
                 $cartDetails[] = [
                     'product_id' => $cartItem['product_id'],
                     'product_name' => $product->name,
                     'quantity' => $cartItem['quantity'],
-                    'price' => $product->getPrice(),
+                    'price' => $price,
                     'total' => $total,
-                    'first_image' => $firstImage ? url('storage/' . $firstImage->image_path) : null,
+                    'first_image' => $firstImage ? url('storage/' .$firstImage->image_path) : null,
                 ];
             }
         }
