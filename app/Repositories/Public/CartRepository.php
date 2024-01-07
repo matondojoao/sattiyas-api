@@ -23,6 +23,7 @@ class CartRepository
         } else {
             $products[] = ['product_id' => $productId, 'quantity' => $quantity];
         }
+        Session::flush();
 
         Session::put('cart', $products);
     }
