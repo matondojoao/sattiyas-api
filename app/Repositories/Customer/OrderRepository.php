@@ -26,9 +26,11 @@ class OrderRepository
                 'payment_status' => 'pending',
                 'fulfillment_status' => 'pending',
             ];
+            $cartItems = json_decode(json_encode($cartItems), true);
+            $orderDetails = json_decode(json_encode($orderDetails), true);
 
             $orderData = array_merge($orderDetails, $defaultValues);
-            return $orderData;
+
             $order = $this->getAuthUser()->orders()->create($orderData);
 
             $cartDetails = [];
@@ -53,7 +55,7 @@ class OrderRepository
 
             // $order->user->notify(new OrderPlacedNotification($pdfPath, $order));
 
-            return response()->json(['order_id' => $order->id], 200);
+            return response()->json(['order_id' => $order], 200);
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['error' => 'Erro ao salvar o pedido no banco de dados.', 'details' => $e->getMessage()], 500);
         } catch (\Throwable $th) {
