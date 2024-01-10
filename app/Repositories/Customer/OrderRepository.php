@@ -39,6 +39,9 @@ class OrderRepository
 
             $pdf = PDF::loadView('order.invoice', ['order' => $order]);
 
+            if (!file_exists(storage_path('app/public/orders'))) {
+                mkdir(storage_path('app/public/orders'), 0755, true);
+            }
             $pdfPath = storage_path('app/public/orders/order_' . $order->id . '.pdf');
             $pdf->save($pdfPath);
 
