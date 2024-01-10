@@ -54,12 +54,12 @@ class OrderStatusChangedNotification extends Notification implements ShouldQueue
             ->line('Número do Pedido: #' . $this->order->id)
             ->line('Novo Status do Pedido: ' . $this->newStatus)
             ->line('Data da Atualização: ' . now()->format('d/m/Y H:i:s'))
-            ->line('Detalhes do Pedido: ' . config('app.url_frontend') . '/orders/' . $this->order->id)
+            ->line('Detalhes do Pedido: ' . config('app.url_frontend') . '/meu-pedido/' . $this->order->id)
             ->attachData(file_get_contents($this->pdfPath), 'order_' . $this->order->id . '.pdf', [
                 'mime' => 'application/pdf',
             ])
             ->line('Você pode visualizar e fazer o download do PDF do seu pedido atualizado, que está anexado a este e-mail.')
-            ->action('Acompanhe seu Pedido', config('app.url_frontend') . '/orders/' . $this->order->id);
+            ->action('Acompanhe seu Pedido', config('app.url_frontend') . '/meu-pedido/' . $this->order->id);
     }
 
     /**

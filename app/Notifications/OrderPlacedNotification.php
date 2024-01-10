@@ -51,12 +51,12 @@ class OrderPlacedNotification extends Notification implements ShouldQueue
             ->line('Obrigado por fazer um pedido conosco. Confirmamos o recebimento do seu pedido com os seguintes detalhes:')
             ->line('Número do Pedido: #' . $this->order->id)
             ->line('Data do Pedido: ' . \Carbon\Carbon::parse($this->order->created_at)->format('d/m/Y H:i:s'))
-            ->line('Detalhes do Pedido: ' . config('app.url_frontend') . '/orders/' . $this->order->id)
+            ->line('Detalhes do Pedido: ' . config('app.url_frontend') . '/meu-pedido/' . $this->order->id)
             ->attachData(file_get_contents($this->pdfPath), 'order_' . $this->order->id . '.pdf', [
                 'mime' => 'application/pdf',
             ])
             ->line('Você pode visualizar e fazer o download do PDF do seu pedido, que está anexado a este e-mail.')
-            ->action('Acompanhe seu Pedido', config('app.url_frontend') . '/orders/' . $this->order->id);
+            ->action('Acompanhe seu Pedido', config('app.url_frontend') . '/meu-pedido/' . $this->order->id);
     }
 
     /**

@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Essence - Fatura</title>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -90,7 +89,7 @@
 
 <body>
     <div>
-        <h2>ESSENCE</h2>
+        <img src="{{ asset('img/logo_dark.png') }}" alt="">
         <div class="float-right">
             <h3 class="mb-0">Fatura # {{ $order->id }}</h3>
             {{ \App\Helpers\ptBRHelper::data($order->created_at) }}
