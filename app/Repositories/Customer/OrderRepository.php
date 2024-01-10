@@ -28,7 +28,7 @@ class OrderRepository
             ];
 
             $orderData = array_merge($orderDetails, $defaultValues);
-
+            return $orderData;
             $order = $this->getAuthUser()->orders()->create($orderData);
 
             $cartDetails = [];

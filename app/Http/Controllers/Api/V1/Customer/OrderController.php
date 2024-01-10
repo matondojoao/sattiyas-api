@@ -50,8 +50,8 @@ class OrderController extends Controller
         'cartItems' => $cartItems,
         'orderDet' => $orderDet,
     ];
-    return response()->json(['orderDet' => $orderDet]);
-    // return $this->OrderRepository->place($data);
+
+    return $this->OrderRepository->place($data);
 }
 
     public function getUserOrders()
