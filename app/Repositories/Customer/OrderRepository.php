@@ -184,11 +184,11 @@ class OrderRepository
 
     public function find(string $id)
     {
-        return $this->getAuthUser()->orders()->findOrFail($id);
+        return $this->getAuthUser()->orders()->with('orderItems.product','deliveryOption')->findOrFail($id);
     }
 
     public function getUserOrders()
     {
-        return $this->getAuthUser()->orders()->with('orderItems.product.images','deliveryOption')->orderBy('created_at', 'desc')->paginate(10);
+        return $this->getAuthUser()->orders()->with('orderItems.product','deliveryOption')->orderBy('created_at', 'desc')->paginate(10);
     }
 }
