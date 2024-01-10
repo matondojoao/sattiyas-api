@@ -178,7 +178,7 @@
 
                     <tr>
                         <td class="center">{{ $key + 1 }}</td>
-                        <td class="center">{{ $item->product->name }}</td>
+                        <td class="center">{{ $item->product?->name }}</td>
                         <td class="center">{{ \App\Helpers\ptBRHelper::real($item->price) }}</td>
                         <td class="center">{{ $item->quantity }}</td>
                         <td class="center">{{ \App\Helpers\ptBRHelper::real($subTotal) }}</td>
@@ -223,13 +223,6 @@
                             </td>
                             <td class="right">{{ $order->deliveryOption->name }} -
                                 {{ \App\Helpers\ptBRHelper::real($order->deliveryOption->price) }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="left">
-                                <strong class="text-dark">Método de pagamento</strong>
-                            </td>
-                            <td class="right">{{ $order->paymentMethod->name }}
                             </td>
                         </tr>
                         <tr>
