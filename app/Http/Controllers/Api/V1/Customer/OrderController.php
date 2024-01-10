@@ -42,8 +42,8 @@ class OrderController extends Controller
     if ($cartItems === null) {
         return response()->json(['error' => 'Erro ao decodificar o corpo JSON.'], 400);
     }
-
-    return $this->OrderRepository->place($cartItems);
+    $data['cartItems'] =$cartItems;
+    return $this->OrderRepository->place($data);
 }
 
     public function getUserOrders()
