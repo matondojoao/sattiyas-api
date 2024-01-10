@@ -35,6 +35,18 @@ class OrderController extends Controller
         }
     }
 
+    public function place(Request $request)
+    {
+        $cartItems = $request->cartItems;
+
+        return $this->OrderRepository->place($cartItems);
+        // if (count($cartItems) > 0) {
+        //     return $this->OrderRepository->placeOrder($request->validated());
+        // } else {
+        //     return response()->json(['message' => 'Cart is empty. Order not created.'], 400);
+        // }
+    }
+
     public function getUserOrders()
     {
         $userOrders = $this->OrderRepository->getUserOrders();

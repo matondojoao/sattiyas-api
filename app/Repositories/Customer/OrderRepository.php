@@ -6,12 +6,44 @@ use App\Models\Product;
 use App\Notifications\OrderPlacedNotification;
 use App\Repositories\Traits\TraitRepository;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
 use Stripe;
 
 class OrderRepository
 {
     use TraitRepository;
 
+    public function place($data)
+    {
+        try {
+
+            $cartItems = $data['cartItems'];
+
+            $order = $this->getAuthUser()->orders()->create([
+                'delivery_option_id' => '8dd7be5e-307e-4cbd-9a20-bf47beedf33e',
+                'payment_status' => 'pending',
+                'fulfillment_status' => 'pending',
+            ]);
+
+            $cartDetails = [];
+
+            foreach ($cartItems as $cartItem) {
+                $cartDetails[] = [
+                    'product_id' => $cartItem['product_id'],
+                    'quantity' => $cartItem['quantity'],
+                    'price' => $cartItem['price'],
+                ];
+            }
+
+            $order->orderItems()->createMany($cartDetails);
+
+            return $order;
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['error' => 'Erro ao salvar o pedido no banco de dados.', 'details' => $e->getMessage()], 500);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Erro desconhecido ao salvar o pedido.', 'details' => $th->getMessage()], 500);
+        }
+    }
     public function placeOrder(array $data)
     {
         try {
