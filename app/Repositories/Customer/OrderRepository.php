@@ -18,12 +18,18 @@ class OrderRepository
         try {
 
             $cartItems = $data['cartItems'];
+            $orderDetails = $data['orderDet'];
 
-            $order = $this->getAuthUser()->orders()->create([
+
+            $defaultValues = [
                 'delivery_option_id' => '8dd7be5e-307e-4cbd-9a20-bf47beedf33e',
                 'payment_status' => 'pending',
                 'fulfillment_status' => 'pending',
-            ]);
+            ];
+
+            $orderData = array_merge($orderDetails, $defaultValues);
+
+            $order = $this->getAuthUser()->orders()->create($orderData);
 
             $cartDetails = [];
 
@@ -37,15 +43,15 @@ class OrderRepository
 
             $order->orderItems()->createMany($cartDetails);
 
-            $pdf = PDF::loadView('order.invoice', ['order' => $order]);
+            // $pdf = PDF::loadView('order.invoice', ['order' => $order]);
 
-            if (!file_exists(storage_path('app/public/orders'))) {
-                mkdir(storage_path('app/public/orders'), 0755, true);
-            }
-            $pdfPath = storage_path('app/public/orders/order_' . $order->id . '.pdf');
-            $pdf->save($pdfPath);
+            // if (!file_exists(storage_path('app/public/orders'))) {
+            //     mkdir(storage_path('app/public/orders'), 0755, true);
+            // }
+            // $pdfPath = storage_path('app/public/orders/order_' . $order->id . '.pdf');
+            // $pdf->save($pdfPath);
 
-            $order->user->notify(new OrderPlacedNotification($pdfPath, $order));
+            // $order->user->notify(new OrderPlacedNotification($pdfPath, $order));
 
             return response()->json(['order_id' => $order->id], 200);
         } catch (\Illuminate\Database\QueryException $e) {

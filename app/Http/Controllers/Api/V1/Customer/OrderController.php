@@ -36,15 +36,23 @@ class OrderController extends Controller
     }
 
     public function place(Request $request)
-    {
-        $cartItems = json_decode($request->getContent(), true);
+{
+    $requestData = json_decode($request->getContent(), true);
 
-        if ($cartItems === null) {
-            return response()->json(['error' => 'Cart is empty. Order not created.'], 400);
-        }
-        $data['cartItems'] = $cartItems;
-        return $this->OrderRepository->place($data);
+    if ($requestData === null || !isset($requestData['cartItems']) || !isset($requestData['orderDet'])) {
+        return response()->json(['error' => 'Invalid request data.'], 400);
     }
+
+    $cartItems = $requestData['cartItems'];
+    $orderDet = $requestData['orderDet'];
+
+    $data = [
+        'cartItems' => $cartItems,
+        'orderDet' => $orderDet,
+    ];
+
+    return $this->OrderRepository->place($data);
+}
 
     public function getUserOrders()
     {
