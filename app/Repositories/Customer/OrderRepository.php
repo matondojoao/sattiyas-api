@@ -38,8 +38,6 @@ class OrderRepository
 
             $orderData = array_merge($defaultValues, $orderDetails);
 
-            return $orderData;
-
             $order = $this->getAuthUser()->orders()->create($orderData);
 
             $cartDetails = [];
@@ -54,15 +52,15 @@ class OrderRepository
 
             $order->orderItems()->createMany($cartDetails);
 
-            // $pdf = PDF::loadView('order.invoice', ['order' => $order]);
+            $pdf = PDF::loadView('order.invoice', ['order' => $order]);
 
-            // if (!file_exists(storage_path('app/public/orders'))) {
-            //     mkdir(storage_path('app/public/orders'), 0755, true);
-            // }
-            // $pdfPath = storage_path('app/public/orders/order_' . $order->id . '.pdf');
-            // $pdf->save($pdfPath);
+            if (!file_exists(storage_path('app/public/orders'))) {
+                mkdir(storage_path('app/public/orders'), 0755, true);
+            }
+            $pdfPath = storage_path('app/public/orders/order_' . $order->id . '.pdf');
+            $pdf->save($pdfPath);
 
-            // $order->user->notify(new OrderPlacedNotification($pdfPath, $order));
+            $order->user->notify(new OrderPlacedNotification($pdfPath, $order));
 
             return response()->json(['order_id' => $order->id], 200);
         } catch (\Illuminate\Database\QueryException $e) {
