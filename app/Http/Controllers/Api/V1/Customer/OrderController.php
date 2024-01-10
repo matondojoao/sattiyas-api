@@ -36,15 +36,15 @@ class OrderController extends Controller
     }
 
     public function place(Request $request)
-{
-    $cartItems = json_decode($request->getContent(), true);
+    {
+        $cartItems = json_decode($request->getContent(), true);
 
-    if ($cartItems === null) {
-        return response()->json(['error' => 'Erro ao decodificar o corpo JSON.'], 400);
+        if ($cartItems === null) {
+            return response()->json(['error' => 'Cart is empty. Order not created.'], 400);
+        }
+        $data['cartItems'] = $cartItems;
+        return $this->OrderRepository->place($data);
     }
-    $data['cartItems'] =$cartItems;
-    return $this->OrderRepository->place($data);
-}
 
     public function getUserOrders()
     {
