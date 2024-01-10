@@ -36,16 +36,16 @@ class OrderController extends Controller
     }
 
     public function place(Request $request)
-    {
-        $cartItems = $request->cartItems;
+{
+    $cartItems = $request->cartItems;
 
-        return $this->OrderRepository->place($cartItems);
-        // if (count($cartItems) > 0) {
-        //     return $this->OrderRepository->placeOrder($request->validated());
-        // } else {
-        //     return response()->json(['message' => 'Cart is empty. Order not created.'], 400);
-        // }
+    if ($cartItems === null) {
+        return response()->json(['error' => 'cartItems não está presente na solicitação.'], 400);
     }
+
+    return $this->OrderRepository->place($cartItems);
+}
+
 
     public function getUserOrders()
     {
