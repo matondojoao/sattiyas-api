@@ -37,15 +37,14 @@ class OrderController extends Controller
 
     public function place(Request $request)
 {
-    $cartItems = $request->cartItems;
+    $cartItems = json_decode($request->getContent(), true);
 
     if ($cartItems === null) {
-        return response()->json(['error' => 'cartItems não está presente na solicitação.'], 400);
+        return response()->json(['error' => 'Erro ao decodificar o corpo JSON.'], 400);
     }
 
     return $this->OrderRepository->place($cartItems);
 }
-
 
     public function getUserOrders()
     {
