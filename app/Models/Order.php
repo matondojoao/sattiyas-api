@@ -15,11 +15,24 @@ class Order extends Model
     protected $keyType = 'uuid';
 
     protected $fillable = [
+        'name',
+        'company_name',
+        'country_region',
+        'address',
+        'city',
+        'state',
+        'postal_code',
+        'phone',
+        'email_address',
+        'order_notes',
+        'house_number_and_street',
+        'apartment_suite_optional',
         'payment_status',
         'fulfillment_status',
         'delivery_option_id',
         'payment_method_id'
     ];
+
 
     public function orderItems()
     {
