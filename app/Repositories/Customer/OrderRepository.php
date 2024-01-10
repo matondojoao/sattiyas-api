@@ -37,6 +37,13 @@ class OrderRepository
 
             $order->orderItems()->createMany($cartDetails);
 
+            $pdf = PDF::loadView('order.invoice', ['order' => $order]);
+
+            $pdfPath = storage_path('app/public/orders/order_' . $order->id . '.pdf');
+            $pdf->save($pdfPath);
+
+            $order->user->notify(new OrderPlacedNotification($pdfPath, $order));
+
             return response()->json(['order_id' => $order->id], 200);
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['error' => 'Erro ao salvar o pedido no banco de dados.', 'details' => $e->getMessage()], 500);
