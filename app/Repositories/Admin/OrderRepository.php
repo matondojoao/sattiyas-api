@@ -163,7 +163,7 @@ class OrderRepository
     public function all(array $data)
     {
         return Cache::remember('getAllOrders', 5, function () {
-            return $this->entity->with('orderItems.product.images', 'paymentMethod', 'deliveryOption')
+            return $this->entity->with('orderItems.product.images','deliveryOption')
             ->where(function($query){
                 if(isset($data['payment_status'])){
                     $query->where('payment_status',$data['payment_status']);

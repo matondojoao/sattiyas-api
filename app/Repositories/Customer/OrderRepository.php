@@ -37,7 +37,7 @@ class OrderRepository
 
             $order->orderItems()->createMany($cartDetails);
 
-            return $order;
+            return ;
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['error' => 'Erro ao salvar o pedido no banco de dados.', 'details' => $e->getMessage()], 500);
         } catch (\Throwable $th) {
@@ -189,6 +189,6 @@ class OrderRepository
 
     public function getUserOrders()
     {
-        return $this->getAuthUser()->orders()->with('orderItems.product.images', 'paymentMethod', 'deliveryOption')->orderBy('created_at', 'desc')->paginate(10);
+        return $this->getAuthUser()->orders()->with('orderItems.product.images','deliveryOption')->orderBy('created_at', 'desc')->paginate(10);
     }
 }
