@@ -117,7 +117,7 @@
         </div>
         <div class="col-sm-6 ">
             <h4 class="mb-3">Endereço de Entrega:</h4>
-            <div style="margin-bottom: 1px"><strong>$order->user->name</strong></div>
+            <div style="margin-bottom: 1px"><strong>{{ $order->user->name }}</strong></div>
             <div>Email: {{ $order->user->email }}</div>
             <div>Telefone: {{ $order->user->phone }}</div>
 
