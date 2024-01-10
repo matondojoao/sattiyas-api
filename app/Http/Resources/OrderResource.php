@@ -20,6 +20,8 @@ class OrderResource extends JsonResource
             'company_name' => $this->company_name,
             'country_region' => $this->country_region,
             'address' => $this->address,
+            'house_number_and_street' => $this->house_number_and_street,
+            'apartment_suite_optional' => $this->apartment_suite_optional,
             'city' => $this->city,
             'state' => $this->state,
             'postal_code' => $this->postal_code,

@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('postal_code')->nullable();
             $table->string('phone')->nullable();
             $table->string('email_address')->nullable();
+            $table->string('house_number_and_street')->nullable();
+            $table->string('apartment_suite_optional')->nullable();
             $table->text('order_notes')->nullable();
         });
     }
@@ -45,6 +47,8 @@ return new class extends Migration
             $table->dropColumn('phone');
             $table->dropColumn('email_address');
             $table->dropColumn('order_notes');
+            $table->dropColumn('house_number_and_street');
+            $table->dropColumn('apartment_suite_optional');
         });
     }
 };
