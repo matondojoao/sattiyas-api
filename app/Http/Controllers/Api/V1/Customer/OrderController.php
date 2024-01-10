@@ -39,9 +39,9 @@ class OrderController extends Controller
 {
     $requestData = json_decode($request->getContent(), true);
 
-    if ($requestData === null || !isset($requestData['cartItems']) || !isset($requestData['orderDet'])) {
-        return response()->json(['error' => 'Invalid request data.'], 400);
-    }
+    // if ($requestData === null || !isset($requestData['cartItems']) || !isset($requestData['orderDet'])) {
+    //     return response()->json(['error' => 'Invalid request data.'], 400);
+    // }
 
     $cartItems = $requestData['cartItems'];
     $orderDet = $requestData['orderDet'];
