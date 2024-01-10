@@ -21,15 +21,22 @@ class OrderRepository
             $orderDetails = $data['orderDet'];
 
 
+            $cartItems = json_decode(json_encode($cartItems), true);
+            $orderDetails = json_decode(json_encode($orderDetails), true);
+
+            if (isset($orderDetails['_value'])) {
+                $orderDetails = $orderDetails['_value'];
+            } else {
+
+            }
+
             $defaultValues = [
                 'delivery_option_id' => '8dd7be5e-307e-4cbd-9a20-bf47beedf33e',
                 'payment_status' => 'pending',
                 'fulfillment_status' => 'pending',
             ];
-            $cartItems = json_decode(json_encode($cartItems), true);
-            $orderDetails = json_decode(json_encode($orderDetails), true);
 
-            $orderData = array_merge($orderDetails, $defaultValues);
+            $orderData = array_merge($defaultValues, $orderDetails);
 
             return $orderData;
 
