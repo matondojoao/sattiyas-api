@@ -83,10 +83,23 @@ class OrderRepository
                 $total += $order->deliveryOption->price;
             }
 
+            $method = \Stripe\PaymentMethod::create([
+                'type' => 'card'
+              ]);
 
+            $paymentIntent = \Stripe\PaymentIntent::create([
+                'payment_method_types' => ['card'],
+                'payment_method' => $method->id,
+                'amount' => $total * 100,
+                'currency' => 'BRL',
+                'customer' => $stripeCustomerId,
+                'description' => implode(', ', $itemDescriptions),
+            ]);
             $paymentIntent = \Stripe\PaymentIntent::create([
                 'amount' => $total * 100,
                 'currency' => 'brl',
+                'payment_method_types' => ['card'],
+                'payment_method' => $method->id,
                 'automatic_payment_methods' => ['enabled' => true],
                 'customer' => $stripeCustomerId,
                 'description' => implode(', ', $itemDescriptions),
@@ -102,7 +115,7 @@ class OrderRepository
 
             $order->user->notify(new OrderPlacedNotification($pdfPath, $order));
 
-            return response()->json(['client_secret' => $paymentIntent->client_secret], 200);
+            return response()->json(['client_secret' => $paymentIntent], 200);
 
             // return response()->json(['order_id' => $order->id], 200);
         } catch (\Illuminate\Database\QueryException $e) {
