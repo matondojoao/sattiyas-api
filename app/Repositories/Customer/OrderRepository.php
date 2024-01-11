@@ -202,7 +202,13 @@ class OrderRepository
                 }
             }
 
+            $method = \Stripe\PaymentMethod::create([
+                'type' => 'card'
+              ]);
+
             $paymentIntent = \Stripe\PaymentIntent::create([
+                'payment_method_types' => ['card'],
+                'payment_method' => $method->id,
                 'amount' => $total * 100,
                 'currency' => 'BRL',
                 'customer' => $stripeCustomerId,
