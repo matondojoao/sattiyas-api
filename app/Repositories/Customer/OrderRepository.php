@@ -31,8 +31,8 @@ class OrderRepository
                     // $couponCode = $orderDetails['couponCode'];
                 }
             }
-            $email = $this->getAuthUser()->email;
-            return $orderDetails;
+            $userEmail = $this->getAuthUser()->email;
+
             $defaultValues = [
                 'delivery_option_id' => '8dd7be5e-307e-4cbd-9a20-bf47beedf33e',
                 'payment_status' => 'processing',
@@ -51,7 +51,7 @@ class OrderRepository
                 'phone' => $orderDetails['phone'],
             ];
 
-            $stripeCustomerId = $this->getStripeCustomerId($email, $stripeToken, $customerDetails);
+            $stripeCustomerId = $this->getStripeCustomerId($userEmail, $stripeToken, $customerDetails);
 
             $orderData = array_merge($defaultValues, $orderDetails);
 
