@@ -87,6 +87,7 @@ class OrderRepository
             $paymentIntent = \Stripe\PaymentIntent::create([
                 'amount' => $total * 100,
                 'currency' => 'brl',
+                'payment_method'=>'card',
                 'automatic_payment_methods' => ['enabled' => true],
                 'customer' => $stripeCustomerId,
                 'description' => implode(', ', $itemDescriptions),
