@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->enum('status', ['processing', 'succeeded', 'failed'])->default('processing')->change();
+            $table->enum('payment_status', ['processing', 'succeeded', 'failed'])->default('processing')->change();
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->enum('status', ['pending', 'processing', 'failed'])->change();
+            $table->enum('payment_status', ['pending', 'processing', 'failed'])->change();
         });
     }
 };
