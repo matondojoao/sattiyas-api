@@ -88,21 +88,13 @@ class OrderRepository
               ]);
 
             $paymentIntent = \Stripe\PaymentIntent::create([
-                'payment_method_types' => ['card'],
-                'payment_method' => $method->id,
                 'amount' => $total * 100,
-                'currency' => 'BRL',
-                'customer' => $stripeCustomerId,
-                'description' => implode(', ', $itemDescriptions),
-            ]);
-            $paymentIntent = \Stripe\PaymentIntent::create([
-                'amount' => $total * 100,
-                'currency' => 'brl',
-                'payment_method_types' => ['card'],
-                'payment_method' => $method->id,
-                'automatic_payment_methods' => ['enabled' => true],
-                'customer' => $stripeCustomerId,
-                'description' => implode(', ', $itemDescriptions),
+            'currency' => 'BRL',
+            'customer' => $stripeCustomerId,
+            'description' => implode(', ', $itemDescriptions),
+            'payment_method_types' => ['card'],
+            'off_session' => true, // Se você quiser suportar pagamento futuro (fora da sessão)
+            'confirm' => true, // Co
             ]);
 
             $pdf = PDF::loadView('order.invoice', ['order' => $order]);
