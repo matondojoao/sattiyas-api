@@ -258,7 +258,7 @@ class OrderRepository
 
         if (!$stripeCustomerId) {
             $customerParams = [
-                'email' => $orderDetails['nam'],
+                'email' => $orderDetails['email'],
                 'source' => $token,
                 'name' => $orderDetails['name'],
                 'address' => [
