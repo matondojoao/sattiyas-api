@@ -32,7 +32,7 @@ class OrderRepository
             } else {
 
             }
-            return response()->json(['stripeToken' => $stripeToken], 200);
+            return response()->json(['stripeToken' => $orderDetails], 200);
             $defaultValues = [
                 'delivery_option_id' => '8dd7be5e-307e-4cbd-9a20-bf47beedf33e',
                 'payment_status' => 'pending',
