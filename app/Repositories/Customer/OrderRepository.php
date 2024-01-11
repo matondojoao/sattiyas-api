@@ -204,7 +204,7 @@ class OrderRepository
 
             $paymentIntent = \Stripe\PaymentIntent::create([
                 'amount' => $total * 100,
-                'currency' => 'brl',
+                'currency' => 'BRL',
                 'customer' => $stripeCustomerId,
                 'description' => implode(', ', $itemDescriptions),
             ]);
