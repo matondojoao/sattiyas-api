@@ -244,7 +244,7 @@ class OrderRepository
     public function getStripeCustomerId($userEmail, $token, $customerDetails)
     {
         try {
-            Stripe::setApiKey(env('STRIPE_SECRET'));
+            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
             $stripeCustomerId = $this->getAuthUser()->stripe_customer_id;
 
@@ -267,7 +267,7 @@ class OrderRepository
                     $customerParams['id'] = $this->getAuthUser()->stripe_customer_id;
                 }
 
-                $stripeCustomer = Customer::create($customerParams);
+                $stripeCustomer = Stripe\Customer::create($customerParams);
 
                 $stripeCustomerId = $stripeCustomer->id;
 
