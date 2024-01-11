@@ -19,17 +19,20 @@ class OrderRepository
 
             $cartItems = $data['cartItems'];
             $orderDetails = $data['orderDet'];
-
+            $stripeToken = '';
 
             $cartItems = json_decode(json_encode($cartItems), true);
             $orderDetails = json_decode(json_encode($orderDetails), true);
 
             if (isset($orderDetails['_value'])) {
                 $orderDetails = $orderDetails['_value'];
+                if (isset($orderDetails['stripeToken'])) {
+                    $stripeToken = $orderDetails['stripeToken'];
+                }
             } else {
 
             }
-
+            return response()->json(['stripeToken' => $stripeToken], 200);
             $defaultValues = [
                 'delivery_option_id' => '8dd7be5e-307e-4cbd-9a20-bf47beedf33e',
                 'payment_status' => 'pending',
