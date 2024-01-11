@@ -28,7 +28,7 @@ class OrderRepository
                 $orderDetails = $orderDetails['_value'];
                 if (isset($orderDetails['stripeToken'])) {
                     $stripeToken = $orderDetails['stripeToken'];
-                    $couponCode = $orderDetails['couponCode'];
+                    // $couponCode = $orderDetails['couponCode'];
                 }
             }
             $email = $this->getAuthUser()->email;
