@@ -104,7 +104,10 @@ class OrderRepository
 
             $order->user->notify(new OrderPlacedNotification($pdfPath, $order));
 
-            return response()->json(['paymentIntent' => $paymentIntent], 200);
+            $order->update(['payment_status' => $paymentIntent->status]);
+
+            return response()->json(['order_id' => $order->id], 200);
+
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['error' => 'Erro ao salvar o pedido no banco de dados.', 'details' => $e->getMessage()], 500);
         } catch (\Throwable $th) {
