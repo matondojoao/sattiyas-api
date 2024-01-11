@@ -83,18 +83,13 @@ class OrderRepository
                 $total += $order->deliveryOption->price;
             }
 
-            $method = \Stripe\PaymentMethod::create([
-                'type' => 'card'
-              ]);
 
             $paymentIntent = \Stripe\PaymentIntent::create([
                 'amount' => $total * 100,
-            'currency' => 'BRL',
-            'customer' => $stripeCustomerId,
-            'description' => implode(', ', $itemDescriptions),
-            'payment_method_types' => ['card'],
-            'off_session' => true, // Se você quiser suportar pagamento futuro (fora da sessão)
-            'confirm' => true, // Co
+                'currency' => 'brl',
+                'automatic_payment_methods' => ['enabled' => true],
+                'customer' => $stripeCustomerId,
+                'description' => implode(', ', $itemDescriptions),
             ]);
 
             $pdf = PDF::loadView('order.invoice', ['order' => $order]);
@@ -107,7 +102,7 @@ class OrderRepository
 
             $order->user->notify(new OrderPlacedNotification($pdfPath, $order));
 
-            return response()->json(['client_secret' => $paymentIntent], 200);
+            return response()->json(['paymentIntent' => $paymentIntent], 200);
 
             // return response()->json(['order_id' => $order->id], 200);
         } catch (\Illuminate\Database\QueryException $e) {
