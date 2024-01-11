@@ -84,15 +84,20 @@ class OrderRepository
             }
 
 
-            $paymentIntent = \Stripe\PaymentIntent::create([
+            $paymentIntent = Stripe\PaymentIntent::create([
                 'amount' => $total * 100,
-            'currency' => 'BRL',
-            'customer' => $stripeCustomerId,
-            'description' => implode(', ', $itemDescriptions),
-            'payment_method_types' => ['card'],
-            'confirmation_method' => 'automatic',
-            'confirm' => true,
-            'payment_method' => $stripeToken,
+                'currency' => 'BRL',
+                'customer' => $stripeCustomerId,
+                'description' => implode(', ', $itemDescriptions),
+                'payment_method_types' => ['card'],
+                'confirmation_method' => 'manual',
+                'confirm' => true,
+                'payment_method_data' => [
+                    'type' => 'card',
+                    'card' => [
+                        'token' => $stripeToken,
+                    ],
+                ],
             ]);
 
             $pdf = PDF::loadView('order.invoice', ['order' => $order]);
