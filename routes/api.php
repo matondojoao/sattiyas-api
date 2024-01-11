@@ -68,7 +68,6 @@ Route::prefix('v1')->group(function () {
         Route::post('billing/shipping', [AddressController::class, 'createOrUpdateShippingAddress']);
 
         Route::post('orders/place', [OrderController::class, 'placeOrder']);
-        Route::post('orders/placenew', [OrderController::class, 'place']);
         Route::get('orders/my', [OrderController::class, 'getUserOrders']);
         Route::get('orders/my/{id}', [OrderController::class, 'show']);
         Route::get('card', [OrderController::class, 'generateStripeToken']);

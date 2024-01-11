@@ -13,7 +13,7 @@ class OrderRepository
 {
     use TraitRepository;
 
-    public function place($data)
+    public function placeOrder($data)
     {
         try {
             $cartItems = $data['cartItems'];

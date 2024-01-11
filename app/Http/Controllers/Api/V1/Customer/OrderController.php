@@ -24,36 +24,25 @@ class OrderController extends Controller
         return new OrderResource($order);
     }
 
-    public function placeOrder(OrderRequest $request)
+    public function placeOrder(Request $request)
     {
-        $cartItems = session()->get('cart', []);
+        $requestData = json_decode($request->getContent(), true);
 
-        if (count($cartItems) > 0) {
-            return $this->OrderRepository->placeOrder($request->validated());
-        } else {
-            return response()->json(['message' => 'Cart is empty. Order not created.'], 400);
+        if ($requestData === null || !isset($requestData['cartItems']) || !isset($requestData['orderDet'])) {
+            return response()->json(['error' => 'Invalid request data.'], 400);
         }
+
+        $cartItems = $requestData['cartItems'];
+        $orderDet = $requestData['orderDet'];
+        $coupon = $requestData['coupon'];
+        $data = [
+            'cartItems' => $cartItems,
+            'orderDet' => $orderDet,
+            'coupon' => $coupon,
+        ];
+
+        return $this->OrderRepository->placeOrder($data);
     }
-
-    public function place(Request $request)
-{
-    $requestData = json_decode($request->getContent(), true);
-
-    // if ($requestData === null || !isset($requestData['cartItems']) || !isset($requestData['orderDet'])) {
-    //     return response()->json(['error' => 'Invalid request data.'], 400);
-    // }
-
-    $cartItems = $requestData['cartItems'];
-    $orderDet = $requestData['orderDet'];
-    $coupon = $requestData['coupon'];
-    $data = [
-        'cartItems' => $cartItems,
-        'orderDet' => $orderDet,
-        'coupon' => $coupon,
-    ];
-
-    return $this->OrderRepository->place($data);
-}
 
     public function getUserOrders()
     {
