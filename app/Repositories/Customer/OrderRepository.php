@@ -209,6 +209,12 @@ class OrderRepository
                 'description' => implode(', ', $itemDescriptions),
             ]);
 
+            $paymentIntentId = $paymentIntent->id;
+
+            $paymentIntent = \Stripe\PaymentIntent::retrieve($paymentIntentId);
+
+            $paymentIntent->confirm();
+
             $pdf = PDF::loadView('order.invoice', ['order' => $order]);
 
             $pdfPath = storage_path('app/public/orders/order_' . $order->id . '.pdf');
