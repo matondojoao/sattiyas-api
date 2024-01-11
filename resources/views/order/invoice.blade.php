@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            font-size: 13px;
+            font-family: "Red Hat Display", sans-serif;
+            font-size: 14px;
             margin: 0;
             padding: 0;
         }
@@ -134,10 +134,10 @@
         </div>
     </div>
 
-    @if ($order->payment_status == 'pending')
-        <?php $paymentStatus = 'Pendente'; ?>
-    @elseif ($order->payment_status == 'completed')
-        <?php $paymentStatus = 'Completo'; ?>
+    @if ($order->payment_status == 'processing')
+        <?php $paymentStatus = 'Processando'; ?>
+    @elseif ($order->payment_status == 'succeeded')
+        <?php $paymentStatus = 'Bem-sucedido'; ?>
     @else
         <?php $paymentStatus = 'Falhou'; ?>
     @endif
