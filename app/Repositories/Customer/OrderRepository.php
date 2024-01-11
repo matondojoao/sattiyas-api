@@ -49,7 +49,7 @@ class OrderRepository
                 'phone' => $orderDetails['phone'],
             ];
 
-            $stripeCustomerId = $this->getStripeCustomerId($stripeToken, $customerDetails);
+            $stripeCustomerId = $this->generateStripeCustomerId($stripeToken, $customerDetails);
 
             $orderData = array_merge($defaultValues, $orderDetails);
 
