@@ -32,7 +32,7 @@ class OrderRepository
                 }
             }
             $email = $this->getAuthUser()->email;
-
+            return $orderDetails;
             $defaultValues = [
                 'delivery_option_id' => '8dd7be5e-307e-4cbd-9a20-bf47beedf33e',
                 'payment_status' => 'processing',
