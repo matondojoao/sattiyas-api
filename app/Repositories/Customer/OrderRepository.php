@@ -42,7 +42,7 @@ class OrderRepository
 
             $customerEmail = $this->getAuthUser()->email;
 
-            $stripeCustomerId = $this->getStripeCustomerId($customerEmail, $stripeToken);
+            $stripeCustomerId = $this->getStripeCustomerId($orderDetails,$stripeToken);
 
             $orderData = array_merge($defaultValues, $orderDetails);
 
@@ -105,6 +105,7 @@ class OrderRepository
             if (!file_exists(storage_path('app/public/orders'))) {
                 mkdir(storage_path('app/public/orders'), 0755, true);
             }
+
             $pdfPath = storage_path('app/public/orders/order_' . $order->id . '.pdf');
             $pdf->save($pdfPath);
 
@@ -249,17 +250,28 @@ class OrderRepository
         }
     }
 
-    public function getStripeCustomerId($userEmail, $token)
+    public function getStripeCustomerId($orderDetails, $token)
     {
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $stripeCustomerId = $this->getAuthUser()->stripe_customer_id;
 
         if (!$stripeCustomerId) {
-            $stripeCustomer = Stripe\Customer::create([
-                'email' => $userEmail,
+            $customerParams = [
+                'email' => $orderDetails['nam'],
                 'source' => $token,
-            ]);
+                'name' => $orderDetails['name'],
+                'address' => [
+                    'line1' => $orderDetails['address'],
+                    'city' => $orderDetails['city'],
+                    'state' => $orderDetails['state'],
+                    'postal_code' => $orderDetails['postal_code'],
+                    'country' => $orderDetails['country_region'],
+                ],
+                'phone' => $orderDetails['phone'],
+            ];
+
+            $stripeCustomer = \Stripe\Customer::create($customerParams);
 
             $stripeCustomerId = $stripeCustomer->id;
 
