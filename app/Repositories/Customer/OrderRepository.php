@@ -18,18 +18,17 @@ class OrderRepository
         try {
             $cartItems = $data['cartItems'];
             $orderDetails = $data['orderDet'];
-            $coupon = $data['coupon'];
             $stripeToken = '';
+            $couponCode = '';
 
             $cartItems = json_decode(json_encode($cartItems), true);
             $orderDetails = json_decode(json_encode($orderDetails), true);
-            $coupon = json_decode(json_encode($coupon), true);
-
 
             if (isset($orderDetails['_value'])) {
                 $orderDetails = $orderDetails['_value'];
                 if (isset($orderDetails['stripeToken'])) {
                     $stripeToken = $orderDetails['stripeToken'];
+                    $couponCode = $orderDetails['couponCode'];
                 }
             }
             $email = $this->getAuthUser()->email;
@@ -85,23 +84,18 @@ class OrderRepository
             $totalDiscount = 0;
 
 
-            if (isset($coupon['_value'])) {
-                $coupon = $coupon['_value'];
+            if ($couponCode) {
+                $couponData = \App\Models\Promotion::where('code', $couponCode)->first();
 
-                if ($coupon['type'] == 'amount') {
-                    $totalDiscount = $coupon['value'];
-                } elseif ($coupon['type'] == 'percentage') {
-                    $totalDiscount -= ($totalDiscount * ($coupon['value'] / 100));
+                if ($couponData->type == 'amount') {
+                    $totalDiscount = $couponData->value;
+                } elseif ($couponData->type == 'percentage') {
+                    $totalDiscount -= ($totalDiscount * ($couponData->value / 100));
                 }
 
-                $couponData = \App\Models\Promotion::where('code', $coupon['code'])->first();
+                $couponData->increment('usage_count', 1);
 
-                if ($couponData) {
-                    $couponData->increment('usage_count', 1);
-                }
-
-                $order->discount = $totalDiscount;
-                $order->save();
+                $order->update(['discount' => $totalDiscount]);
             }
             if ($order->deliveryOption) {
                 $total += $order->deliveryOption->price - $totalDiscount;

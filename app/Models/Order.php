@@ -30,7 +30,8 @@ class Order extends Model
         'payment_status',
         'fulfillment_status',
         'delivery_option_id',
-        'payment_method_id'
+        'payment_method_id',
+        'discount'
     ];
 
 

@@ -33,11 +33,9 @@ class OrderController extends Controller
 
         $cartItems = $requestData['cartItems'];
         $orderDet = $requestData['orderDet'];
-        $coupon = $requestData['coupon'];
         $data = [
             'cartItems' => $cartItems,
             'orderDet' => $orderDet,
-            'coupon' => $coupon,
         ];
 
         return $this->OrderRepository->placeOrder($data);
