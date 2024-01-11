@@ -244,7 +244,7 @@ class OrderRepository
     public function getStripeCustomerId($userEmail, $token, $customerDetails)
     {
         try {
-            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            Stripe::setApiKey(env('STRIPE_SECRET'));
 
             $stripeCustomerId = $this->getAuthUser()->stripe_customer_id;
 
@@ -263,7 +263,11 @@ class OrderRepository
                     'phone' => $customerDetails['phone'],
                 ];
 
-                $stripeCustomer = Stripe\Customer::create($customerParams);
+                if ($this->getAuthUser()->stripe_customer_id) {
+                    $customerParams['id'] = $this->getAuthUser()->stripe_customer_id;
+                }
+
+                $stripeCustomer = Customer::create($customerParams);
 
                 $stripeCustomerId = $stripeCustomer->id;
 
@@ -272,11 +276,11 @@ class OrderRepository
 
             return $stripeCustomerId;
         } catch (\Exception $e) {
-
-            return response()->json('Erro ao criar cliente no Stripe: ' . $e->getMessage());
+            return response()->json('Erro ao criar/atualizar cliente no Stripe: ' . $e->getMessage());
             throw $e;
         }
     }
+
 
     public function find(string $id)
     {
