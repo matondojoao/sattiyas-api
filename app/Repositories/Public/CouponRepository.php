@@ -10,10 +10,10 @@ class CouponRepository
 
         if ($coupon) {
             if ($coupon->type == "fixed_amount") {
-                return response()->json(['type' => 'amount', 'value' => $coupon->value]);
+                return response()->json(['code' => $coupon->code ,'type' => 'amount', 'value' => $coupon->value]);
 
             } elseif ($coupon->type == "percentage") {
-                return response()->json(['type' => 'percentage', 'value' => $coupon->value]);
+                return response()->json(['code' => $coupon->code, 'percentage', 'value' => $coupon->value]);
             }
         }
     }
