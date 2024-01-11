@@ -106,7 +106,7 @@ class OrderRepository
             if ($order->deliveryOption) {
                 $total += $order->deliveryOption->price - $totalDiscount;
             }
-            return  $coupon;
+
             $paymentIntent = Stripe\PaymentIntent::create([
                 'amount' => $total * 100,
                 'currency' => 'BRL',
