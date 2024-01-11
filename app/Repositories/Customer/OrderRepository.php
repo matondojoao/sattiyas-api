@@ -32,28 +32,64 @@ class OrderRepository
             } else {
 
             }
-            return response()->json(['stripeToken' => $stripeToken], 200);
             $defaultValues = [
                 'delivery_option_id' => '8dd7be5e-307e-4cbd-9a20-bf47beedf33e',
                 'payment_status' => 'pending',
                 'fulfillment_status' => 'pending',
             ];
 
+            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+            $customerEmail = $this->getAuthUser()->email;
+
+            $stripeCustomerId = $this->getStripeCustomerId($customerEmail, $stripeToken);
+
             $orderData = array_merge($defaultValues, $orderDetails);
 
             $order = $this->getAuthUser()->orders()->create($orderData);
 
             $cartDetails = [];
+            $itemDescriptions = [];
 
             foreach ($cartItems as $cartItem) {
+
+                $product = Product::find($cartItem['product_id']);
+                $product->stock()->decrement('quantity', $cartItem['quantity']);
+
+                $price = 0;
+                    if ($product->sale_price) {
+                        $price = $product->sale_price * $cartItem['quantity'];
+                    } else {
+                        $price = $product->regular_price * $cartItem['quantity'];
+                    }
+
                 $cartDetails[] = [
                     'product_id' => $cartItem['product_id'],
                     'quantity' => $cartItem['quantity'],
-                    'price' => $cartItem['price'],
+                    'price' => $price,
                 ];
+
+                $itemDescriptions[] = "{$product->name} ({$cartItem['quantity']}x)";
             }
 
             $order->orderItems()->createMany($cartDetails);
+
+            $total = 0;
+            foreach ($order->orderItems as $item) {
+                $total += $item->price * $item->quantity;
+            }
+
+            if ($order->deliveryOption) {
+                $total += $order->deliveryOption->price;
+            }
+
+
+            $paymentIntent = \Stripe\PaymentIntent::create([
+                'amount' => $total * 100,
+                'currency' => 'brl',
+                'customer' => $stripeCustomerId,
+                'description' => implode(', ', $itemDescriptions),
+            ]);
 
             $pdf = PDF::loadView('order.invoice', ['order' => $order]);
 
@@ -65,7 +101,9 @@ class OrderRepository
 
             $order->user->notify(new OrderPlacedNotification($pdfPath, $order));
 
-            return response()->json(['order_id' => $order->id], 200);
+            return response()->json(['client_secret' => $paymentIntent->client_secret], 200);
+
+            // return response()->json(['order_id' => $order->id], 200);
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['error' => 'Erro ao salvar o pedido no banco de dados.', 'details' => $e->getMessage()], 500);
         } catch (\Throwable $th) {
