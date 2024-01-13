@@ -29,7 +29,7 @@ class CategoryResource extends JsonResource
         $this->load('subcategories');
 
         foreach ($this->subcategories as $subcategory) {
-            $totalCount += $subcategory->getTotalProductCount();
+            $totalCount += $subcategory->products()->count();
         }
 
         return $totalCount;
