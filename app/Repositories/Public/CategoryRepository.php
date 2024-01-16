@@ -18,7 +18,7 @@ class CategoryRepository
     public function getAllCategories()
     {
         return Cache::remember('getAllCategories', $this->time, function () {
-            return $this->entity->with('subcategories')->whereNull('parent_id')->orderBy('created_at', 'desc')->get();
+            return $this->entity->with('subcategories')->whereNull('parent_id')->orderBy('created_at', 'asc')->get();
         });
     }
 
