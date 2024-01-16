@@ -20,7 +20,6 @@ class ProductRepository
     {
         return Cache::remember('getAllProducts', $this->time, function () use ($data) {
             $result = $this->entity
-                ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
                 ->with('images', 'colors', 'categories', 'sizes', 'stock', 'reviews.user', 'brand')
                 ->where(function ($query) use ($data) {
                     if (isset($data['name'])) {
@@ -32,7 +31,7 @@ class ProductRepository
                         $brand = $data['brand'];
                         $query->where('brand_id', $brand);
                     }
-        
+
 
                     if (isset($data['min_price']) && isset($data['max_price'])) {
                         $minPrice = $data['min_price'];
@@ -75,7 +74,7 @@ class ProductRepository
                         $minAvgRating = $data['min_avg_rating'];
                         $query->havingRaw("AVG(reviews.rating) >= {$minAvgRating}");
                     }
-                    
+
                 });
             $orderBy = isset($data['order_by']) ? $data['order_by'] : null;
 
