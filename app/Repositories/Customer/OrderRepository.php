@@ -129,8 +129,7 @@ class OrderRepository
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['error' => 'Error saving the order to the database.', 'details' => $e->getMessage()], 500);
         } catch (\Throwable $th) {
-            dd('Unknown error while saving the order.', $th->getMessage(), $th->getTrace());
-            return response()->json(['error' => 'Unknown error while saving the order.', 'details' => $th->getMessage()], 500);
+            return response()->json(['error' => 'Unknown error while saving the order.', 'details' => $th->getMessage() , 'trace' => $th->getTrace()], 500);
         }
     }
 
