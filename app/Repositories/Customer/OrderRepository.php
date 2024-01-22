@@ -64,12 +64,10 @@ class OrderRepository
                 $product = Product::find($cartItem['product_id']);
                 $product->stock()->decrement('quantity', $cartItem['quantity']);
 
-                $price = $product->sale_price ? $product->sale_price * $cartItem['quantity'] : $product->regular_price * $cartItem['quantity'];
-
                 $cartDetails[] = [
                     'product_id' => $cartItem['product_id'],
                     'quantity' => $cartItem['quantity'],
-                    'price' => $price,
+                    'price' => $cartItem['price'],
                 ];
 
                 $itemDescriptions[] = "{$product->name} ({$cartItem['quantity']}x)";
