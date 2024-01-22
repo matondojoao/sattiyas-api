@@ -24,13 +24,13 @@ class OrderRepository
             $cartItems = json_decode(json_encode($cartItems), true);
             $orderDetails = json_decode(json_encode($orderDetails), true);
 
-            // if (isset($orderDetails['_value'])) {
-            //     $orderDetails = $orderDetails['_value'];
-            //     if (isset($orderDetails['stripeToken'])) {
-            //         $stripeToken = $orderDetails['stripeToken'];
-            //          $couponCode = $orderDetails['couponCode'];
-            //     }
-            // }
+            if (isset($orderDetails['_value'])) {
+                $orderDetails = $orderDetails['_value'];
+                if (isset($orderDetails['stripeToken'])) {
+                    $stripeToken = $orderDetails['stripeToken'];
+                    // $couponCode = $orderDetails['couponCode'];
+                }
+            }
             $userEmail = $this->getAuthUser()->email;
 
             $defaultValues = [
@@ -125,11 +125,10 @@ class OrderRepository
             $order->update(['payment_status' => $paymentIntent->status]);
 
             return response()->json(['order_id' => $order->id], 200);
-
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['error' => 'Error saving the order to the database.', 'details' => $e->getMessage()], 500);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Unknown error while saving the order.', 'details' => $th->getMessage() , 'trace' => $th->getTrace()], 500);
+            return response()->json(['error' => 'Unknown error while saving the order.', 'details' => $th->getMessage()], 500);
         }
     }
 
