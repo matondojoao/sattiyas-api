@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('post_post_category', function (Blueprint $table) {
             $table->uuid('post_id');
             $table->uuid('post_category_id');
-            $table->primary(['post_id','']);
+            $table->primary(['post_id','post_category_id']);
             $table->timestamps();
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->foreign('post_category_id')->references('id')->on('post_categories')->onDelete('cascade');
