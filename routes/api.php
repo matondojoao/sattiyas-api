@@ -148,7 +148,7 @@ Route::prefix('v1')->group(function () {
 
         Route::get('stocks', [AdminStockController::class, 'index']);
 
-        Route::post('/wishlist', [WishlistController::class, 'addToWishlist']);
+        Route::post('wishlist', [WishlistController::class, 'addToWishlist']);
 
         Route::post('posts', [AdminPostController::class, 'store']);
         Route::put('posts/{id}', [AdminPostController::class, 'update']);
