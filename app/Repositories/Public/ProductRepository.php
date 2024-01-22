@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Public;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
@@ -57,9 +58,17 @@ class ProductRepository
                         $query->whereHas('categories', function ($categoryQuery) use ($categoryIds) {
                             $categoryQuery->whereIn('id', $categoryIds);
 
-                            $categoryQuery->orWhereHas('subcategories', function ($subcategoryQuery) use ($categoryIds) {
-                                $subcategoryQuery->whereIn('id', $categoryIds);
-                            });
+                            $subCategoryIds = Category::whereIn('id', $categoryIds)
+                                ->with('subcategories')
+                                ->get()
+                                ->pluck('subcategories.*.id')
+                                ->flatten()
+                                ->unique()
+                                ->toArray();
+
+                            if (!empty($subCategoryIds)) {
+                                $categoryQuery->orWhereIn('id', $subCategoryIds);
+                            }
                         });
                     }
 
