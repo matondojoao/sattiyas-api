@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\V1\Public\BrandController as PublicBrandController;
 use App\Http\Controllers\Api\V1\Public\SizeController as PublicSizeController;
 use App\Http\Controllers\Api\V1\Public\CartController as PublicCartController;
 use App\Http\Controllers\Api\V1\Public\PostController as PublicPostController;
+use App\Http\Controllers\Api\V1\Public\CommentController as PublicCommentController;
 use App\Http\Controllers\Api\V1\Public\CouponController;
 use App\Http\Controllers\Api\V1\Public\DeliveryOptionController;
 use App\Http\Controllers\Api\V1\Admin\CategoryController as AdminCategoryController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\Api\V1\Admin\CouponController as AdminCouponController;
 use App\Http\Controllers\Api\V1\Admin\BrandController as AdminBrandController;
 use App\Http\Controllers\Api\V1\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Api\V1\Public\NewsletterController as PublicNewsletterController;
+use App\Http\Controllers\Api\V1\Admin\CommentController as AdminCommentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -99,6 +101,8 @@ Route::prefix('v1')->group(function () {
 
     Route::post('/newsletter/subscribe', [PublicNewsletterController::class, 'subscribe']);
 
+    Route::post('comments', [PublicCommentController::class, 'store']);
+
     Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
         Route::post('categories', [AdminCategoryController::class, 'store']);
@@ -141,6 +145,9 @@ Route::prefix('v1')->group(function () {
         Route::post('posts', [AdminPostController::class, 'store']);
         Route::put('posts/{id}', [AdminPostController::class, 'update']);
         Route::delete('posts/{id}', [AdminPostController::class, 'destroy']);
+
+        Route::put('comments/{id}', [AdminCommentController::class, 'update']);
+        Route::delete('comments/{id}', [AdminCommentController::class, 'destroy']);
 
     });
 });
