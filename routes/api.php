@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\V1\Public\CartController as PublicCartController;
 use App\Http\Controllers\Api\V1\Public\PostController as PublicPostController;
 use App\Http\Controllers\Api\V1\Public\CommentController as PublicCommentController;
 use App\Http\Controllers\Api\V1\Public\CouponController;
+use App\Http\Controllers\Api\V1\Public\PostCategoryController as PublicPostCategoryController;
 use App\Http\Controllers\Api\V1\Public\DeliveryOptionController;
 use App\Http\Controllers\Api\V1\Admin\CategoryController as AdminCategoryController;
 use \App\Http\Controllers\Api\V1\Admin\OrderController as AdminOrderController;
@@ -29,6 +30,7 @@ use App\Http\Controllers\Api\V1\Admin\BrandController as AdminBrandController;
 use App\Http\Controllers\Api\V1\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Api\V1\Public\NewsletterController as PublicNewsletterController;
 use App\Http\Controllers\Api\V1\Admin\CommentController as AdminCommentController;
+use App\Http\Controllers\Api\V1\Admin\PostCategoryController as AdminPostCategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -86,6 +88,7 @@ Route::prefix('v1')->group(function () {
 
     Route::get('colors', [PublicColorController::class, 'index']);
     Route::get('categories', [PublicCategoryController::class, 'index']);
+    Route::get('post/categories', [PublicPostCategoryController::class, 'index']);
     Route::get('category/{id}/products', [PublicCategoryController::class, 'getProducts']);
 
     Route::get('sizes', [PublicSizeController::class, 'index']);
@@ -108,6 +111,11 @@ Route::prefix('v1')->group(function () {
         Route::post('categories', [AdminCategoryController::class, 'store']);
         Route::put('categories/{id}', [AdminCategoryController::class, 'update']);
         Route::delete('categories/{id}', [AdminCategoryController::class, 'destroy']);
+
+
+        Route::post('post/categories', [AdminPostCategoryController::class, 'store']);
+        Route::put('post/categories/{id}', [AdminPostCategoryController::class, 'update']);
+        Route::delete('post/categories/{id}', [AdminPostCategoryController::class, 'destroy']);
 
         Route::get('orders', [AdminOrderController::class, 'index']);
         Route::get('orders/{id}', [AdminOrderController::class, 'show']);

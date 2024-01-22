@@ -6,7 +6,7 @@ use App\Models\Traits\UuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class PostCategory extends Model
 {
     use HasFactory, UuidTrait;
 
@@ -14,8 +14,14 @@ class Comment extends Model
 
     protected $keyType = 'uuid';
 
+    protected $table = 'post_categories';
+
     protected $fillable = [
-        'post_id', 'author_name', 'author_email','content'
+        'name'
     ];
 
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'post_post_category');
+    }
 }

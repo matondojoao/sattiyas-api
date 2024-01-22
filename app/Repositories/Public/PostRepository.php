@@ -5,6 +5,7 @@ namespace App\Repositories\Public;
 use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\Traits\TraitRepository;
+use Illuminate\Support\Facades\Cache;
 
 class PostRepository
 {
@@ -18,7 +19,12 @@ class PostRepository
 
     public function all()
     {
-        return $this->entity->all();
+
+        $posts = Cache::remember('getAllPosts', now()->addMinutes(10), function () {
+            return $this->entity->all();
+        });
+
+        return $posts;
     }
 
     public function details($id)
