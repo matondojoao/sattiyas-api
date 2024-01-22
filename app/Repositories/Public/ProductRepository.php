@@ -45,17 +45,6 @@ class ProductRepository
                         $query->where('regular_price', '<=', $maxPrice);
                     }
 
-                    // if (isset($data['categories'])) {
-                    //     $categoryIds = $data['categories'];
-                    //     $query->where(function ($categoryQuery) use ($categoryIds) {
-                    //         $categoryQuery->whereIn('id', $categoryIds);
-
-                    //         // $categoryQuery->orWhereHas('subcategories', function ($subcategoryQuery) use ($categoryIds) {
-                    //         //     $subcategoryQuery->whereIn('id', $categoryIds);
-                    //         // });
-                    //     });
-                    // }
-
                     if (isset($data['colors'])) {
                         $colorsIds = $data['colors'];
                         $query->whereHas('colors', function ($colorQuery) use ($colorsIds) {
@@ -67,6 +56,10 @@ class ProductRepository
                         $categoryIds = $data['categories'];
                         $query->whereHas('categories', function ($categoryQuery) use ($categoryIds) {
                             $categoryQuery->whereIn('id', $categoryIds);
+
+                            $categoryQuery->orWhereHas('subcategories', function ($subcategoryQuery) use ($categoryIds) {
+                                $subcategoryQuery->whereIn('id', $categoryIds);
+                            });
                         });
                     }
 
@@ -81,7 +74,6 @@ class ProductRepository
                         $minAvgRating = $data['min_avg_rating'];
                         $query->havingRaw("AVG(reviews.rating) >= {$minAvgRating}");
                     }
-
                 });
             $orderBy = isset($data['order_by']) ? $data['order_by'] : null;
 
