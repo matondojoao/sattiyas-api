@@ -23,7 +23,14 @@ class PostRepository
             $data['featured_image'] = $imagePath;
         }
 
-        return $this->getAuthUser()->create($data);
+
+        $post = $this->getAuthUser()->create($data);
+
+        if (isset($data['categories']) && count($data['categories'])) {
+            $post->categories()->sync($data['categories']);
+        }
+
+        return $post;
     }
 
     public function update(string $id, array $data)
@@ -37,6 +44,10 @@ class PostRepository
         }
 
         $post->update($data);
+
+        if (isset($data['categories']) && count($data['categories'])) {
+            $post->categories()->sync($data['categories']);
+        }
 
         return $post;
     }

@@ -42,6 +42,11 @@ class Post extends Model
     }
 
 
+    public function categories()
+    {
+        return $this->belongsToMany(PostCategory::class, 'post_post_category','post_id','post_category_id');
+    }
+
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
