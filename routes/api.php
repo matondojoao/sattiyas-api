@@ -13,19 +13,19 @@ use App\Http\Controllers\Api\V1\Public\ColorController as PublicColorController;
 use App\Http\Controllers\Api\V1\Public\BrandController as PublicBrandController;
 use App\Http\Controllers\Api\V1\Public\SizeController as PublicSizeController;
 use App\Http\Controllers\Api\V1\Public\CartController as PublicCartController;
+use App\Http\Controllers\Api\V1\Public\PostController as PublicPostController;
 use App\Http\Controllers\Api\V1\Public\CouponController;
 use App\Http\Controllers\Api\V1\Public\DeliveryOptionController;
-use App\Http\Controllers\Api\V1\Public\PaymentMethodController;
 use App\Http\Controllers\Api\V1\Admin\CategoryController as AdminCategoryController;
 use \App\Http\Controllers\Api\V1\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Api\V1\Admin\DeliveryOptionController as AdminDeliveryOptionController;
-use App\Http\Controllers\Api\V1\Admin\PaymentMethodController as AdminPaymentMethodController;
 use App\Http\Controllers\Api\V1\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Api\V1\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Api\V1\Admin\ProductImageController;
 use App\Http\Controllers\Api\V1\Admin\StockController as AdminStockController;
 use App\Http\Controllers\Api\V1\Admin\CouponController as AdminCouponController;
 use App\Http\Controllers\Api\V1\Admin\BrandController as AdminBrandController;
+use App\Http\Controllers\Api\V1\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Api\V1\Public\NewsletterController as PublicNewsletterController;
 use Illuminate\Support\Facades\Route;
 
@@ -78,6 +78,9 @@ Route::prefix('v1')->group(function () {
     Route::get('products', [PublicProductController::class, 'index']);
     Route::get('/products/min-max-prices', [PublicProductController::class, 'getMinMaxPrices']);
     Route::get('product/{slug}', [PublicProductController::class, 'show']);
+
+    Route::get('posts', [PublicPostController::class, 'index'])->name('posts.index');
+    Route::get('posts/{id}', [PublicPostController::class, 'show'])->name('posts.show');
 
     Route::get('colors', [PublicColorController::class, 'index']);
     Route::get('categories', [PublicCategoryController::class, 'index']);
@@ -134,6 +137,10 @@ Route::prefix('v1')->group(function () {
         Route::get('stocks', [AdminStockController::class, 'index']);
 
         Route::post('/wishlist', [WishlistController::class, 'addToWishlist']);
+
+        Route::post('posts', [AdminPostController::class, 'store']);
+        Route::put('posts/{id}', [AdminPostController::class, 'update']);
+        Route::delete('posts/{id}', [AdminPostController::class, 'destroy']);
 
     });
 });
