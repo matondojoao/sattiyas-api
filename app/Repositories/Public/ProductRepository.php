@@ -45,21 +45,28 @@ class ProductRepository
                         $query->where('regular_price', '<=', $maxPrice);
                     }
 
-                    if (isset($data['categories'])) {
-                        $categoryIds = $data['categories'];
-                        $query->where(function ($categoryQuery) use ($categoryIds) {
-                            $categoryQuery->whereIn('id', $categoryIds);
+                    // if (isset($data['categories'])) {
+                    //     $categoryIds = $data['categories'];
+                    //     $query->where(function ($categoryQuery) use ($categoryIds) {
+                    //         $categoryQuery->whereIn('id', $categoryIds);
 
-                            // $categoryQuery->orWhereHas('subcategories', function ($subcategoryQuery) use ($categoryIds) {
-                            //     $subcategoryQuery->whereIn('id', $categoryIds);
-                            // });
-                        });
-                    }
+                    //         // $categoryQuery->orWhereHas('subcategories', function ($subcategoryQuery) use ($categoryIds) {
+                    //         //     $subcategoryQuery->whereIn('id', $categoryIds);
+                    //         // });
+                    //     });
+                    // }
 
                     if (isset($data['colors'])) {
                         $colorsIds = $data['colors'];
                         $query->whereHas('colors', function ($colorQuery) use ($colorsIds) {
                             $colorQuery->whereIn('id', $colorsIds);
+                        });
+                    }
+
+                    if (isset($data['categories'])) {
+                        $categoryIds = $data['categories'];
+                        $query->whereHas('categories', function ($categoryQuery) use ($categoryIds) {
+                            $categoryQuery->whereIn('id', $categoryIds);
                         });
                     }
 
