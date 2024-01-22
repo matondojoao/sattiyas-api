@@ -50,9 +50,9 @@ class ProductRepository
                         $query->where(function ($categoryQuery) use ($categoryIds) {
                             $categoryQuery->whereIn('id', $categoryIds);
 
-                            $categoryQuery->orWhereHas('subcategories', function ($subcategoryQuery) use ($categoryIds) {
-                                $subcategoryQuery->whereIn('id', $categoryIds);
-                            });
+                            // $categoryQuery->orWhereHas('subcategories', function ($subcategoryQuery) use ($categoryIds) {
+                            //     $subcategoryQuery->whereIn('id', $categoryIds);
+                            // });
                         });
                     }
 
