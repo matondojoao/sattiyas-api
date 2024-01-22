@@ -20,7 +20,7 @@ class ProductRepository
     {
         return Cache::remember('getAllProducts', $this->time, function () use ($data) {
             $result = $this->entity
-                ->with('images', 'colors', 'categories', 'sizes', 'stock', 'reviews.user', 'brand')
+                ->with('images', 'colors', 'categories.subcategories', 'sizes', 'stock', 'reviews.user', 'brand')
                 ->where(function ($query) use ($data) {
                     if (isset($data['name'])) {
                         $name = $data['name'];
