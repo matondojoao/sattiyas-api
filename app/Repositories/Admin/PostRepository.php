@@ -18,7 +18,7 @@ class PostRepository
 
     public function create(array $data)
     {
-        return 'ana';
+        return 'anita';
 
         if (isset($data['featured_image'])) {
             $imagePath = $data['featured_image']->store('post_images', 'public');
