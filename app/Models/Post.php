@@ -17,6 +17,8 @@ class Post extends Model
 
     protected $keyType = 'uuid';
 
+    protected $table='posts';
+
     protected $fillable = [
         'title', 'content', 'featured_image'
     ];
