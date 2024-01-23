@@ -20,7 +20,7 @@ class Post extends Model
     protected $table='posts';
 
     protected $fillable = [
-        'title', 'content', 'featured_image'
+        'title', 'content', 'featured_image','user_id'
     ];
 
     /**
