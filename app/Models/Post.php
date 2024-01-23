@@ -20,7 +20,7 @@ class Post extends Model
     protected $table='posts';
 
     protected $fillable = [
-        'title', 'content', 'featured_image','user_id'
+        'title', 'content', 'featured_image','user_id','slug'
     ];
 
     /**
@@ -52,7 +52,7 @@ class Post extends Model
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom('name')
+            ->generateSlugsFrom('title')
             ->saveSlugsTo('slug');
     }
 }
