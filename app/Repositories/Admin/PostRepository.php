@@ -23,7 +23,7 @@ class PostRepository
             $data['featured_image'] = $imagePath;
         }
 
-        $data['user_id'] = $this->getAuthUser()->id;
+        $data['user_id'] = auth()->user()->id;
         $post = $this->entity->create($data);
 
         if (isset($data['categories']) && count($data['categories'])) {
