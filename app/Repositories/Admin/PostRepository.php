@@ -23,8 +23,8 @@ class PostRepository
             $data['featured_image'] = $imagePath;
         }
 
-
-        $post = $this->getAuthUser()->post()->create($data);
+        $data['user_id'] = $this->getAuthUser()->id;
+        $post = $this->entity->create($data);
 
         if (isset($data['categories']) && count($data['categories'])) {
             $post->categories()->sync($data['categories']);

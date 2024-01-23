@@ -115,11 +115,6 @@ class User extends Authenticatable
         return $this->belongsTo(Review::class);
     }
 
-    public function post()
-    {
-        return $this->belongsTo(Post::class);
-    }
-
     public function sendEmailVerification($user)
     {
         $this->notify(new sendEmailVerificationNotification($user));
