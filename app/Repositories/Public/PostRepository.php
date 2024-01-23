@@ -21,7 +21,7 @@ class PostRepository
     {
 
         $posts = Cache::remember('getAllPosts', now()->addMinutes(10), function () {
-            return $this->entity->all();
+            return $this->entity->paginate(8);
         });
 
         return $posts;
