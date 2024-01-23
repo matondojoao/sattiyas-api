@@ -22,8 +22,7 @@ class PostController extends Controller
         $data = $request->validated();
         $post = $this->postRepository->create($data);
 
-        return $post;
-        //return new PostResource($post);
+        return new PostResource($post);
     }
 
     public function update(Request $request, $id)

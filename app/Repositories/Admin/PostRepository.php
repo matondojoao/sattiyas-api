@@ -18,14 +18,13 @@ class PostRepository
 
     public function create(array $data)
     {
-
         if (isset($data['featured_image'])) {
             $imagePath = $data['featured_image']->store('post_images', 'public');
             $data['featured_image'] = $imagePath;
         }
 
 
-        $post = $this->getAuthUser()->create($data);
+        $post = $this->getAuthUser()->post()->create($data);
 
         if (isset($data['categories']) && count($data['categories'])) {
             $post->categories()->sync($data['categories']);

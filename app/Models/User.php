@@ -63,6 +63,7 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+
     /**
      * Get the billingAddress associated with the User
      *
@@ -112,6 +113,11 @@ class User extends Authenticatable
     public function review()
     {
         return $this->belongsTo(Review::class);
+    }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
     }
 
     public function sendEmailVerification($user)
