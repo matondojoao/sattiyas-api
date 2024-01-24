@@ -19,7 +19,7 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validated();
+        $data = $request->all();
         $post = $this->postRepository->create($data);
 
         return new PostResource($post);
