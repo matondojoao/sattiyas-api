@@ -60,7 +60,9 @@ class PostRepository
     {
         $post = $this->entity->findOrFail($id);
 
-        Storage::disk('public')->delete($post->featured_image);
+        if($post->featured_image){
+           Storage::disk('public')->delete($post->featured_image);
+        }
 
         $post->delete();
 
