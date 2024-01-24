@@ -22,7 +22,7 @@ class PostResource extends JsonResource
             'content' => $this->content,
             'featured_image' => $this->featured_image ? url('storage/' . $this->featured_image) : null,
             'created_at' => $this->created_at,
-            'comments' => $this->whenLoaded('comments')
+            'comments' => CommentResource::collection($this->whenLoaded('comments'))
         ];
     }
 }
