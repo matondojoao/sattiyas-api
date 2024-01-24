@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Public;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Repositories\Public\PostRepository;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -15,9 +16,10 @@ class PostController extends Controller
         $this->postRepository = $postRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $posts = $this->postRepository->all();
+        $data = $request->all();
+        $posts = $this->postRepository->all($data);
 
         return PostResource::collection($posts);
     }

@@ -17,15 +17,24 @@ class PostRepository
         $this->entity = $model;
     }
 
-    public function all()
+    public function all($data)
     {
+        $query = $this->entity->with('categories', 'tags');
 
-        // $posts = Cache::remember('getAllPosts', now()->addMinutes(10), function () {
-        //     return $this->entity->paginate(8);
-        // });
+        if (isset($data['categories'])) {
+            $categoryIds = $data['categories'];
+            $query->whereHas('categories', function ($categoryQuery) use ($categoryIds) {
+                $categoryQuery->whereIn('id', $categoryIds);
+            });
+        }
 
-        return $this->entity->paginate(8);
-        //return $posts;
+        if (isset($data['tags'])) {
+            $tagIds = $data['tags'];
+            $query->whereHas('tags', function ($tagQuery) use ($tagIds) {
+                $tagQuery->whereIn('id', $tagIds);
+            });
+        }
+        return $query->paginate(8);
     }
 
     public function details($slug)
