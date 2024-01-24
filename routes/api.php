@@ -108,7 +108,7 @@ Route::prefix('v1')->group(function () {
 
     Route::post('comments', [PublicCommentController::class, 'store']);
 
-    Route::post('tags', [PublicTagController::class, 'index']);
+    Route::get('tags', [PublicTagController::class, 'index']);
 
     Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 

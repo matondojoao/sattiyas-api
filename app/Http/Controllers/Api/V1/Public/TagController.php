@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Public;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PostCategoryResource;
+use App\Http\Resources\TagResource;
 use App\Repositories\Public\TagRepository;
 
 class TagController extends Controller
@@ -16,6 +16,6 @@ class TagController extends Controller
     }
     public function index()
     {
-        return PostCategoryResource::collection($this->repository->getAllCategories());
+        return TagResource::collection($this->repository->getAllTags());
     }
 }

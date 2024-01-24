@@ -15,7 +15,7 @@ class TagRepository
         $this->entity = $model;
     }
 
-    public function getAllCategories()
+    public function getAllTags()
     {
         return Cache::remember('getAllTags', $this->time, function () {
             return $this->entity->orderBy('created_at', 'asc')->get();

@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CategoryRequest;
 use App\Http\Requests\StoreTagRequest;
-use App\Http\Resources\PostCategoryResource;
+use App\Http\Resources\TagResource;
 use App\Repositories\Admin\TagRepository;
 use Illuminate\Http\Request;
 
@@ -23,7 +22,7 @@ class TagController extends Controller
         $data = $request->validated();
         $tag = $this->TagRepository->create($data);
 
-        return new PostCategoryResource($tag);
+        return new TagResource($tag);
     }
 
     public function update(Request $request, $id)
@@ -31,7 +30,7 @@ class TagController extends Controller
         $data = $request->all();
         $tag = $this->TagRepository->update($id, $data);
 
-        return new PostCategoryResource($tag);
+        return new TagResource($tag);
     }
 
     public function destroy($id)
