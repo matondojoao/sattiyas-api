@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\V1\Public;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Resources\CommentResource;
-use App\Repositories\Admin\CommentRepository;
+use App\Repositories\Public\CommentRepository;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
