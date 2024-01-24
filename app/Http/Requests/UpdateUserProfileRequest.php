@@ -25,6 +25,10 @@ class UpdateUserProfileRequest extends FormRequest
     {
         return [
             'name'=>['nullable'],
+            'social_linkedin'=>['nullable'],
+            'social_facebook'=>['nullable'],
+            'social_x'=>['nullable'],
+            'bio'=>['nullable'],
             'email'=>['nullable','email'],
             'phone'=>['nullable'],
             'alternative_phone'=>['nullable'],

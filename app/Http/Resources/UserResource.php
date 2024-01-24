@@ -21,6 +21,10 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
             'alternative_phone' => $this->alternative_phone,
             'gender' => $this->gender,
+            'social_facebook' => $this->social_facebook,
+            'social_linkedin' => $this->social_linkedin,
+            'social_x' => $this->social_x,
+            'bio' => $this->bio,
             'photo_path' =>$this->photo_path ? url('storage/' . $this->photo_path) : null,
             'shipping_address'=>new ShippingAddressResource($this->whenLoaded('shippingAddress')),
             'billing_address'=>new ShippingAddressResource($this->whenLoaded('billingAddress'))

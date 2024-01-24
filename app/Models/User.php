@@ -31,7 +31,11 @@ class User extends Authenticatable
         'phone',
         'alternative_phone',
         'gender',
-        'photo_path'
+        'photo_path',
+        'social_x',
+        'social_facebook',
+        'social_linkedin',
+        'bio'
     ];
 
     /**
