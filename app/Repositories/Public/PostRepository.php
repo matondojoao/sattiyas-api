@@ -40,6 +40,6 @@ class PostRepository
 
     public function details($slug)
     {
-        return $this->entity->with('comments')->where('slug', $slug)->first();
+        return $this->entity->with('comments','tags')->where('slug', $slug)->first();
     }
 }
