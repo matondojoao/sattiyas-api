@@ -20,15 +20,16 @@ class PostRepository
     public function all()
     {
 
-        $posts = Cache::remember('getAllPosts', now()->addMinutes(10), function () {
-            return $this->entity->paginate(8);
-        });
+        // $posts = Cache::remember('getAllPosts', now()->addMinutes(10), function () {
+        //     return $this->entity->paginate(8);
+        // });
 
-        return $posts;
+        return $this->entity->paginate(8);
+        //return $posts;
     }
 
-    public function details($id)
+    public function details($slug)
     {
-        return $this->entity->with('comments')->findOrFail($id);
+        return $this->entity->with('comments')->where('slug', $slug)->first();
     }
 }

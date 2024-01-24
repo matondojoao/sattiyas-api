@@ -22,9 +22,9 @@ class PostController extends Controller
         return PostResource::collection($posts);
     }
 
-    public function show($id)
+    public function show($slug)
     {
-        $post = $this->postRepository->details($id);
+        $post = $this->postRepository->details($slug);
 
         return new PostResource($post);
     }
