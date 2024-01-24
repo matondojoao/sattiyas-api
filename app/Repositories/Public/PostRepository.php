@@ -34,6 +34,7 @@ class PostRepository
                 $tagQuery->whereIn('id', $tagIds);
             });
         }
+        $query->orderBy('created_at', 'desc');
         return $query->paginate(8);
     }
 
