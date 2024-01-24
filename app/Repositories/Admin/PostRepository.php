@@ -30,6 +30,10 @@ class PostRepository
             $post->categories()->sync($data['categories']);
         }
 
+        if (isset($data['tags']) && count($data['tags'])) {
+            $post->tags()->sync($data['tags']);
+        }
+
         return $post;
     }
 

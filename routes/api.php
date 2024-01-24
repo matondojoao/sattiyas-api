@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\V1\Public\SizeController as PublicSizeController;
 use App\Http\Controllers\Api\V1\Public\CartController as PublicCartController;
 use App\Http\Controllers\Api\V1\Public\PostController as PublicPostController;
 use App\Http\Controllers\Api\V1\Public\CommentController as PublicCommentController;
+use App\Http\Controllers\Api\V1\Public\TagController as PublicTagController;
 use App\Http\Controllers\Api\V1\Public\CouponController;
 use App\Http\Controllers\Api\V1\Public\PostCategoryController as PublicPostCategoryController;
 use App\Http\Controllers\Api\V1\Public\DeliveryOptionController;
@@ -31,6 +32,7 @@ use App\Http\Controllers\Api\V1\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Api\V1\Public\NewsletterController as PublicNewsletterController;
 use App\Http\Controllers\Api\V1\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Api\V1\Admin\PostCategoryController as AdminPostCategoryController;
+use App\Http\Controllers\Api\V1\Admin\TagController as AdminTagController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -106,12 +108,17 @@ Route::prefix('v1')->group(function () {
 
     Route::post('comments', [PublicCommentController::class, 'store']);
 
+    Route::post('tags', [PublicTagController::class, 'index']);
+
     Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
         Route::post('categories', [AdminCategoryController::class, 'store']);
         Route::put('categories/{id}', [AdminCategoryController::class, 'update']);
         Route::delete('categories/{id}', [AdminCategoryController::class, 'destroy']);
 
+        Route::post('tags', [AdminTagController::class, 'store']);
+        Route::put('tags/{id}', [AdminTagController::class, 'update']);
+        Route::delete('tags/{id}', [AdminTagController::class, 'destroy']);
 
         Route::post('post/categories', [AdminPostCategoryController::class, 'store']);
         Route::put('post/categories/{id}', [AdminPostCategoryController::class, 'update']);
