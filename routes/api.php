@@ -84,7 +84,7 @@ Route::prefix('v1')->group(function () {
     Route::get('product/{slug}', [PublicProductController::class, 'show']);
 
     Route::get('posts', [PublicPostController::class, 'index'])->name('posts.index');
-    Route::get('posts/{id}', [PublicPostController::class, 'show'])->name('posts.show');
+    Route::get('posts/{slug}', [PublicPostController::class, 'show'])->name('posts.show');
 
     Route::get('colors', [PublicColorController::class, 'index']);
     Route::get('categories', [PublicCategoryController::class, 'index']);
