@@ -19,27 +19,32 @@ class PostRepository
 
     public function all($data)
     {
-        $query = $this->entity->with('categories', 'tags');
+        $query = $this->entity->with('categories', 'tags')->where(function ($query) use ($data) {
+            if (isset($data['title'])) {
+                $title = $data['title'];
+                $query->where('title', 'LIKE', "%{$title}%");
+            }
 
-        if (isset($data['categories'])) {
-            $categoryIds = $data['categories'];
-            $query->whereHas('categories', function ($categoryQuery) use ($categoryIds) {
-                $categoryQuery->whereIn('id', $categoryIds);
-            });
-        }
+            if (isset($data['categories'])) {
+                $categoryIds = $data['categories'];
+                $query->whereHas('categories', function ($categoryQuery) use ($categoryIds) {
+                    $categoryQuery->whereIn('id', $categoryIds);
+                });
+            }
 
-        if (isset($data['tags'])) {
-            $tagIds = $data['tags'];
-            $query->whereHas('tags', function ($tagQuery) use ($tagIds) {
-                $tagQuery->whereIn('id', $tagIds);
-            });
-        }
+            if (isset($data['tags'])) {
+                $tagIds = $data['tags'];
+                $query->whereHas('tags', function ($tagQuery) use ($tagIds) {
+                    $tagQuery->whereIn('id', $tagIds);
+                });
+            }
+        });
         $query->orderBy('created_at', 'desc');
         return $query->paginate(8);
     }
 
     public function details($slug)
     {
-        return $this->entity->with('comments','tags')->where('slug', $slug)->first();
+        return $this->entity->with('comments', 'tags')->where('slug', $slug)->first();
     }
 }
