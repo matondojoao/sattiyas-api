@@ -22,7 +22,7 @@ Built on Laravel, the Sattiyas API empowers your e-commerce platform with essent
 
 ### Getting Started
 
-1. Clone the repository: `https://github.com/matondojoao/essence-shop-api.git`
+1. Clone the repository: `https://github.com/matondojoao/sattiyas-api`
 2. Install dependencies: `composer install`
 3. Configure your database and update the `.env` file.
 4. Run migrations: `php artisan migrate`
